@@ -1,9 +1,5 @@
-#Java 多线程
+# Java 多线程
 ---
-## Runtime Environment
-
- - [Java 6](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
-
 ## Life Cycle of a Thread
 
 ![Life Cycle of a Thread](http://img.my.csdn.net/uploads/201705/10/1494385217_1840.jpg)

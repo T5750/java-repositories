@@ -1,6 +1,6 @@
 package com.tutorialspoint.deadlock;
 
-public class TestThread2 {
+public class TestThreadSolution {
 	public static Object Lock1 = new Object();
 	public static Object Lock2 = new Object();
 
