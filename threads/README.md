@@ -1,5 +1,5 @@
 # Java 多线程
----
+
 ## Life Cycle of a Thread
 
 ![Life Cycle of a Thread](http://img.my.csdn.net/uploads/201705/10/1494385217_1840.jpg)
@@ -20,7 +20,7 @@
 
 ## Thread Methods
 
-Sr.No. | Method & Description
+Sr.No. | Method
 ----|------
 1 | public void start()
 2 | public void run()
@@ -31,7 +31,7 @@ Sr.No. | Method & Description
 7 | public void interrupt()
 8 | public final boolean isAlive()
 
-Sr.No. | Method & Description
+Sr.No. | Method
 ----|------
 1 | public static void yield()
 2 | public static void sleep(long millisec)
