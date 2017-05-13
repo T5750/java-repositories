@@ -6,10 +6,8 @@
 
 ## What's included
 
-```
 patterns/
-└── singleton
-```
+ - [singleton](https://github.com/T5750/java-repositories/tree/master/patterns/src/main/java/singleton)
 
 ## Copyright
 
