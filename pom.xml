@@ -12,6 +12,7 @@
 		<module>threads</module>
 		<module>patterns</module>
 		<module>databases</module>
+		<module>jvisualvm</module>
 	</modules>
 
 
