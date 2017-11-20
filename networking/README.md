@@ -56,6 +56,20 @@
 - `setSoTimeout(int timeout)`: sets timeout in milliseconds, limiting the waiting time when receiving data. If the timeout expires, a `SocketTimeoutException` is raised.
 - `close()`: closes the socket.
 
+## Notes
+
+![TCP/IP 和 ISO/OSI](http://s1.wailian.download/2017/11/20/TCPIPISOOSI.png)
+
+![TCP/IP分层模型](http://s1.wailian.download/2017/11/20/TCPIP.png)
+
+![数据的封装与分用](http://s1.wailian.download/2017/11/20/3278cb981ff6146a.png)
+
+![数据的封装与分用2](http://s1.wailian.download/2017/11/20/2.png)
+
+![五类不同的互联网地址](http://s1.wailian.download/2017/11/20/8f52799a84fe4f15.png)
+
+![IP地址](http://s1.wailian.download/2017/11/20/IP.png)
+
 ## Links
 - [Use HttpURLConnection to download file from an HTTP URL](http://www.codejava.net/java-se/networking/use-httpurlconnection-to-download-file-from-an-http-url)
 - [An HTTP utility class to send GET/POST request](http://www.codejava.net/java-se/networking/an-http-utility-class-to-send-getpost-request)
@@ -64,3 +78,5 @@
 - [Java Socket Client Examples (TCP/IP)](http://www.codejava.net/java-se/networking/java-socket-client-examples-tcp-ip)
 - [Java Socket Server Examples (TCP/IP)](http://www.codejava.net/java-se/networking/java-socket-server-examples-tcp-ip)
 - [Java UDP Client Server Program Example](http://www.codejava.net/java-se/networking/java-udp-client-server-program-example)
+- [JAVA的网络编程【转】](http://www.cnblogs.com/springcsc/archive/2009/12/03/1616413.html)
+- [TCP/IP协议簇分层详解](http://blog.csdn.net/hankscpp/article/details/8611229)

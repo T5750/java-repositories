@@ -15,8 +15,10 @@ java-repositories/
 │   └── patterns
 ├── v0.3
 │   └── databases
-└── v0.4
-    └── jvisualvm
+├── v0.4
+│   └── jvisualvm
+└── v0.5
+    └── networking
 ```
 
 ## Copyright
