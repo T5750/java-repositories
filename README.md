@@ -18,8 +18,10 @@ java-repositories/
 │   └── databases
 ├── v0.4
 │   └── jvisualvm
-└── v0.5
-    └── networking
+├── v0.5
+│   └── networking
+└── v0.6
+    └── jdk8
 ```
 
 ## Copyright

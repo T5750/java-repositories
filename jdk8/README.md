@@ -93,3 +93,4 @@ button.addActionListener(e -> System.out.println("Handled by Lambda listener"));
 - [Java 8 Lambda - Runnable Example](http://www.codejava.net/java-core/the-java-language/java-8-lambda-runnable-example)
 - [Java 8 Lambda - Collections Comparator Example](http://www.codejava.net/java-core/the-java-language/java-8-lambda-collections-comparator-example)
 - [Java 8 Lambda - Listener Example](http://www.codejava.net/java-core/the-java-language/java-8-lambda-listener-example)
+- [Java SE 8: Lambda Quick Start](http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html)
