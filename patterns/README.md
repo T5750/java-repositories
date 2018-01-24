@@ -1,14 +1,8 @@
 # patterns
----
-## Runtime Environment
 
- - [Java 6](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
+## Runtime Environment
+- [Java 6](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
 
 ## What's included
-
 patterns/
- - [singleton](https://github.com/T5750/java-repositories/tree/master/patterns/src/main/java/singleton)
-
-## Copyright
-
-Copyright 2016-2017 evangel_z.
+- [singleton](https://github.com/T5750/java-repositories/tree/master/patterns/src/main/java/singleton)

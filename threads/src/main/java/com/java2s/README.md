@@ -1,7 +1,6 @@
 # Thread
 
 ## Links
-
 - [Java Thread Creation](http://www.java2s.com/Tutorials/Java/Java_Thread/index.htm)
 - [Java Multiple Threads](http://www.java2s.com/Tutorials/Java/Java_Thread/0020__Java_Thread_Multiple.htm)
 - [Java Thread Producer/Consumer](http://www.java2s.com/Tutorials/Java/Java_Thread/0030__Java_Thread_Producer_Consumer.htm)
@@ -15,7 +14,3 @@
 - [Java Thread Group](http://www.java2s.com/Tutorials/Java/Java_Thread/0110__Java_Thread_Group.htm)
 - [Java Volatile Variables](http://www.java2s.com/Tutorials/Java/Java_Thread/0120__Java_Volatile_Variables.htm)
 - [Java Thread State](http://www.java2s.com/Tutorials/Java/Java_Thread/0130__Java_Thread_State.htm)
-
-## Copyright
-
-Copyright 2016-2017 evangel_z.

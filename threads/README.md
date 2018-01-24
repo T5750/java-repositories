@@ -4,15 +4,15 @@
 
 ![Life Cycle of a Thread](http://img.my.csdn.net/uploads/201705/10/1494385217_1840.jpg)
 
- - **New** − A new thread begins its life cycle in the new state. It remains in this state until the program starts the thread. It is also referred to as a born thread.
+- **New** − A new thread begins its life cycle in the new state. It remains in this state until the program starts the thread. It is also referred to as a born thread.
 
- - **Runnable** − After a newly born thread is started, the thread becomes runnable. A thread in this state is considered to be executing its task.
+- **Runnable** − After a newly born thread is started, the thread becomes runnable. A thread in this state is considered to be executing its task.
 
- - **Waiting** − Sometimes, a thread transitions to the waiting state while the thread waits for another thread to perform a task. A thread transitions back to the runnable state only when another thread signals the waiting thread to continue executing.
+- **Waiting** − Sometimes, a thread transitions to the waiting state while the thread waits for another thread to perform a task. A thread transitions back to the runnable state only when another thread signals the waiting thread to continue executing.
 
- - **Timed Waiting** − A runnable thread can enter the timed waiting state for a specified interval of time. A thread in this state transitions back to the runnable state when that time interval expires or when the event it is waiting for occurs.
+- **Timed Waiting** − A runnable thread can enter the timed waiting state for a specified interval of time. A thread in this state transitions back to the runnable state when that time interval expires or when the event it is waiting for occurs.
 
- - **Terminated (Dead)** − A runnable thread enters the terminated state when it completes its task or otherwise terminates.
+- **Terminated (Dead)** − A runnable thread enters the terminated state when it completes its task or otherwise terminates.
 
 ## Thread Methods
 
@@ -45,11 +45,6 @@ Sr.No. | Method | Description
 6 | public void resume() | This method resumes a thread, which was suspended using suspend() method.
 
 ## Links
-
 - [Java - Multithreading](http://www.tutorialspoint.com/java/java_multithreading.htm)
 - [Java 多线程编程](http://www.runoob.com/java/java-multithreading.html)
 - [java多线程总结](http://www.cnblogs.com/rollenholt/archive/2011/08/28/2156357.html)
-
-## Copyright
-
-Copyright 2016-2017 evangel_z.
