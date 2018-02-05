@@ -22,6 +22,7 @@
 		<module>networking</module>
 		<module>jdk8</module>
 		<module>utils</module>
+		<module>security</module>
 	</modules>
 
 	<build>
