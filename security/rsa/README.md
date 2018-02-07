@@ -1,4 +1,4 @@
-# rsa
+# RSA
 
 ## Runtime Environment
 - [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
