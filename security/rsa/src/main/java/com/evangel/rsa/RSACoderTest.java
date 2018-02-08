@@ -1,3 +1,6 @@
+/**
+ * 2008-6-11
+ */
 package com.evangel.rsa;
 
 import static org.junit.Assert.assertEquals;
@@ -5,59 +8,93 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
+ * RSA数字签名校验
+ * 
  * @author 梁栋
  * @version 1.0
- * @since 1.0
  */
 public class RSACoderTest {
-	private String publicKey;
-	private String privateKey;
+	/**
+	 * 公钥
+	 */
+	private byte[] publicKey;
+	/**
+	 * 私钥
+	 */
+	private byte[] privateKey;
 
+	/**
+	 * 初始化密钥
+	 * 
+	 * @throws Exception
+	 */
 	@Before
-	public void setUp() throws Exception {
+	public void initKey() throws Exception {
 		Map<String, Object> keyMap = RSACoder.initKey();
 		publicKey = RSACoder.getPublicKey(keyMap);
 		privateKey = RSACoder.getPrivateKey(keyMap);
-		System.err.println("公钥: \n\r" + publicKey);
-		System.err.println("私钥： \n\r" + privateKey);
+		System.err.println("公钥: \n" + Base64.encodeBase64String(publicKey));
+		System.err.println("私钥： \n" + Base64.encodeBase64String(privateKey));
 	}
 
+	/**
+	 * 校验
+	 *
+	 * @throws Exception
+	 */
 	@Test
 	public void test() throws Exception {
-		System.err.println("公钥加密——私钥解密");
-		String inputStr = "abc";
-		byte[] data = inputStr.getBytes();
-		byte[] encodedData = RSACoder.encryptByPublicKey(data, publicKey);
-		byte[] decodedData = RSACoder.decryptByPrivateKey(encodedData,
+		System.err.println("\n---私钥加密——公钥解密---");
+		String inputStr1 = "RSA加密算法";
+		byte[] data1 = inputStr1.getBytes();
+		System.err.println("原文:\n" + inputStr1);
+		// 加密
+		byte[] encodedData1 = RSACoder.encryptByPrivateKey(data1, privateKey);
+		System.err.println("加密后:\n" + Base64.encodeBase64String(encodedData1));
+		// 解密
+		byte[] decodedData1 = RSACoder.decryptByPublicKey(encodedData1,
+				publicKey);
+		String outputStr1 = new String(decodedData1);
+		System.err.println("解密后:\n" + outputStr1);
+		// 校验
+		assertEquals(inputStr1, outputStr1);
+		System.err.println("\n---公钥加密——私钥解密---");
+		String inputStr2 = "RSA Encypt Algorithm";
+		byte[] data2 = inputStr2.getBytes();
+		System.err.println("原文:\n" + inputStr2);
+		// 加密
+		byte[] encodedData2 = RSACoder.encryptByPublicKey(data2, publicKey);
+		System.err.println("加密后:\n" + Base64.encodeBase64String(encodedData2));
+		// 解密
+		byte[] decodedData2 = RSACoder.decryptByPrivateKey(encodedData2,
 				privateKey);
-		String outputStr = new String(decodedData);
-		System.err.println("加密前: " + inputStr + "\n\r" + "解密后: " + outputStr);
-		assertEquals(inputStr, outputStr);
+		String outputStr2 = new String(decodedData2);
+		System.err.println("解密后: " + outputStr2);
+		// 校验
+		assertEquals(inputStr2, outputStr2);
 	}
 
+	/**
+	 * 校验
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testSign() throws Exception {
-		System.err.println("私钥加密——公钥解密");
-		String inputStr = "sign";
+		String inputStr = "RSA数字签名";
 		byte[] data = inputStr.getBytes();
-		byte[] encodedData = RSACoder.encryptByPrivateKey(data, privateKey);
-		byte[] decodedData = RSACoder
-				.decryptByPublicKey(encodedData, publicKey);
-		String outputStr = new String(decodedData);
-		System.err.println("加密前: " + inputStr + "\n\r" + "解密后: " + outputStr);
-		assertEquals(inputStr, outputStr);
-		System.err.println("私钥签名——公钥验证签名");
 		// 产生签名
-		String sign = RSACoder.sign(encodedData, privateKey);
-		System.err.println("签名:\r" + sign);
+		byte[] sign = RSACoder.sign(data, privateKey);
+		System.err.println("签名:\n" + Hex.encodeHexString(sign));
 		// 验证签名
-		boolean status = RSACoder.verify(encodedData, publicKey, sign);
-		System.err.println("状态:\r" + status);
+		boolean status = RSACoder.verify(data, publicKey, sign);
+		System.err.println("状态:\n" + status);
 		assertTrue(status);
 	}
 }
