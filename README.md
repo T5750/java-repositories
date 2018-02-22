@@ -18,7 +18,8 @@ java-repositories/
 │    └── hyperic-sigar
 └── [v0.8] security
      ├── ssl
-     └── [v0.8.1] rsa
+     ├── [v0.8.1] rsa
+     └── [v0.8.2] dsa
 ```
 
 ## License
