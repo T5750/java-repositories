@@ -33,3 +33,4 @@
 - [Java AES (Advanced Encryption Standard) Algorithm Example](https://howtodoinjava.com/security/java-aes-encryption-example/)
 - [Advanced Encryption Standard](http://www.java2s.com/Tutorial/Java/0490__Security/0320__Digital-Signature-Algorithm.htm)
 - [Advanced Encryption Standard](https://www.tutorialspoint.com/cryptography/advanced_encryption_standard.htm)
+- [Java使用AES加解密](http://blog.csdn.net/elim168/article/details/73456866)
