@@ -1,4 +1,4 @@
-package java2s;
+package com.java2s;
 
 import java.security.Key;
 import java.security.Security;
