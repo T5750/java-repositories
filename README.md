@@ -20,7 +20,8 @@ java-repositories/
      ├── ssl
      ├── [v0.8.1] rsa
      ├── [v0.8.2] dsa
-     └── [v0.8.3] aes
+     ├── [v0.8.3] aes
+     └── [v0.8.4] https
 ```
 
 ## License
