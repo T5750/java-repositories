@@ -9,7 +9,7 @@
 
 ### HTTPS 工作原理
 1. 浏览器将自己支持的一套加密规则发送给网站。
-1. 网站从中选出一组加密算法与HASH算法，并将自己的身份信息以证书的形式发回给浏览器。证书里面包含了网站地址，加密公钥，以及证书的颁发机构等信息。
+1. 网站从中选出一组加密算法与HASH算法，并将自己的身份信息以证书的形式发回给浏览器。证书里面包含了网站地址，加密公钥，以及证书的颁发机构等信息（证书中的私钥只能用于服务器端进行解密，在握手的整个过程中，都用到了证书中的公钥和浏览器发送给服务器的随机密码以及对称加密算法）。
 1. 浏览器获得网站证书之后浏览器要做以下工作：  
     - 验证证书的合法性（颁发证书的机构是否合法，证书中包含的网站地址是否与正在访问的地址一致等），如果证书受信任，则浏览器栏里面会显示一个小锁头，否则会给出证书不受信的提示。
     - 如果证书受信任，或者是用户接受了不受信的证书，浏览器会生成一串随机数的密码，并用证书中提供的公钥加密。
@@ -44,12 +44,12 @@ SSL证书和我们日常用的身份证类似，是一个支持HTTPS网站的身
 ### 准备工作
 1.创建java证书
 ```
-D:\>keytool -genkey -alias wangyi -keypass wangyi -keyalg RSA -keysize 1024 -keystore https.keystore -storepass wangyi
+D:\>keytool -genkey -alias evaneo -keypass evaneo -keyalg RSA -keysize 1024 -keystore https.keystore -storepass evaneo
 ```
 
 2.将创建的证书保存到D盘（为了方便演示）
 ```
-D:\>keytool -export -keystore https.keystore -alias wangyi -file https.crt -storepass wangyi
+D:\>keytool -export -keystore https.keystore -alias evaneo -file https.crt -storepass evaneo
 ```
 
 ### 代码实现

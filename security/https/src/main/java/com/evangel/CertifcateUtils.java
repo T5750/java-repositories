@@ -12,34 +12,37 @@ import java.security.cert.CertificateFactory;
  * Created by kingj on 2014/8/13.
  */
 public class CertifcateUtils {
+	public static final String ALIAS_PASSWORD = "evaneo";
+	public static final String HTTPS_PATH = "d:/";
+
 	public static byte[] readCertifacates() throws Exception {
 		CertificateFactory factory = CertificateFactory.getInstance("X.509");
-		InputStream in = new FileInputStream("d:/https.crt");
+		InputStream in = new FileInputStream(HTTPS_PATH + "https.crt");
 		java.security.cert.Certificate cate = factory.generateCertificate(in);
 		return cate.getEncoded();
 	}
 
 	public static byte[] readPrivateKey() throws Exception {
 		KeyStore store = KeyStore.getInstance("JKS");
-		InputStream in = new FileInputStream("d:/https.keystore");
-		store.load(in, "wangyi".toCharArray());
-		PrivateKey pk = (PrivateKey) store.getKey("wangyi",
-				"wangyi".toCharArray());
+		InputStream in = new FileInputStream(HTTPS_PATH + "https.keystore");
+		store.load(in, ALIAS_PASSWORD.toCharArray());
+		PrivateKey pk = (PrivateKey) store.getKey(ALIAS_PASSWORD,
+				ALIAS_PASSWORD.toCharArray());
 		return pk.getEncoded();
 	}
 
 	public static PrivateKey readPrivateKeys() throws Exception {
 		KeyStore store = KeyStore.getInstance("JKS");
-		InputStream in = new FileInputStream("d:/https.keystore");
-		store.load(in, "wangyi".toCharArray());
-		PrivateKey pk = (PrivateKey) store.getKey("wangyi",
-				"wangyi".toCharArray());
+		InputStream in = new FileInputStream(HTTPS_PATH + "https.keystore");
+		store.load(in, ALIAS_PASSWORD.toCharArray());
+		PrivateKey pk = (PrivateKey) store.getKey(ALIAS_PASSWORD,
+				ALIAS_PASSWORD.toCharArray());
 		return pk;
 	}
 
 	public static PublicKey readPublicKeys() throws Exception {
 		CertificateFactory factory = CertificateFactory.getInstance("X.509");
-		InputStream in = new FileInputStream("d:/https.crt");
+		InputStream in = new FileInputStream(HTTPS_PATH + "https.crt");
 		java.security.cert.Certificate cate = factory.generateCertificate(in);
 		return cate.getPublicKey();
 	}
