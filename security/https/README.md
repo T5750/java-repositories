@@ -62,7 +62,51 @@ D:\>keytool -export -keystore https.keystore -alias evaneo -file https.crt -stor
 `HttpsMockServer` | 服务器类
 `SocketUtils` | socket工具类
 
+## java项目http变更https
+### 1. 创建 keystore 文件
+执行 ```keytool -genkey -alias tomcat -keyalg RSA```
+
+这样就在用户的主目录下创建了一个 `.keystore` 文件
+
+### 2. 配置 Tomcat 以使用 keystore 文件
+打开 `server.xml` 找到下面被注释的这段，添加并编辑 `keystoreFile`, `keystorePass`
+```
+<!--
+<Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+maxThreads="150" scheme="https" secure="true"
+clientAuth="false" sslProtocol="TLS" />
+-->
+
+<Connector SSLEnabled="true" acceptCount="100" clientAuth="false"
+disableUploadTimeout="true" enableLookups="false" maxThreads="25"
+port="8443" keystoreFile="/Users/t5750/.keystore" keystorePass="password"
+protocol="org.apache.coyote.http11.Http11NioProtocol" scheme="https"
+secure="true" sslProtocol="TLS" />
+```
+
+### 3. 测试
+启动 Tomcat 并访问 [https://localhost:8443](https://localhost:8443)
+
+### 4. 配置应用使用 SSL
+打开应用的 `web.xml` 文件，增加配置如下：
+```
+<security-constraint>
+	<web-resource-collection>
+		<web-resource-name>securedapp</web-resource-name>
+		<url-pattern>/*</url-pattern>
+	</web-resource-collection>
+	<user-data-constraint>
+		<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+	</user-data-constraint>
+</security-constraint>
+```
+
+将 URL 映射设为 /* ，这样你的整个应用都要求是 HTTPS 访问，而 `transport-guarantee` 标签设置为 `CONFIDENTIAL` 以便使应用支持 SSL。
+
+如果你希望关闭 SSL ，只需要将 `CONFIDENTIAL` 改为 `NONE` 即可。
+
 ## Links
 - [HTTPS](http://www.java2s.com/Tutorial/Java/0490__Security/0880__HTTPS.htm)
 - [HTTPS 与 SSL 证书概要](http://www.runoob.com/w3cnote/https-ssl-intro.html)
 - [HTTPS那些事 用java实现HTTPS工作原理](http://kingj.iteye.com/blog/2103662)
+- [java项目http变更https](http://www.cnblogs.com/moon521/p/5948058.html)
