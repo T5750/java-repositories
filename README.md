@@ -15,7 +15,8 @@ java-repositories/
 ├── [v0.5] networking
 ├── [v0.6] jdk8
 ├── [v0.7] utils
-│    └── hyperic-sigar
+│    ├── hyperic-sigar
+│    └── [v0.7.1] zip
 └── [v0.8] security
      ├── ssl
      ├── [v0.8.1] rsa
