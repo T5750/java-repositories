@@ -20,3 +20,4 @@ A simple Java blockchain with transactions. ( Still missing networking )
 ## Links
 - [NoobChain-Tutorial-Part-1](https://github.com/CryptoKass/NoobChain-Tutorial-Part-1)
 - [NoobChain-Tutorial-Part-2](https://github.com/CryptoKass/NoobChain-Tutorial-Part-2)
+- [[译]用Java创建你的第一个区块链-part2:可交易](http://www.techug.com/post/creating-your-first-blockchain-with-java-part-2-transactions.html)
