@@ -28,9 +28,45 @@
 - Java Mission Control -> Thread Dump
 
 ## Java Multithreading Interview Questions
-
+1. What is the difference between Process and Thread?
+1. What are the benefits of multi-threaded programming?
+1. What is difference between user Thread and daemon Thread?
+1. How can we create a Thread in Java?
+1. What are different states in lifecycle of Thread?
+1. Can we call run() method of a Thread class?
+1. How can we pause the execution of a Thread for specific time?
+1. What do you understand about Thread Priority?
+1. What is Thread Scheduler and Time Slicing?
+1. What is context-switching in multi-threading?
+1. How can we make sure main() is the last thread to finish in Java Program?
+1. How does thread communicate with each other?
+1. Why thread communication methods wait(), notify() and notifyAll() are in Object class?
+1. Why wait(), notify() and notifyAll() methods have to be called from synchronized method or block?
+1. Why Thread sleep() and yield() methods are static?
+1. How can we achieve thread safety in Java?
+1. What is volatile keyword in Java
+1. Which is more preferred – Synchronized method or Synchronized block?
+1. How to create daemon thread in Java?
+1. What is ThreadLocal?
+1. What is Thread Group? Why it’s advised not to use it?
+1. What is Java Thread Dump, How can we get Java Thread dump of a Program?
+1. What is Deadlock? How to analyze and avoid deadlock situation?
+1. What is Java Timer Class? How to schedule a task to run after specific interval?
+1. What is Thread Pool? How can we create Thread Pool in Java?
+1. What will happen if we don’t override Thread class run() method?
 
 ## Java Concurrency Interview Questions
+1. What is atomic operation? What are atomic classes in Java Concurrency API?
+1. What is Lock interface in Java Concurrency API? What are it’s benefits over synchronization?
+1. What is Executors Framework?
+1. What is BlockingQueue? How can we implement Producer-Consumer problem using Blocking Queue?
+1. What is Callable and Future?
+1. What is FutureTask class?
+1. What are Concurrent Collection Classes?
+1. What is Executors Class?
+1. What are some of the improvements in Concurrency API in Java 8?
+
+### Tips
 - [Java Lock Example – ReentrantLock](https://www.journaldev.com/2377/java-lock-example-reentrantlock)
 - [AtomicInteger in Java](https://www.journaldev.com/1095/atomicinteger-java)
 
