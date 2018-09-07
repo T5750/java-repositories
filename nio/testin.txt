@@ -1,0 +1,3 @@
+Hello World!
+this is content from testin.txt
+* end of the file.
