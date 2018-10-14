@@ -6,28 +6,28 @@
 - `synchronized`：可以在任意对象及方法上加锁，而加锁的这段代码称为“互斥区”或“临界区”。
 
 ### 1.2 多个线程多个锁
-- 关键字synchronized取得的锁都是对象锁，而不是把一段代码（方法）当做锁，所以代码中哪个线程先执行synchronized关键字的方法，哪个线程就持有该方法所属对象的锁（Lock），两个对象，线程获得的就是两个不同的锁，它们互不影响。
-- 在静态方法上加synchronized关键字，表示锁定.class类，类一级别的锁（独占.class类）。
+- 关键字`synchronized`取得的锁都是对象锁，而不是把一段代码（方法）当做锁，所以代码中哪个线程先执行`synchronized`关键字的方法，哪个线程就持有该方法所属对象的锁（Lock），两个对象，线程获得的就是两个不同的锁，它们互不影响。
+- 在静态方法上加`synchronized`关键字，表示锁定.class类，类一级别的锁（独占.class类）。
 
 ### 1.3 对象锁的同步和异步
-- 同步：`synchronized`，概念：共享，需要满足两个特性：
+- 同步：`synchronized`，概念：共享。需要满足两个特性：
    * 原子性（同步）
    * 可见性
 - 异步：`asynchronized`，概念：独立
 
 ### 1.4 脏读
-- 加锁考虑业务整体性，即为`setValue`/`getValue`方法同时加锁`asynchronized`，保持业务（service）的原子性。示例：`DirtyRead`
+- 加锁考虑业务整体性，即为`setValue`/`getValue`方法同时加锁`synchronized`，保持业务（service）的原子性。示例：`DirtyRead`
 
 ### 1.5 `synchronized`其他概念
 - `synchronized`拥有锁重入的功能。示例：`SyncDubbo2`
 - 出现异常，锁自动释放。示例：`SyncException`
 
 ### 1.6 `synchronized`代码块
-- 使用`synchronized`代码块优化执行时间，也就是通常所说的减小锁的粒度。`Optimize`
-- `synchronized`可以使用任意的`Object`进行加锁。`ObjectLock`
-- 不要使用`String`的常量加锁，会出现死循环问题。`StringLock`
-- 锁对象的改变问题，当使用一个对象进行加锁时，要注意对象本身发生改变时，那么持有的锁就不同。`ModifyLock`
-- 死锁问题。`DeadLock`
+- 使用`synchronized`代码块优化执行时间，也就是通常所说的减小锁的粒度。示例：`Optimize`
+- `synchronized`可以使用任意的`Object`进行加锁。示例：`ObjectLock`
+- 不要使用`String`的常量加锁，会出现死循环问题。示例：`StringLock`
+- 锁对象的改变问题，当使用一个对象进行加锁时，要注意对象本身发生改变时，那么持有的锁就不同。示例：`ModifyLock`
+- 死锁问题。示例：`DeadLock`
 
 ### 1.7 `volatile`关键字的概念
 - `volatile`：使变量在多个线程间可见。
