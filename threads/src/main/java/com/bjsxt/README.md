@@ -92,11 +92,11 @@
 - `DelayQueue`：带有延迟时间的`Queue`，其中的元素只有当其指定的延迟时间到了，才能够从队列中获取到该元素。`DelayQueue`中的元素必须实现`Delayed`接口，`DelayQueue`是一个没有大小限制的队列，应用场景如：对缓存超时的数据进行移除、任务超时处理、空闲连接的关闭等。
 
 ### 6.1 多线程的设计模式
-- Future、Master-Worker何生产者-消费者模型。
+- Future、Master-Worker和生产者-消费者模型。
 
 ### 6.2 Future模式
 - Future模式有点类似于Ajax请求时，页面是异步地进行后台处理，用户无需一直等待请求的结果，可以继续浏览或操作其它内容。
 
 ### 6.3 Master-Worker模式
-- Master-Worker模式是常用的并行计算模式。核心思想是系统由两类进程协作：Master进程和Worker进程。Master负责接收和分配任务，Worker负责处理子任务。当各个Worker子进程处理完成后，会将结果返回Master，由Master做归纳何总结。其好处是能将一个大任务分解成若干个小任务，并行执行，从而提高系统的吞吐量。
+- Master-Worker模式是常用的并行计算模式。核心思想是系统由两类进程协作：Master进程和Worker进程。Master负责接收和分配任务，Worker负责处理子任务。当各个Worker子进程处理完成后，会将结果返回Master，由Master做归纳和总结。其好处是能将一个大任务分解成若干个小任务，并行执行，从而提高系统的吞吐量。
 
