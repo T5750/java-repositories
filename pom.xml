@@ -25,6 +25,7 @@
 		<module>security</module>
 		<module>blockchain</module>
 		<module>nio</module>
+		<module>jdk7</module>
 	</modules>
 
 	<build>
