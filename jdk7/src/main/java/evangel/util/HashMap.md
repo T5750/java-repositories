@@ -36,7 +36,7 @@ public HashMap(int initialCapacity, float loadFactor) {
     init();
 }
 ```
-给定的默认容量为16，负载因子为0.75。`Map`在使用过程中不断的往里面存放数据，当数量达到了16*0.75=12就需要将当前16的容量进行扩容，而扩容这个过程涉及到rehash、复制数据等操作，所以非常消耗性能。
+给定的默认容量为16，负载因子为0.75。`Map`在使用过程中不断的往里面存放数据，当数量达到了`16*0.75=12`就需要将当前16的容量进行扩容，而扩容这个过程涉及到`rehash`、复制数据等操作，所以非常消耗性能。
 
 `Entry`是`HashMap`中的一个内部类，其成员变量：
 - `key`：写入时的键。
@@ -90,7 +90,8 @@ void createEntry(int hash, K key, V value, int bucketIndex) {
     size++;
 }
 ```
-- 当调用`addEntry`写入`Entry`时需要判断是否需要扩容。如果需要就进行两倍扩充，并将当前的`key`重新`hash`并定位。
+- 当调用`addEntry`写入`Entry`时需要判断是否需要扩容。
+- 如果需要就进行两倍扩充，并将当前的`key`重新`hash`并定位。
 - 而在`createEntry`中会将当前位置的桶传入到新建的桶中，如果当前桶有值就会在位置形成链表。
 
 ##### `get` 方法
@@ -125,18 +126,19 @@ final Entry<K,V> getEntry(Object key) {
 
 #### Base 1.8
 - 1.7的实现大家看出需要优化的点没有？其实一个很明显的地方就是：
->当Hash冲突严重时，在桶上形成的链表会变的越来越长，这样在查询时的效率就会越来越低；时间复杂度为O(N)。
+>当Hash冲突严重时，在桶上形成的链表会变的越来越长，这样在查询时的效率就会越来越低；时间复杂度为`O(N)`。
 
 - 因此1.8中重点优化了这个查询效率。1.8`HashMap`结构图：
 
 ![HashMap1.8-min](http://www.wailian.work/images/2018/10/16/HashMap1.8-min.jpg)
-- 核心的成员变量和1.7大体上都差不多，还是有几个重要的区别：
-    - `TREEIFY_THRESHOLD`用于判断是否需要将链表转换为红黑树的阈值。
-    - `HashEntry`修改为`Node`。
+
+核心成员变量和1.7大体上都差不多，还是有几个重要的区别：
+- `TREEIFY_THRESHOLD`用于判断是否需要将链表转换为红黑树的阈值。
+- `HashEntry`修改为`Node`。
 
 ##### `put` 方法
 ![HashMap1.8-put-min](http://www.wailian.work/images/2018/10/16/HashMap1.8-put-min.jpg)
-1. 判断当前桶是否为空，空的就需要初始化（resize中会判断是否进行初始化）。
+1. 判断当前桶是否为空，空的就需要初始化（`resize`中会判断是否进行初始化）。
 1. 根据当前`key`的hashcode定位到具体的桶中并判断是否为空，为空表明没有Hash冲突就直接在当前位置创建一个新桶即可。
 1. 如果当前桶有值（Hash冲突），那么就要比较当前桶中的`key`、`key`的hashcode与写入的`key`是否相等，相等就赋值给e,在第8步的时候会统一进行赋值及返回。
 1. 如果当前桶为红黑树，那就要按照红黑树的方式写入数据。
@@ -179,7 +181,7 @@ final Node<K,V> getNode(int hash, Object key) {
 - 红黑树就按照树的查找方式返回值。
 - 不然就按照链表的方式遍历匹配返回值。
 
-1.8 中对大链表做了优化，修改为红黑树之后查询效率直接提高到了O(logn)。但是`HashMap`原有的问题也都存在，比如在并发场景下使用时容易出现死循环。
+1.8 中对大链表做了优化，修改为红黑树之后查询效率直接提高到了`O(logn)`。但是`HashMap`原有的问题也都存在，比如在并发场景下使用时容易出现死循环。
 ```
 final HashMap<String, String> map = new HashMap<String, String>();
 for (int i = 0; i < 1000; i++) {
@@ -215,7 +217,7 @@ Iterator<String> iterator = map.keySet().iterator();
 ## `java.util.concurrent`
 ### `ConcurrentHashMap`
 #### Base 1.7
-1.7由`Segment`数组、`HashEntry`组成，和`HashMap`一样，仍然是数组加链表。结构图：
+1.7由`Segment`数组、`HashEntry`组成，和`HashMap`一样，仍然是数组+链表。1.7`ConcurrentHashMap`结构图：
 
 ![ConcurrentHashMap1.7-min](http://www.wailian.work/images/2018/10/16/ConcurrentHashMap1.7-min.jpg)
 
@@ -346,10 +348,10 @@ public V get(Object key) {
 
 由于`HashEntry`中的`value`属性是用`volatile`关键词修饰的，保证了内存可见性，所以每次获取时都是最新值。
 
-`ConcurrentHashMap`的`get`方法是非常高效的，因为整个过程都不需要加锁。
+`ConcurrentHashMap`的`get`方法是非常高效的，**因为整个过程都不需要加锁**。
 
 #### Base 1.8
-1.8结构图：
+1.8`ConcurrentHashMap`结构图：
 
 ![ConcurrentHashMap1.8-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-min.jpg)
 
@@ -357,7 +359,7 @@ public V get(Object key) {
 
 ![ConcurrentHashMap1.8-node-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-node-min.jpg)
 
-也将1.7中存放数据的`HashEntry`改为`Node`，但作用都是相同的。
+也将1.7中存放数据的`HashEntry`改为`Node`，但作用都是相同的。其中，`val next`都用了`volatile`修饰，保证了可见性。
 
 ##### `put` 方法
 ![ConcurrentHashMap1.8-put-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-put-min.jpg)
@@ -393,7 +395,7 @@ public V get(Object key) {
 - 根据计算出来的hashcode寻址，如果就在桶上那么直接返回值。
 - 如果是红黑树那就按照树的方式获取值。
 - 就不满足那就按照链表的方式遍历获取值。
->1.8在1.7的数据结构上做了大的改动，采用红黑树之后可以保证查询效率（O(logn)），甚至取消了`ReentrantLock`改为了`synchronized`，这样可以看出在新版的JDK中对`synchronized`优化是很到位的。
+>1.8在1.7的数据结构上做了大的改动，采用红黑树之后可以保证查询效率（`O(logn)`），甚至取消了`ReentrantLock`改为了`synchronized`，这样可以看出在新版的JDK中对`synchronized`优化是很到位的。
 
 ## References
 - [一文让你彻底理解 Java HashMap 和 ConcurrentHashMap](http://www.codeceo.com/article/java-hashmap-concurrenthashmap.html)
