@@ -1,6 +1,6 @@
 # 并发编程笔记
 
-## 基础篇（一）
+## （一）基础篇
 ### 1.1 线程安全
 - 线程安全：当多个线程访问某一个类（对象或方法）时，这个类始终都能表现出正确的行为，那么这个类（对象或方法）就是线程安全的。
 - `synchronized`：可以在任意对象及方法上加锁，而加锁的这段代码称为“互斥区”或“临界区”。
@@ -56,7 +56,7 @@
     - double check instance。示例：`DoubleSingleton`
     - static inner class。示例：`Singletion`
 
-## 中级篇（二）
+## （二）中级篇
 ### 3.1 同步类容器
 - 同步类容器都是线程安全的，但在某些场景下可能需要加锁来保护复合操作。复合类操作如：迭代、跳转，以及条件运算。这些复合操作在多线程并发地修改容器时，可能会表现出意外的行为，最经典的便是`ConcurrentModificationException`，原因是当容器迭代的过程中，被并发地修改了内容，这是由于早期迭代器设计时并没有考虑并发修改的问题。
 - 同步类容器：古老的`Vector`、`HashTable`。这些容器的同步功能由JDK的`Collections.synchronized***`等工厂方法去创建实现的。
@@ -99,4 +99,40 @@
 
 ### 6.3 Master-Worker模式
 - Master-Worker模式是常用的并行计算模式。核心思想是系统由两类进程协作：Master进程和Worker进程。Master负责接收和分配任务，Worker负责处理子任务。当各个Worker子进程处理完成后，会将结果返回Master，由Master做归纳和总结。其好处是能将一个大任务分解成若干个小任务，并行执行，从而提高系统的吞吐量。
+
+### 6.4 生产者-消费者
+- 通常由两类线程，即若干个生产者线程和若干个消费者线程。生产者线程负责提交用户请求，消费者线程负责具体处理生产者提交的任务，在生产者和消费者之间通过共享内存缓存区进行通信。
+
+## （三）高级篇
+### 7.1 `Executor`框架
+- `Executors`创建线程池方法：
+    - `newFixedThreadPool()`方法，该方法返回一个固定数量的线程池，线程数始终不变。当有一个任务提交时，若线程池空闲，则立即执行，若没有，则会被暂缓在一个任务队列中等待有空闲的线程去执行。
+    - `newSingleThreadExecutor()`方法，创建一个线程的线程池，若空闲则执行，若没有空闲线程则暂缓在任务队列中。
+    - `newCachedThreadPool()`方法，返回一个可根据实际情况调整线程个数的线程池，不限制最大线程数量，若有任务，则创建线程，若无任务则不创建线程。如果没有任务则线程在60s后自动回收（空闲时间60s）。
+    - `newScheduledThreadPool()`方法，该方法返回一个`ScheduledExecutorService`对象，但该线程池可以指定线程的数量。
+- 示例：`ScheduledJob`
+
+### 7.2 自定义线程池
+- 若`Executors`工厂类无法满足我们的需求，可用`ThreadPoolExecutor`类自定义线程。构造方法如下：
+```
+public ThreadPoolExecutor(int corePoolSize,
+			int maximumPoolSize,
+			long keepAliveTime,
+			TimeUnit unit,
+			BlockingQueue<Runnable> workQueue,
+			ThreadFactory threadFactory,
+			RejectedExecutionHandler handler) {...}
+```
+- 示例：`UseThreadPoolExecutor1`, `UseThreadPoolExecutor2`
+
+### 7.3 自定义线程池使用详细
+- 在使用有界队列时，若有新的任务需要执行，如果线程池实际线程数小于`corePoolSize`，则优先创建线程。若大于`corePoolSize`，则会将任务加入队列，若队列已满，则在总线程数不大于`maximumPoolSize`的前提下，创建新的线程。若线程数大于`maximumPoolSize`，则执行拒绝策略。或其它自定义方式。
+- 无界的任务队列时，`LinkedBlockingQueue`。与有界队列相比，除非系统资源耗尽，否则无界的任务队列不存在任务入队失败的情况。当有新任务到来，系统的线程数小于`corePoolSize`时，则新建线程执行任务。当达到`corePoolSize`后，就不会继续增加。若后续仍有新的任务加入，而没有空闲的线程资源，则任务直接进入队列等待。若任务创建和处理的速度差异很大，无界队列会保持快速增长，直到耗尽系统内存。
+- JDK拒绝策略：
+    - `AbortPolicy`：直接抛出异常组织系统正常工作。
+    - `CallerRunsPolicy`：只要线程池未关闭，该策略直接在调用者线程中，运行当前被丢弃的任务。
+    - `DiscardOldestPolicy`：丢弃最老的一个请求，尝试再次提交当前任务。
+    - `DiscardPolicy`：丢弃无法处理的任务，不给予任务处理。
+- 如果需要自定义拒绝策略，可以实现`RejectedExecutionHandler`接口。
+- `UseCountDownLatch`, `UseCyclicBarrier`, `UseFuture`, `UseSemaphore`
 

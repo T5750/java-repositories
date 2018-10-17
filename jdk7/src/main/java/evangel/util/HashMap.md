@@ -7,7 +7,51 @@
 - `HashMap`底层是基于`数组+链表`组成的。1.7`HashMap`结构图：
 
 ![HashMap1.7-min](http://www.wailian.work/images/2018/10/16/HashMap1.7-min.jpg)
-![HashMap1.7-impl-min](http://www.wailian.work/images/2018/10/16/HashMap1.7-impl-min.jpg)
+```
+    static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16 // Step 1
+
+    /**
+     * The maximum capacity, used if a higher value is implicitly specified
+     * by either of the constructors with arguments.
+     * MUST be a power of two <= 1<<30.
+     */
+    static final int MAXIMUM_CAPACITY = 1 << 30; // Step 2
+
+    /**
+     * The load factor used when none specified in constructor.
+     */
+    static final float DEFAULT_LOAD_FACTOR = 0.75f; // Step 3
+
+    /**
+     * An empty table instance to share when the table is not inflated.
+     */
+    static final Entry<?,?>[] EMPTY_TABLE = {};
+
+    /**
+     * The table, resized as necessary. Length MUST Always be a power of two.
+     */
+    transient Entry<K,V>[] table = (Entry<K,V>[]) EMPTY_TABLE; // Step 4
+
+    /**
+     * The number of key-value mappings contained in this map.
+     */
+    transient int size; // Step 5
+
+    /**
+     * The next size value at which to resize (capacity * load factor).
+     * @serial
+     */
+    // If table == EMPTY_TABLE then this is the initial capacity at which the
+    // table will be created when inflated.
+    int threshold; // Step 6
+
+    /**
+     * The load factor for the hash table.
+     *
+     * @serial
+     */
+    final float loadFactor; // Step 7
+```
 
 `HashMap`中比较核心的几个成员变量
 1. `DEFAULT_INITIAL_CAPACITY`：初始化桶大小，因为底层是数组，所以这是数组默认的大小。
@@ -37,6 +81,8 @@ public HashMap(int initialCapacity, float loadFactor) {
 }
 ```
 给定的默认容量为16，负载因子为0.75。`Map`在使用过程中不断的往里面存放数据，当数量达到了`16*0.75=12`就需要将当前16的容量进行扩容，而扩容这个过程涉及到`rehash`、复制数据等操作，所以非常消耗性能。
+
+根据代码可以看到其实真正存放数据的是`transient Entry<K,V>[] table = (Entry<K,V>[]) EMPTY_TABLE;`
 
 `Entry`是`HashMap`中的一个内部类，其成员变量：
 - `key`：写入时的键。
@@ -137,7 +183,50 @@ final Entry<K,V> getEntry(Object key) {
 - `HashEntry`修改为`Node`。
 
 ##### `put` 方法
-![HashMap1.8-put-min](http://www.wailian.work/images/2018/10/16/HashMap1.8-put-min.jpg)
+```
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                   boolean evict) {
+	Node<K,V>[] tab; Node<K,V> p; int n, i;
+	if ((tab = table) == null || (n = tab.length) == 0) // Step 1
+		n = (tab = resize()).length;
+	if ((p = tab[i = (n - 1) & hash]) == null) // Step 2
+		tab[i] = newNode(hash, key, value, null);
+	else {
+		Node<K,V> e; K k;
+		if (p.hash == hash &&
+			((k = p.key) == key || (key != null && key.equals(k)))) // Step 3
+			e = p;
+		else if (p instanceof TreeNode) // Step 4
+			e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
+		else {
+			for (int binCount = 0; ; ++binCount) { // Step 5
+				if ((e = p.next) == null) {
+					p.next = newNode(hash, key, value, null);
+					if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st // Step 6
+						treeifyBin(tab, hash);
+					break;
+				}
+				if (e.hash == hash && // Step 7
+					((k = e.key) == key || (key != null && key.equals(k))))
+					break;
+				p = e;
+			}
+		}
+		if (e != null) { // existing mapping for key // Step 8
+			V oldValue = e.value;
+			if (!onlyIfAbsent || oldValue == null)
+				e.value = value;
+			afterNodeAccess(e);
+			return oldValue;
+		}
+	}
+	++modCount;
+	if (++size > threshold) // Step 9
+		resize();
+	afterNodeInsertion(evict);
+	return null;
+}
+```
 1. 判断当前桶是否为空，空的就需要初始化（`resize`中会判断是否进行初始化）。
 1. 根据当前`key`的hashcode定位到具体的桶中并判断是否为空，为空表明没有Hash冲突就直接在当前位置创建一个新桶即可。
 1. 如果当前桶有值（Hash冲突），那么就要比较当前桶中的`key`、`key`的hashcode与写入的`key`是否相等，相等就赋值给e,在第8步的时候会统一进行赋值及返回。
@@ -212,12 +301,14 @@ Iterator<String> iterator = map.keySet().iterator();
 		System.out.println("key=" + key + " value=" + map.get(key));
 	}
 ```
-强烈建议使用第一种`EntrySet`进行遍历。第一种可以把key value同时取出，第二种还得需要通过`key`取一次`value`，效率较低。
+`强烈建议`使用第一种`EntrySet`进行遍历。第一种可以把key value同时取出，第二种还得需要通过`key`取一次`value`，效率较低。
+
+>简单总结下`HashMap`：无论是1.7还是1.8其实都能看出JDK没有对它做任何的同步操作，所以并发会出问题，甚至1.7中出现死循环导致系统不可用（1.8已经修复死循环问题）。
 
 ## `java.util.concurrent`
 ### `ConcurrentHashMap`
 #### Base 1.7
-1.7由`Segment`数组、`HashEntry`组成，和`HashMap`一样，仍然是数组+链表。1.7`ConcurrentHashMap`结构图：
+1.7由`Segment`数组、`HashEntry`组成，和`HashMap`一样，仍然是`数组+链表`。1.7`ConcurrentHashMap`结构图：
 
 ![ConcurrentHashMap1.7-min](http://www.wailian.work/images/2018/10/16/ConcurrentHashMap1.7-min.jpg)
 
@@ -241,6 +332,20 @@ static final class Segment<K,V> extends ReentrantLock implements Serializable {
        transient int threshold;
        final float loadFactor;
 }
+```
+```
+static final class HashEntry<K,V> {
+	final int hash;
+	final K key;
+	volatile V value;
+	volatile HashEntry<K,V> next;
+	
+	HashEntry(int hash, K key, V value, HashEntry<K,V> next) {
+		this.hash = hash;
+		this.key = key;
+		this.value = value;
+		this.next = next;
+	}
 ```
 和`HashMap`非常类似，唯一的区别就是其中的核心数据如`value`，以及链表都是`volatile`修饰的，保证了获取时的可见性。
 
@@ -310,12 +415,85 @@ final V put(K key, int hash, V value, boolean onlyIfAbsent) {
 
 首先第一步的时候会尝试获取锁，如果获取失败肯定就有其他线程存在竞争，则利用`scanAndLockForPut()`自旋获取锁。
 
-![ConcurrentHashMap1.7-put-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.7-put-min.jpg)
+```
+private HashEntry<K,V> scanAndLockForPut(K key, int hash, V value) {
+	HashEntry<K,V> first = entryForHash(this, hash);
+	HashEntry<K,V> e = first;
+	HashEntry<K,V> node = null;
+	int retries = -1; // negative while locating node
+	while (!tryLock()) { // Step 1
+		HashEntry<K,V> f; // to recheck first below
+		if (retries < 0) {
+			if (e == null) {
+				if (node == null) // speculatively create node
+					node = new HashEntry<K,V>(hash, key, value, null);
+				retries = 0;
+			}
+			else if (key.equals(e.key))
+				retries = 0;
+			else
+				e = e.next;
+		}
+		else if (++retries > MAX_SCAN_RETRIES) { // Step 2
+			lock();
+			break;
+		}
+		else if ((retries & 1) == 0 &&
+				 (f = entryForHash(this, hash)) != first) {
+			e = first = f; // re-traverse if entry changed
+			retries = -1;
+		}
+	}
+	return node;
+}
+```
 1. 尝试自旋获取锁。
 1. 如果重试的次数达到了`MAX_SCAN_RETRIES`则改为阻塞锁获取，保证能获取成功。
-
-![ConcurrentHashMap1.7-put2-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.7-put2-min.jpg)
-
+```
+final V put(K key, int hash, V value, boolean onlyIfAbsent) {
+	HashEntry<K,V> node = tryLock() ? null :
+		scanAndLockForPut(key, hash, value); // Step 1
+	V oldValue;
+	try {
+		HashEntry<K,V>[] tab = table;
+		int index = (tab.length - 1) & hash;
+		HashEntry<K,V> first = entryAt(tab, index);
+		for (HashEntry<K,V> e = first;;) {
+			if (e != null) {
+				K k;
+				if ((k = e.key) == key || // Step 2
+					(e.hash == hash && key.equals(k))) {
+					oldValue = e.value;
+					if (!onlyIfAbsent) {
+						e.value = value;
+						++modCount;
+					}
+					break;
+				}
+				e = e.next;
+			}
+			else { // Step 3
+				if (node != null)
+					node.setNext(first);
+				else
+					node = new HashEntry<K,V>(hash, key, value, first);
+				int c = count + 1;
+				if (c > threshold && tab.length < MAXIMUM_CAPACITY)
+					rehash(node);
+				else
+					setEntryAt(tab, index, node);
+				++modCount;
+				count = c;
+				oldValue = null;
+				break;
+			}
+		}
+	} finally {
+		unlock(); // Step 4
+	}
+	return oldValue;
+}
+```
 再结合图看看`put`的流程。
 1. 将当前`Segment`中的`table`通过`key`的hashcode定位到`HashEntry`。
 1. 遍历该`HashEntry`，如果不为空则判断传入的`key`和当前遍历的`key`是否相等，相等则覆盖旧的`value`。
@@ -356,13 +534,94 @@ public V get(Object key) {
 ![ConcurrentHashMap1.8-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-min.jpg)
 
 其中抛弃了原有的`Segment`分段锁，而采用了`CAS+synchronized`来保证并发安全性。
+```
+static class Node<K,V> implements Map.Entry<K,V> {
+	final int hash;
+	final K key;
+	volatile V val;
+	volatile Node<K,V> next;
 
-![ConcurrentHashMap1.8-node-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-node-min.jpg)
+	Node(int hash, K key, V val, Node<K,V> next) {
+		this.hash = hash;
+		this.key = key;
+		this.val = val;
+		this.next = next;
+	}
 
+	public final K getKey()       { return key; }
+	public final V getValue()     { return val; }
+	public final int hashCode()   { return key.hashCode() ^ val.hashCode(); }
+	public final String toString(){ return key + "=" + val; }
+	public final V setValue(V value) { throw new UnsupportedOperationException(); }
+```
 也将1.7中存放数据的`HashEntry`改为`Node`，但作用都是相同的。其中，`val next`都用了`volatile`修饰，保证了可见性。
 
 ##### `put` 方法
-![ConcurrentHashMap1.8-put-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-put-min.jpg)
+```
+final V putVal(K key, V value, boolean onlyIfAbsent) {
+	if (key == null || value == null) throw new NullPointerException();
+	int hash = spread(key.hashCode());
+	int binCount = 0;
+	for (Node<K,V>[] tab = table;;) { // Step 1
+		Node<K,V> f; int n, i, fh;
+		if (tab == null || (n = tab.length) == 0) // Step 2
+			tab = initTable();
+		else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) { // Step 3
+			if (casTabAt(tab, i, null,
+						 new Node<K,V>(hash, key, value, null)))
+				break;                   // no lock when adding to empty bin
+		}
+		else if ((fh = f.hash) == MOVED) // Step 4
+			tab = helpTransfer(tab, f);
+		else {
+			V oldVal = null;
+			synchronized (f) { // Step 5
+				if (tabAt(tab, i) == f) {
+					if (fh >= 0) {
+						binCount = 1;
+						for (Node<K,V> e = f;; ++binCount) {
+							K ek;
+							if (e.hash == hash &&
+								((ek = e.key) == key ||
+								 (ek != null && key.equals(ek)))) {
+								oldVal = e.val;
+								if (!onlyIfAbsent)
+									e.val = value;
+								break;
+							}
+							Node<K,V> pred = e;
+							if ((e = e.next) == null) {
+								pred.next = new Node<K,V>(hash, key,
+														  value, null);
+								break;
+							}
+						}
+					}
+					else if (f instanceof TreeBin) {
+						Node<K,V> p;
+						binCount = 2;
+						if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
+													   value)) != null) {
+							oldVal = p.val;
+							if (!onlyIfAbsent)
+								p.val = value;
+						}
+					}
+				}
+			}
+			if (binCount != 0) {
+				if (binCount >= TREEIFY_THRESHOLD) // Step 6
+					treeifyBin(tab, i);
+				if (oldVal != null)
+					return oldVal;
+				break;
+			}
+		}
+	}
+	addCount(1L, binCount);
+	return null;
+}
+```
 1. 根据`key`计算出hashcode。
 1. 判断是否需要进行初始化。
 1. f即为当前`key`定位出的`Node`，如果为空表示当前位置可以写入数据，利用CAS尝试写入，失败则自旋保证成功。
@@ -398,4 +657,4 @@ public V get(Object key) {
 >1.8在1.7的数据结构上做了大的改动，采用红黑树之后可以保证查询效率（`O(logn)`），甚至取消了`ReentrantLock`改为了`synchronized`，这样可以看出在新版的JDK中对`synchronized`优化是很到位的。
 
 ## References
-- [一文让你彻底理解 Java HashMap 和 ConcurrentHashMap](http://www.codeceo.com/article/java-hashmap-concurrenthashmap.html)
+- [HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！](http://www.codeceo.com/article/java-hashmap-concurrenthashmap.html)

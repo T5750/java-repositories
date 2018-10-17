@@ -11,6 +11,8 @@
 
 ## `java.util.concurrent`
 - [ConcurrentHashMap](src/main/java/evangel/util/HashMap.md)
+- [CountDownLatch](src/main/java/evangel/util/concurrent/CountDownLatch.md)
+- [CyclicBarrier](src/main/java/evangel/util/concurrent/CountDownLatch.md)
 
 ## References
 - [Java Platform Standard Edition 7 Documentation](https://docs.oracle.com/javase/7/docs/)
