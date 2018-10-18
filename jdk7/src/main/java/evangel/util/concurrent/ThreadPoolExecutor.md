@@ -2,6 +2,14 @@
 
 ## `java.lang.concurrent`
 ### `ThreadPoolExecutor`
+>【强制】线程资源必须通过线程池提供，不允许在应用中自行显式创建线程。
+>说明：使用线程池的好处是减少在创建和销毁线程上所花的时间以及系统资源的开销，解决资源不足的问题。如果不使用线程池，有可能造成系统创建大量同类线程而导致消耗完内存或者“过度切换”的问题。
+
+简单来说使用线程池有以下几个目的：
+- 线程是稀缺资源，不能频繁的创建。
+- 解耦作用；线程的创建于执行完全分开，方便维护。
+- 应当将其放入一个池子中，可以给其他任务进行复用。
+
 ![structure-min](http://www.wailian.work/images/2018/10/18/structure-min.png)
 
 `ThreadPoolExecutor`类提供了四个构造方法：
@@ -57,15 +65,99 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
     private volatile ThreadFactory threadFactory;   // 线程工厂，用来创建线程
     private int largestPoolSize;   // 用来记录线程池中曾经出现过的最大线程数
     private long completedTaskCount;   // 用来记录已经执行完毕的任务个数
+    
+    public void execute(Runnable command) {
+    	if (command == null)
+    		throw new NullPointerException();
+    	int c = ctl.get(); // Step 1 获取当前线程池的状态。
+    	if (workerCountOf(c) < corePoolSize) { // Step 2 当前线程数量小于 coreSize 时创建一个新的线程运行。
+    		if (addWorker(command, true))
+    			return;
+    		c = ctl.get();
+    	}
+    	if (isRunning(c) && workQueue.offer(command)) { // Step 3 如果当前线程处于运行状态，并且写入阻塞队列成功。
+    		int recheck = ctl.get();
+    		if (! isRunning(recheck) && remove(command)) // Step 4 双重检查，再次获取线程状态；如果线程状态变了（非运行状态）就需要从阻塞队列移除任务，并尝试判断线程是否全部执行完毕。同时执行拒绝策略。
+    			reject(command);
+    		else if (workerCountOf(recheck) == 0) // Step 5 如果当前线程池为空就新创建一个线程并执行。
+    			addWorker(null, false);
+    	}
+    	else if (!addWorker(command, false)) // Step 6 如果在第三步的判断为非运行状态，尝试新建线程，如果失败则执行拒绝策略。
+    		reject(command);
+    }
+    
+    private boolean addWorker(Runnable firstTask, boolean core) {
+            retry:
+            for (;;) {
+                int c = ctl.get();
+                int rs = runStateOf(c);
+                // Check if queue empty only if necessary.
+                if (rs >= SHUTDOWN &&
+                    ! (rs == SHUTDOWN &&
+                       firstTask == null &&
+                       ! workQueue.isEmpty()))
+                    return false;
+                for (;;) {
+                    int wc = workerCountOf(c);
+                    if (wc >= CAPACITY ||
+                        wc >= (core ? corePoolSize : maximumPoolSize))
+                        return false;
+                    if (compareAndIncrementWorkerCount(c))
+                        break retry;
+                    c = ctl.get();  // Re-read ctl
+                    if (runStateOf(c) != rs)
+                        continue retry;
+                    // else CAS failed due to workerCount change; retry inner loop
+                }
+            }
+            boolean workerStarted = false;
+            boolean workerAdded = false;
+            Worker w = null;
+            try {
+                final ReentrantLock mainLock = this.mainLock;
+                w = new Worker(firstTask);
+                final Thread t = w.thread;
+                if (t != null) {
+                    mainLock.lock();
+                    try {
+                        // Recheck while holding lock.
+                        // Back out on ThreadFactory failure or if
+                        // shut down before lock acquired.
+                        int c = ctl.get();
+                        int rs = runStateOf(c);
+                        if (rs < SHUTDOWN ||
+                            (rs == SHUTDOWN && firstTask == null)) {
+                            if (t.isAlive()) // precheck that t is startable
+                                throw new IllegalThreadStateException();
+                            workers.add(w);
+                            int s = workers.size();
+                            if (s > largestPoolSize)
+                                largestPoolSize = s;
+                            workerAdded = true;
+                        }
+                    } finally {
+                        mainLock.unlock();
+                    }
+                    if (workerAdded) {
+                        t.start();
+                        workerStarted = true;
+                    }
+                }
+            } finally {
+                if (! workerStarted)
+                    addWorkerFailed(w);
+            }
+            return workerStarted;
+    }
     ```
 1. 线程池中的线程初始化
     ```
     public boolean prestartCoreThread() { // 初始化一个核心线程
-        return addIfUnderCorePoolSize(null); // 注意传进去的参数是null
+        return workerCountOf(ctl.get()) < corePoolSize && addWorker(null, true);
     }
     public int prestartAllCoreThreads() { // 初始化所有核心线程
         int n = 0;
-        while (addIfUnderCorePoolSize(null))// 注意传进去的参数是null
+        while (addWorker(null, true))
             ++n;
         return n;
     }
@@ -89,6 +181,7 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
 
 #### 示例
 - `ThreadPoolExecutorTest`
+- 优雅地关闭线程池，详见：`ThreadPoolUtil.shutdown()`
 
 #### 合理配置线程池的大小
 一般需要根据任务的类型来配置线程池大小：
@@ -96,6 +189,130 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
 - 如果是IO密集型任务，参考值可以设置为：2 * N*CPU*
 
 当然，这只是一个参考值，具体的设置还需要根据实际情况进行调整，比如可以先将线程池大小设置为参考值，再观察任务运行情况和系统负载、资源利用率来进行适当调整。
+
+#### SpringBoot使用线程池
+管理线程池：
+```
+@Configuration
+public class TreadPoolConfig {
+    /**
+     * 消费队列线程
+     */
+    @Bean(value = "consumerQueueThreadPool")
+    public ExecutorService buildConsumerQueueThreadPool(){
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNameFormat("consumer-queue-thread-%d").build();
+        ExecutorService pool = new ThreadPoolExecutor(5, 5, 0L, TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(5),namedThreadFactory,new ThreadPoolExecutor.AbortPolicy());
+        return pool ;
+    }
+}
+```
+使用时：
+```
+@Resource(name = "consumerQueueThreadPool")
+private ExecutorService consumerQueueThreadPool;
+
+@Override
+public void execute() {
+    //消费队列
+    for (int i = 0; i < 5; i++) {
+        consumerQueueThreadPool.execute(new ConsumerQueueThread());
+    }
+}
+```
+也可利用SpringBoot actuator组件来做线程池的监控。
+
+#### 线程池隔离
+如果我们很多业务都依赖于同一个线程池，当其中一个业务因为各种不可控的原因消耗了所有的线程，导致线程池全部占满。这样其他的业务也就不能正常运转了，这对系统的打击是巨大的。所以我们需要将线程池**进行隔离**。
+
+通常的做法是按照业务进行划分：
+>比如下单的任务用一个线程池，获取数据的任务用另一个线程池。这样即使其中一个出现问题把线程池耗尽，那也不会影响其他的任务运行。
+
+#### Hystrix隔离
+[Hystrix](https://github.com/Netflix/Hystrix)简单的应用：首先需要定义两个线程池，分别用于执行订单、处理用户。
+```
+/**
+ * Function:订单服务
+ */
+public class CommandOrder extends HystrixCommand<String> {
+    private final static Logger LOGGER = LoggerFactory.getLogger(CommandOrder.class);
+    private String orderName;
+    public CommandOrder(String orderName) {
+        super(Setter.withGroupKey(
+                //服务分组
+                HystrixCommandGroupKey.Factory.asKey("OrderGroup"))
+                //线程分组
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("OrderPool"))
+                //线程池配置
+                .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter()
+                        .withCoreSize(10)
+                        .withKeepAliveTimeMinutes(5)
+                        .withMaxQueueSize(10)
+                        .withQueueSizeRejectionThreshold(10000))
+                .andCommandPropertiesDefaults(
+                        HystrixCommandProperties.Setter()
+                                .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD))
+        )
+        ;
+        this.orderName = orderName;
+    }
+    @Override
+    public String run() throws Exception {
+        LOGGER.info("orderName=[{}]", orderName);
+        TimeUnit.MILLISECONDS.sleep(100);
+        return "OrderName=" + orderName;
+    }
+}
+/**
+ * Function:用户服务
+ */
+public class CommandUser extends HystrixCommand<String> {
+    private final static Logger LOGGER = LoggerFactory.getLogger(CommandUser.class);
+    private String userName;
+    public CommandUser(String userName) {
+        super(Setter.withGroupKey(
+                //服务分组
+                HystrixCommandGroupKey.Factory.asKey("UserGroup"))
+                //线程分组
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey("UserPool"))
+                //线程池配置
+                .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter()
+                        .withCoreSize(10)
+                        .withKeepAliveTimeMinutes(5)
+                        .withMaxQueueSize(10)
+                        .withQueueSizeRejectionThreshold(10000))
+                //线程池隔离
+                .andCommandPropertiesDefaults(
+                        HystrixCommandProperties.Setter()
+                                .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD))
+        )
+        ;
+        this.userName = userName;
+    }
+    @Override
+    public String run() throws Exception {
+        LOGGER.info("userName=[{}]", userName);
+        TimeUnit.MILLISECONDS.sleep(100);
+        return "userName=" + userName;
+    }
+}
+```
+模拟运行：
+```
+public static void main(String[] args) throws Exception {
+    CommandOrder commandPhone = new CommandOrder("手机");
+    CommandOrder command = new CommandOrder("电视");
+    //阻塞方式执行
+    String execute = commandPhone.execute();
+    LOGGER.info("execute=[{}]", execute);
+    //异步非阻塞方式
+    Future<String> queue = command.queue();
+    String value = queue.get(200, TimeUnit.MILLISECONDS);
+    LOGGER.info("value=[{}]", value);
+    CommandUser commandUser = new CommandUser("张三");
+    String name = commandUser.execute();
+    LOGGER.info("name=[{}]", name);
+}
+```
 
 ### `AbstractExecutorService`
 ```
