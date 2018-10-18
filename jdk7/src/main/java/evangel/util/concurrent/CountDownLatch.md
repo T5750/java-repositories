@@ -119,7 +119,23 @@ public int availablePermits() {return sync.getPermits();} // 得到可用的许�
     - `CyclicBarrier`还提供其他有用的方法，比如`getNumberWaiting`方法可以获得`CyclicBarrier`阻塞的线程数量。`isBroken`方法用来知道阻塞的线程是否被中断。
 - `Semaphore`其实和锁有点类似，它一般用于控制对某组资源的访问权限。
 
+### `Exchanger`
+`Exchanger`（交换者）是一个用于线程间协作的工具类。`Exchanger`用于进行线程间的数据交换。它提供一个同步点，在这个同步点两个线程可以交换彼此的数据。这两个线程通过`exchange`方法交换数据， 如果第一个线程先执行`exchange`方法，它会一直等待第二个线程也执行`exchange`，当两个线程都到达同步点时，这两个线程就可以交换数据，将本线程生产出来的数据传递给对方。
+
+`Exchanger`类中，重要的方法：
+```
+public V exchange(V x) throws InterruptedException { }
+public V exchange(V x, long timeout, TimeUnit unit)throws InterruptedException, TimeoutException { } // 设置最大等待时长
+```
+
+#### 应用场景
+`Exchanger`可以用于遗传算法，遗传算法里需要选出两个人作为交配对象，这时候会交换两人的数据，并使用交叉规则得出2个交配结果。`Exchanger`也可以用于校对工作。比如我们需要将纸制银流通过人工的方式录入成电子银行流水，为了避免错误，采用AB岗两人进行录入，录入到Excel之后，系统需要加载这两个Excel，并对这两个Excel数据进行校对，看看是否录入的一致。
+
+#### 示例
+- `ExchangerTest`
+
 ## References
 - [什么时候使用CountDownLatch](http://www.importnew.com/15731.html)
 - [并发工具类（二）同步屏障CyclicBarrier](http://ifeve.com/concurrency-cyclicbarrier/)
 - [Java并发编程：CountDownLatch、CyclicBarrier和Semaphore](http://www.cnblogs.com/dolphin0520/p/3920397.html)
+- [并发工具类（四）两个线程进行数据交换的Exchanger](http://ifeve.com/concurrency-exchanger/)
