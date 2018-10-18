@@ -1,4 +1,4 @@
-package evangel.lang.ref;
+package evangel.lang.ref.weakreference;
 
 public class Car {
 	private double price;

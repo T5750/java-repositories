@@ -1,13 +1,14 @@
 # Java™ Platform Standard Ed. 7
 
 ## `java.lang`
-- [ThreadLocal](src/main/java/evangel/lang/README.md)
+- [Thread](src/main/java/evangel/lang/Thread.md)
+- [ThreadLocal](src/main/java/evangel/lang/ThreadLocal.md)
 
 ### Enums
-- [Thread.State]
+- [Thread.State](src/main/java/evangel/lang/Thread.md)
 
 ## `java.lang.ref`
-- [WeakReference](src/main/java/evangel/lang/README.md)
+- [WeakReference](src/main/java/evangel/lang/ref/WeakReference.md)
 
 ## `java.util`
 - [HashMap](src/main/java/evangel/util/HashMap.md)

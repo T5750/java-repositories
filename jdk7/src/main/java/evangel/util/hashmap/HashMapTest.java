@@ -1,4 +1,4 @@
-package evangel.util;
+package evangel.util.hashmap;
 
 import java.util.HashMap;
 import java.util.UUID;
