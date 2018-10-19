@@ -12,6 +12,7 @@
 
 ## `java.util`
 - [HashMap](src/main/java/evangel/util/HashMap.md)
+- [LinkedHashMap](src/main/java/evangel/util/LinkedHashMap.md)
 
 ## `java.util.concurrent`
 - [ConcurrentHashMap](src/main/java/evangel/util/HashMap.md)
