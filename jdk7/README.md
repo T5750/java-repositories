@@ -25,6 +25,8 @@
 - [ThreadPoolExecutor.CallerRunsPolicy](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 - [ThreadPoolExecutor.DiscardOldestPolicy](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 - [ThreadPoolExecutor.DiscardPolicy](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
+- [Executors](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
+- [ScheduledThreadPoolExecutor](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 
 ###  Interfaces
 - [ExecutorService](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)

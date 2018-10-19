@@ -60,7 +60,6 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
     private volatile boolean allowCoreThreadTimeOut;   // 是否允许为核心线程设置存活时间
     private volatile int corePoolSize;     // 核心池的大小（即线程池中的线程数目大于这个参数时，提交的任务会被放进任务缓存队列）
     private volatile int maximumPoolSize;   // 线程池最大能容忍的线程数
-    private volatile int poolSize;       // 线程池中当前的线程数
     private volatile RejectedExecutionHandler handler; // 任务拒绝策略
     private volatile ThreadFactory threadFactory;   // 线程工厂，用来创建线程
     private int largestPoolSize;   // 用来记录线程池中曾经出现过的最大线程数
@@ -150,6 +149,10 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
             return workerStarted;
     }
     ```
+    - 如果当前线程池中的线程数目小于`corePoolSize`，则每来一个任务，就会创建一个线程去执行这个任务；
+    - 如果当前线程池中的线程数目>=`corePoolSize`，则每来一个任务，会尝试将其添加到任务缓存队列当中，若添加成功，则该任务会等待空闲线程将其取出去执行；若添加失败（一般来说是任务缓存队列已满），则会尝试创建新的线程去执行这个任务；
+    - 如果当前线程池中的线程数目达到`maximumPoolSize`，则会采取任务拒绝策略进行处理；
+    - 如果线程池中的线程数量大于`corePoolSize`时，如果某线程空闲时间超过`keepAliveTime`，线程将被终止，直至线程池中的线程数目不大于`corePoolSize`；如果允许为核心池中的线程设置存活时间，那么核心池中的线程空闲时间超过`keepAliveTime`，线程也会被终止。
 1. 线程池中的线程初始化
     ```
     public boolean prestartCoreThread() { // 初始化一个核心线程
@@ -175,13 +178,36 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
 1. 线程池的关闭
     - `shutdown()`：不会立即终止线程池，而是要等所有任务缓存队列中的任务都执行完后才终止，但再也不会接受新的任务
     - `shutdownNow()`：立即终止线程池，并尝试打断正在执行的任务，并且清空任务缓存队列，返回尚未执行的任务
+    - 优雅地关闭线程池，详见：`ThreadPoolUtil.shutdown()`
 1. 线程池容量的动态调整
     - `setCorePoolSize`：设置核心池大小
     - `setMaximumPoolSize`：设置线程池最大能创建的线程数目大小
 
 #### 示例
 - `ThreadPoolExecutorTest`
-- 优雅地关闭线程池，详见：`ThreadPoolUtil.shutdown()`
+- 使用`Executors`类中提供的几个静态方法来创建线程池：
+    ```
+    public static ExecutorService newFixedThreadPool(int nThreads, ThreadFactory threadFactory) {
+        return new ThreadPoolExecutor(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), threadFactory);
+    }
+    public static ExecutorService newSingleThreadExecutor(ThreadFactory threadFactory) {
+        return new FinalizableDelegatedExecutorService(new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), threadFactory));
+    }
+    public static ExecutorService newCachedThreadPool(ThreadFactory threadFactory) {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), threadFactory);
+    }
+    public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize, ThreadFactory threadFactory) {
+        return new ScheduledThreadPoolExecutor(corePoolSize, threadFactory);
+    }
+    // ScheduledThreadPoolExecutor.java
+    public ScheduledThreadPoolExecutor(int corePoolSize, ThreadFactory threadFactory) {
+        super(corePoolSize, Integer.MAX_VALUE, 0, TimeUnit.NANOSECONDS, new DelayedWorkQueue(), threadFactory);
+    }
+    ```
+    - `newFixedThreadPool`创建的线程池`corePoolSize`和`maximumPoolSize`值是相等的，它使用的`LinkedBlockingQueue`；
+    - `newSingleThreadExecutor`将`corePoolSize`和`maximumPoolSize`都设置为1，也使用的`LinkedBlockingQueue`；
+    - `newCachedThreadPool`将`corePoolSize`设置为0，将`maximumPoolSize`设置为`Integer.MAX_VALUE`，使用的`SynchronousQueue`，也就是说来了任务就创建线程运行，当线程空闲超过60秒，就销毁线程。
+    - `newScheduledThreadPool`，使用`DelayedWorkQueue`
 
 #### 合理配置线程池的大小
 一般需要根据任务的类型来配置线程池大小：
