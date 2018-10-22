@@ -54,7 +54,7 @@ public final void acquire(int arg) {
        selfInterrupt();
 }
 ```
-第一步是尝试获取锁(`tryAcquire(arg)`),这个也是由其子类实现：
+第一步是尝试获取锁(`tryAcquire(arg)`)，这个也是由其子类实现：
 ```
 protected final boolean tryAcquire(int acquires) {
 	final Thread current = Thread.currentThread();

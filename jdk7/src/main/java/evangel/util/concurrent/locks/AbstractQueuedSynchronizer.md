@@ -32,11 +32,11 @@ Node EXCLUSIVE | 标记当前节点是独占模式
 #### API说明
 方法名称 | 描述
 ----|------
-protected boolean tryAcquire(int arg) | 排它的获取这个状态。这个方法的实现需要查询当前状态是否允许获取，然后再进行获取（使用compareAndSetState来做）状态。
-protected boolean tryRelease(int arg)  | 释放状态。
-protected int tryAcquireShared(int arg) | 共享的模式下获取状态。
-protected boolean tryReleaseShared(int arg) | 共享的模式下释放状态。
-protected boolean isHeldExclusively() | 在排它模式下，状态是否被占用。
+protected boolean tryAcquire(int arg) | 独占模式获取状态。需要查询当前状态是否允许获取，然后再进行获取（使用compareAndSetState来做）状态。
+protected boolean tryRelease(int arg)  | 独占模式释放状态。
+protected int tryAcquireShared(int arg) | 共享模式获取状态。
+protected boolean tryReleaseShared(int arg) | 共享模式释放状态。
+protected boolean isHeldExclusively() | 在独占模式下，状态是否被占用。
 
 实现这些方法必须是非阻塞而且是线程安全的，推荐使用该同步器的父类`java.util.concurrent.locks.AbstractOwnableSynchronizer`来设置当前的线程。
 
@@ -311,9 +311,38 @@ private boolean doAcquireNanos(int arg, long nanosTimeout) throws InterruptedExc
 }
 ```
 
+#### Tips
+- `ReentrantLock`，`Semaphore`，`CountDownLatch`都有一个内部类`Sync`，都是继承自`AbstractQueuedSynchronizer`。
+- `AQS`的核心是通过一个共享变量来同步状态，变量的状态由子类去维护，而`AQS`框架做的是：
+    - 线程阻塞队列的维护
+    - 线程阻塞和唤醒
+- `acquire`方法用来获取锁，返回`true`说明线程获取成功继续执行，一旦返回`false`则线程加入到等待队列中，等待被唤醒，`release`方法用来释放锁。 一般来说实现的时候这两个方法被封装为`lock`和`unlock`方法。
+- `CLH lock queue`其实就是一个FIFO的队列，队列中的每个结点（线程）只要等待其前继释放锁就可以了。
+- 通常用`CLH lock queue`来实现自旋锁，所谓自旋锁简单来说就是线程通过循环来等待而不是睡眠。自旋的好处是线程不需要睡眠和唤醒，减小了系统调用的开销。
+- `LockSupport`的`park/unpark`和`Object`的`wait/notify`：
+    - 面向的对象不同；
+    - 跟`Object`的`wait/notify`不同`LockSupport`的`park/unpark`不需要获取对象的监视器；
+    - 实现的机制不同，因此两者没有交集。
+    ```
+    // 1次unpark给线程1个许可
+    LockSupport.unpark(Thread.currentThread());
+    // 如果线程非阻塞重复调用没有任何效果
+    LockSupport.unpark(Thread.currentThread());
+    // 消耗1个许可
+    LockSupport.park(Thread.currentThread());
+    // 阻塞
+    LockSupport.park(Thread.currentThread());
+    ```
+- 对于`InterruptedException`如何处理最重要的一个原则就是**Don't swallow interrupts**，一般两种方法：
+    - 继续设置interrupted status
+    - 抛出新的`InterruptedException`
+
 #### 示例
-- `TwinsLockTest`
+- `TwinsLockTest`，`SimpleLock`，`ClhSpinLock`，`LockSupportTest`
 
 ## References
 - [AbstractQueuedSynchronizer的介绍和原理分析](http://ifeve.com/introduce-abstractqueuedsynchronizer/)
 - [Java并发包源码学习之AQS框架（四）AbstractQueuedSynchronizer源码分析](https://www.cnblogs.com/zhanjindong/p/java-concurrent-package-aqs-AbstractQueuedSynchronizer.html)
+- [Java并发包源码学习之AQS框架（一）概述](http://zhanjindong.com/2015/03/10/java-concurrent-package-aqs-overview)
+- [Java并发包源码学习之AQS框架（二）CLH lock queue和自旋锁](http://zhanjindong.com/2015/03/11/java-concurrent-package-aqs-clh-and-spin-lock)
+- [Java并发包源码学习之AQS框架（三）LockSupport和interrupt](http://zhanjindong.com/2015/03/14/java-concurrent-package-aqs-locksupport-and-thread-interrupt)
