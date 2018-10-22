@@ -29,12 +29,16 @@
 - [Executors](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 - [ScheduledThreadPoolExecutor](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 
-###  Interfaces
+### Interfaces
 - [ExecutorService](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 - [Executor](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 
 ### Enums
 - [TimeUnit](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
+
+## `java.util.concurrent.locks`
+- [ReentrantLock](src/main/java/evangel/util/concurrent/locks/ReentrantLock.md)
+- [AbstractQueuedSynchronizer](src/main/java/evangel/util/concurrent/locks/AbstractQueuedSynchronizer.md)
 
 ## References
 - [Java Platform Standard Edition 7 Documentation](https://docs.oracle.com/javase/7/docs/)
