@@ -39,12 +39,14 @@ Redis是以key-value store存储，data structure service数据结构服务器�
 1. 安装gcc，把redis-3.0.0-rc2.tar.gz放到/usr/local文件夹下
 1. 解压`tar -zxvf redis-3.0.0-rc2.tar.gz`
 1. 进入redis-3.0.0目录下，进行编译`make`
-1. 键入src安装`make install`，验证（查看src目录有redis-server、redis-cli即可）
+1. 键入src安装`make install`，验证（`ll`查看src目录有redis-server、redis-cli即可）
 1. 建立2个文件夹存放Redis命令和配置文件
     - `mkdir -p /usr/local/redis/etc`
     - `mkdir -p /usr/local/redis/bin`
-1. 把redis-3.0.0下的redis.conf移动到/usr/local/redis/etc下，`cp redis.conf /usr/local/redis/etc/`
-1. 把redis-3.0.0/src里的mkreleasehdr.sh，命令：`mv`
+1. 把redis-3.0.0下的redis.conf移动到/usr/local/redis/etc下，
+    - `cp redis.conf /usr/local/redis/etc/`
+1. 把redis-3.0.0/src里的mkreleasehdr.sh、redis-benchmark、redis-check-aof、redis-check-dump、redis-cli、redis-server文件移动到bin下，命令：
+    - `mv mkreleasehdr.sh redis-benchmark redis-check-aof redis-check-dump redis-cli redis-server /usr/local/redis/bin`
 1. 启动时指定配置文件：`./redis-server /usr/local/redis/etc/redis.conf`（注意要使用后台启动，修改redis.conf里的daemonize改为yes）
 1. 验证启动是否成功：
     - `ps -ef | grep redis`查看是否有Redis服务，或查看端口：`netstat -tunpl | grep 6379`
@@ -53,3 +55,24 @@ Redis是以key-value store存储，data structure service数据结构服务器�
         1. `pkill redis-server`
         1. kill 进程号
         1. `/usr/local/redis/bin/redis-cli shutdown`
+
+## 2.1 String类型（一）
+Redis一共分为五种基本数据类型：`String`、`Hash`、`List`、`Set`、`ZSet`
+
+`String`类型是包含很多种类型的特殊类型，并且是二进制安全的。
+
+`set`和`get`方法：
+- 设置值：`set name bhz`
+- 取值：`get name`
+- 删除值：`del name`
+
+使用`setnx`（not exist）
+- name如果不存在进行设置，存在就不需要进行设置了，返回0
+
+使用`setex`（expired）
+- `setex color 10 red`设置color的有效期为10秒，10秒后返回`nil`（在Redis里`nil`表示空）
+
+使用`setrange`替换字符串：
+- `set email 123@gmail.com`
+- `setrange email 10 ww`（10表示从第几位开始替换，后面跟上替换的字符串）
+

@@ -1,8 +1,10 @@
-# databases
+# Databases
 
 ## Runtime Environment
 - [Java 6](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
+- [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
 - [DB2 9.7](https://www.ibm.com/analytics/us/en/technology/db2/db2-linux-unix-windows.html)
+- [Redis 3.0.0](https://redis.io/download)
 
 ## Procedure Features
 * 允许标准组件式编程
