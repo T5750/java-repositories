@@ -1,5 +1,9 @@
 # Java™ Platform Standard Ed. 7
 
+## Keywords
+- [synchronized](src/main/java/evangel/keyword/synchronized.md)
+- [volatile](src/main/java/evangel/keyword/volatile.md)
+
 ## `java.lang`
 - [Thread](src/main/java/evangel/lang/Thread.md)
 - [ThreadLocal](src/main/java/evangel/lang/ThreadLocal.md)
