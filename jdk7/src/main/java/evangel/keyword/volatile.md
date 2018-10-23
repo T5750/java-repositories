@@ -26,7 +26,7 @@ _`volatile`修饰之后并不是让线程直接从主内存中获取数据，依
 ```
 int a=10 ;// 1
 int b=20 ;// 2
-int c= a+b ;// 3	
+int c= a+b ;// 3
 ```
 一段特别简单的代码，理想情况下它的执行顺序是：`1>2>3`。但有可能经过JVM优化之后的执行顺序变为了`2>1>3`。
 
@@ -60,8 +60,24 @@ public class Singleton {
 ### 示例
 - `VolatileTest`，`VolatileInc`，`Singleton`
 
+### 术语定义
+术语 | 英文单词 | 描述
+---|---|-----
+共享变量 |  | 在多个线程之间能够被共享的变量被称为共享变量。共享变量包括所有的实例变量，静态变量和数组元素。他们都被存放在堆内存中，`volatile`只作用于共享变量。
+内存屏障 | Memory Barriers | 是一组处理器指令，用于实现对内存操作的顺序限制。
+缓冲行 | Cache line | 缓存中可以分配的最小存储单位。处理器填写缓存线时会加载整个缓存线，需要使用多个主内存读周期。
+原子操作 | Atomic operations | 不可中断的一个或一系列操作。
+缓存行填充 | cache line fill | 当处理器识别到从内存中读取操作数是可缓存的，处理器读取整个缓存行到适当的缓存（L1，L2，L3的或所有）
+缓存命中 | cache hit | 如果进行高速缓存行填充操作的内存位置仍然是下次处理器访问的地址时，处理器从缓存中读取操作数，而不是从内存。
+写命中 | write hit | 当处理器将操作数写回到一个内存缓存的区域时，它首先会检查这个缓存的内存地址是否在缓存行中，如果存在一个有效的缓存行，则处理器将这个操作数写回到缓存，而不是写回到内存，这个操作被称为写命中。
+写缺失 | write misses the cache | 一个有效的缓存行被写入到不存在的内存区域。
+
+### 为什么要使用`volatile`
+`volatile`变量修饰符如果使用恰当的话，它比`synchronized`的**使用和执行成本会更低**，因为它不会引起线程上下文的切换和调度。
+
 ### 总结
 `volatile`在Java并发中用的很多，比如像`atomic`包中的`value`、以及`AbstractQueuedLongSynchronizer`中的`state`都是被定义为`volatile`来用于保证内存可见性。
 
 ## References
-- [你应该知道的 volatile 关键字](https://crossoverjie.top/2018/03/09/volatile/)	
+- [你应该知道的 volatile 关键字](https://crossoverjie.top/2018/03/09/volatile/)
+- [聊聊并发（一）深入分析Volatile的实现原理](http://ifeve.com/volatile/)
