@@ -108,7 +108,7 @@ public int availablePermits() {return sync.getPermits();} // 得到可用的许�
 `Semaphore`可以用于做流量控制，特别公用资源有限的应用场景，比如数据库连接。假如有一个需求，要读取几万个文件的数据，因为都是IO密集型任务，我们可以启动几十个线程并发的读取，但是如果读到内存后，还需要存储到数据库中，而数据库的连接数只有10个，这时我们必须控制只有十个线程同时获取数据库连接保存数据，否则会报错无法获取数据库连接。这个时候，我们就可以使用`Semaphore`来做流控。
 
 #### 示例
-- `SemaphoreTest`
+- `SemaphoreTest`，`SemaphoreProducerConsumer`
 
 ### 总结
 - `CountDownLatch`和`CyclicBarrier`都能够实现线程之间的等待，只不过它们侧重点不同：

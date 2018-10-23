@@ -55,7 +55,7 @@ JVM是通过进入、退出对象监视器(`Monitor`)来实现对方法、同步
 >如果某个锁自旋很少成功获得，那么下一次就会减少自旋。
 
 ### 示例
-- `SynchronizedTest`
+- `SynchronizedTest`，`SynchronizedProducerConsumer`
 
 ### 锁的优缺点对比
 
