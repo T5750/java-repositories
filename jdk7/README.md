@@ -40,6 +40,12 @@
 ### Enums
 - [TimeUnit](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 
+## `java.util.concurrent.atomic`
+- [AtomicInteger](src/main/java/evangel/util/concurrent/atomic/atomic.md)
+- [AtomicIntegerArray](src/main/java/evangel/util/concurrent/atomic/atomic.md)
+- [AtomicIntegerFieldUpdater](src/main/java/evangel/util/concurrent/atomic/atomic.md)
+- [AtomicReference](src/main/java/evangel/util/concurrent/atomic/atomic.md)
+
 ## `java.util.concurrent.locks`
 - [ReentrantLock](src/main/java/evangel/util/concurrent/locks/ReentrantLock.md)
 - [AbstractQueuedSynchronizer](src/main/java/evangel/util/concurrent/locks/AbstractQueuedSynchronizer.md)
