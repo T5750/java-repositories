@@ -41,10 +41,10 @@
 - [TimeUnit](src/main/java/evangel/util/concurrent/ThreadPoolExecutor.md)
 
 ## `java.util.concurrent.atomic`
-- [AtomicInteger](src/main/java/evangel/util/concurrent/atomic/atomic.md)
-- [AtomicIntegerArray](src/main/java/evangel/util/concurrent/atomic/atomic.md)
-- [AtomicIntegerFieldUpdater](src/main/java/evangel/util/concurrent/atomic/atomic.md)
-- [AtomicReference](src/main/java/evangel/util/concurrent/atomic/atomic.md)
+- [AtomicInteger](src/main/java/evangel/util/concurrent/atomic.md)
+- [AtomicIntegerArray](src/main/java/evangel/util/concurrent/atomic.md)
+- [AtomicIntegerFieldUpdater](src/main/java/evangel/util/concurrent/atomic.md)
+- [AtomicReference](src/main/java/evangel/util/concurrent/atomic.md)
 
 ## `java.util.concurrent.locks`
 - [ReentrantLock](src/main/java/evangel/util/concurrent/locks/ReentrantLock.md)
@@ -52,6 +52,7 @@
 
 ## Others
 - [原子操作](src/main/java/evangel/keyword/atomicOperation.md)
+- [线程通信](src/main/java/evangel/lang/thread/threadCommunication.md)
 
 ## References
 - [Java Platform Standard Edition 7 Documentation](https://docs.oracle.com/javase/7/docs/)
