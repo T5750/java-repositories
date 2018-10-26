@@ -68,13 +68,11 @@ public HashMap() {
 }
 public HashMap(int initialCapacity, float loadFactor) {
     if (initialCapacity < 0)
-        throw new IllegalArgumentException("Illegal initial capacity: " +
-                                           initialCapacity);
+        throw new IllegalArgumentException("Illegal initial capacity: " + initialCapacity);
     if (initialCapacity > MAXIMUM_CAPACITY)
         initialCapacity = MAXIMUM_CAPACITY;
     if (loadFactor <= 0 || Float.isNaN(loadFactor))
-        throw new IllegalArgumentException("Illegal load factor: " +
-                                           loadFactor);
+        throw new IllegalArgumentException("Illegal load factor: " + loadFactor);
     this.loadFactor = loadFactor;
     threshold = initialCapacity;
     init();
@@ -96,13 +94,13 @@ public V put(K key, V value) {
     if (table == EMPTY_TABLE) {
         inflateTable(threshold);
     }
-    if (key == null)
+    if (key == null) // （1）检查key是否为空
         return putForNullKey(value);
     int hash = hash(key);
-    int i = indexFor(hash, table.length);
-    for (Entry<K,V> e = table[i]; e != null; e = e.next) {
+    int i = indexFor(hash, table.length); // （2）计算key的hashcode和在table里面的index（位置）
+    for (Entry<K,V> e = table[i]; e != null; e = e.next) { // （3）找到table上面的元素
         Object k;
-        if (e.hash == hash && ((k = e.key) == key || key.equals(k))) {
+        if (e.hash == hash && ((k = e.key) == key || key.equals(k))) { // （4）遍历链表，如果没有就put进去，有就更新
             V oldValue = e.value;
             e.value = value;
             e.recordAccess(this);
@@ -143,7 +141,7 @@ void createEntry(int hash, K key, V value, int bucketIndex) {
 ##### `get` 方法
 ```
 public V get(Object key) {
-    if (key == null)
+    if (key == null) // （1）当key为空的时候，使用特定的方法来get这个元素
         return getForNullKey();
     Entry<K,V> entry = getEntry(key);
     return null == entry ? null : entry.getValue();
@@ -152,13 +150,12 @@ final Entry<K,V> getEntry(Object key) {
     if (size == 0) {
         return null;
     }
-    int hash = (key == null) ? 0 : hash(key);
-    for (Entry<K,V> e = table[indexFor(hash, table.length)];
+    int hash = (key == null) ? 0 : hash(key); // （2）计算key 的hashcode，然后再使用hash方法。
+    for (Entry<K,V> e = table[indexFor(hash, table.length)]; // （3）找到在table上面的位置
          e != null;
          e = e.next) {
         Object k;
-        if (e.hash == hash &&
-            ((k = e.key) == key || (key != null && key.equals(k))))
+        if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k)))) // （4）遍历链表，找到相应的元素（除了对比hashcode，还需要通过equals方法的对比）
             return e;
     }
     return null;
@@ -184,8 +181,7 @@ final Entry<K,V> getEntry(Object key) {
 
 ##### `put` 方法
 ```
-final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
-                   boolean evict) {
+final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
 	Node<K,V>[] tab; Node<K,V> p; int n, i;
 	if ((tab = table) == null || (n = tab.length) == 0) // Step 1
 		n = (tab = resize()).length;
@@ -193,8 +189,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 		tab[i] = newNode(hash, key, value, null);
 	else {
 		Node<K,V> e; K k;
-		if (p.hash == hash &&
-			((k = p.key) == key || (key != null && key.equals(k)))) // Step 3
+		if (p.hash == hash && ((k = p.key) == key || (key != null && key.equals(k)))) // Step 3
 			e = p;
 		else if (p instanceof TreeNode) // Step 4
 			e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
@@ -206,8 +201,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 						treeifyBin(tab, hash);
 					break;
 				}
-				if (e.hash == hash && // Step 7
-					((k = e.key) == key || (key != null && key.equals(k))))
+				if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k)))) // Step 7
 					break;
 				p = e;
 			}
@@ -245,8 +239,7 @@ public V get(Object key) {
 }
 final Node<K,V> getNode(int hash, Object key) {
     Node<K,V>[] tab; Node<K,V> first, e; int n; K k;
-    if ((tab = table) != null && (n = tab.length) > 0 &&
-        (first = tab[(n - 1) & hash]) != null) {
+    if ((tab = table) != null && (n = tab.length) > 0 && (first = tab[(n - 1) & hash]) != null) {
         if (first.hash == hash && // always check first node
             ((k = first.key) == key || (key != null && key.equals(k))))
             return first;
@@ -254,8 +247,7 @@ final Node<K,V> getNode(int hash, Object key) {
             if (first instanceof TreeNode)
                 return ((TreeNode<K,V>)first).getTreeNode(hash, key);
             do {
-                if (e.hash == hash &&
-                    ((k = e.key) == key || (key != null && key.equals(k))))
+                if (e.hash == hash && ((k = e.key) == key || (key != null && key.equals(k))))
                     return e;
             } while ((e = e.next) != null);
         }
@@ -368,8 +360,7 @@ public V put(K key, V value) {
 首先是通过`key`定位到`Segment`，之后在对应的`Segment`中进行具体的`put`。
 ```
 final V put(K key, int hash, V value, boolean onlyIfAbsent) {
-    HashEntry<K,V> node = tryLock() ? null :
-        scanAndLockForPut(key, hash, value);
+    HashEntry<K,V> node = tryLock() ? null : scanAndLockForPut(key, hash, value);
     V oldValue;
     try {
         HashEntry<K,V>[] tab = table;
@@ -378,8 +369,7 @@ final V put(K key, int hash, V value, boolean onlyIfAbsent) {
         for (HashEntry<K,V> e = first;;) {
             if (e != null) {
                 K k;
-                if ((k = e.key) == key ||
-                    (e.hash == hash && key.equals(k))) {
+                if ((k = e.key) == key || (e.hash == hash && key.equals(k))) {
                     oldValue = e.value;
                     if (!onlyIfAbsent) {
                         e.value = value;
@@ -438,8 +428,7 @@ private HashEntry<K,V> scanAndLockForPut(K key, int hash, V value) {
 			lock();
 			break;
 		}
-		else if ((retries & 1) == 0 &&
-				 (f = entryForHash(this, hash)) != first) {
+		else if ((retries & 1) == 0 && (f = entryForHash(this, hash)) != first) {
 			e = first = f; // re-traverse if entry changed
 			retries = -1;
 		}
@@ -451,8 +440,7 @@ private HashEntry<K,V> scanAndLockForPut(K key, int hash, V value) {
 1. 如果重试的次数达到了`MAX_SCAN_RETRIES`则改为阻塞锁获取，保证能获取成功。
 ```
 final V put(K key, int hash, V value, boolean onlyIfAbsent) {
-	HashEntry<K,V> node = tryLock() ? null :
-		scanAndLockForPut(key, hash, value); // Step 1
+	HashEntry<K,V> node = tryLock() ? null : scanAndLockForPut(key, hash, value); // Step 1
 	V oldValue;
 	try {
 		HashEntry<K,V>[] tab = table;
@@ -461,8 +449,7 @@ final V put(K key, int hash, V value, boolean onlyIfAbsent) {
 		for (HashEntry<K,V> e = first;;) {
 			if (e != null) {
 				K k;
-				if ((k = e.key) == key || // Step 2
-					(e.hash == hash && key.equals(k))) {
+				if ((k = e.key) == key || (e.hash == hash && key.equals(k))) { // Step 2
 					oldValue = e.value;
 					if (!onlyIfAbsent) {
 						e.value = value;
@@ -507,11 +494,8 @@ public V get(Object key) {
     HashEntry<K,V>[] tab;
     int h = hash(key);
     long u = (((h >>> segmentShift) & segmentMask) << SSHIFT) + SBASE;
-    if ((s = (Segment<K,V>)UNSAFE.getObjectVolatile(segments, u)) != null &&
-        (tab = s.table) != null) {
-        for (HashEntry<K,V> e = (HashEntry<K,V>) UNSAFE.getObjectVolatile
-                 (tab, ((long)(((tab.length - 1) & h)) << TSHIFT) + TBASE);
-             e != null; e = e.next) {
+    if ((s = (Segment<K,V>)UNSAFE.getObjectVolatile(segments, u)) != null && (tab = s.table) != null) {
+        for (HashEntry<K,V> e = (HashEntry<K,V>) UNSAFE.getObjectVolatile(tab, ((long)(((tab.length - 1) & h)) << TSHIFT) + TBASE); e != null; e = e.next) {
             K k;
             if ((k = e.key) == key || (e.hash == h && key.equals(k)))
                 return e.value;
@@ -567,8 +551,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 		if (tab == null || (n = tab.length) == 0) // Step 2
 			tab = initTable();
 		else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) { // Step 3
-			if (casTabAt(tab, i, null,
-						 new Node<K,V>(hash, key, value, null)))
+			if (casTabAt(tab, i, null, new Node<K,V>(hash, key, value, null)))
 				break;                   // no lock when adding to empty bin
 		}
 		else if ((fh = f.hash) == MOVED) // Step 4
@@ -581,9 +564,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 						binCount = 1;
 						for (Node<K,V> e = f;; ++binCount) {
 							K ek;
-							if (e.hash == hash &&
-								((ek = e.key) == key ||
-								 (ek != null && key.equals(ek)))) {
+							if (e.hash == hash && ((ek = e.key) == key || (ek != null && key.equals(ek)))) {
 								oldVal = e.val;
 								if (!onlyIfAbsent)
 									e.val = value;
@@ -591,8 +572,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 							}
 							Node<K,V> pred = e;
 							if ((e = e.next) == null) {
-								pred.next = new Node<K,V>(hash, key,
-														  value, null);
+								pred.next = new Node<K,V>(hash, key, value, null);
 								break;
 							}
 						}
@@ -600,8 +580,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 					else if (f instanceof TreeBin) {
 						Node<K,V> p;
 						binCount = 2;
-						if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
-													   value)) != null) {
+						if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key, value)) != null) {
 							oldVal = p.val;
 							if (!onlyIfAbsent)
 								p.val = value;
@@ -634,8 +613,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 public V get(Object key) {
 	Node<K,V>[] tab; Node<K,V> e, p; int n, eh; K ek;
 	int h = spread(key.hashCode());
-	if ((tab = table) != null && (n = tab.length) > 0 &&
-		(e = tabAt(tab, (n - 1) & h)) != null) {
+	if ((tab = table) != null && (n = tab.length) > 0 && (e = tabAt(tab, (n - 1) & h)) != null) {
 		if ((eh = e.hash) == h) {
 			if ((ek = e.key) == key || (ek != null && key.equals(ek)))
 				return e.val;
@@ -643,8 +621,7 @@ public V get(Object key) {
 		else if (eh < 0)
 			return (p = e.find(h, key)) != null ? p.val : null;
 		while ((e = e.next) != null) {
-			if (e.hash == h &&
-				((ek = e.key) == key || (ek != null && key.equals(ek))))
+			if (e.hash == h && ((ek = e.key) == key || (ek != null && key.equals(ek))))
 				return e.val;
 		}
 	}
@@ -656,5 +633,19 @@ public V get(Object key) {
 - 就不满足那就按照链表的方式遍历获取值。
 >1.8在1.7的数据结构上做了大的改动，采用红黑树之后可以保证查询效率（`O(logn)`），甚至取消了`ReentrantLock`改为了`synchronized`，这样可以看出在新版的JDK中对`synchronized`优化是很到位的。
 
+#### 示例
+- `HashMapTest`，`HashMapDemo`，`HashMapKeyTest`，`HashMapResizeTest`
+
+#### hash碰撞
+两个对象的`key`的`hashcode`是一样的，这个时候怎么`get`它的`value`呢？答案是通过`equals`遍历`table`那个位置上面的`Entry`链表。
+
+##### 出现情景
+- 一般会出现在大的数据情况之下
+- hashcode的生成方法唯一性较弱（比如人为生产的hashcode）
+
+##### 示例
+- `HashCollisionTest`
+
 ## References
 - [HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！](http://www.codeceo.com/article/java-hashmap-concurrenthashmap.html)
+- [介绍HashMap的工作原理-hash碰撞](https://blog.csdn.net/raylee2007/article/details/50449742)

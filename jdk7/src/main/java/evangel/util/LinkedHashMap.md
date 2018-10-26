@@ -131,7 +131,7 @@ public void clear() {
 ```
 
 #### 示例
-- `LinkedHashMapTest`
+- `LinkedHashMapTest`，`LinkedHashMapDemo`
 
 #### 总结
 总的来说`LinkedHashMap`其实就是对`HashMap`进行了拓展，使用了双向链表来保证了顺序性。
