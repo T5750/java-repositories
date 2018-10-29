@@ -56,27 +56,22 @@ Redis是以key-value store存储，data structure service数据结构服务器�
         1. kill 进程号
         1. `/usr/local/redis/bin/redis-cli shutdown`
 
-## 2.1 String类型（一）
+## 2.1 String类型
 Redis一共分为五种基本数据类型：`String`、`Hash`、`List`、`Set`、`ZSet`
 
 `String`类型是包含很多种类型的特殊类型，并且是二进制安全的。
 
-`set`和`get`方法：
-- 设置值：`set name bhz`
-- 取值：`get name`
+- `set`和`get`方法：
+    - 设置值：`set name bhz`
+    - 取值：`get name`
 - 删除值：`del name`
-
-使用`setnx`（not exist）
-- name如果不存在进行设置，存在就不需要进行设置了，返回0
-
-使用`setex`（expired）
-- `setex color 10 red`设置color的有效期为10秒，10秒后返回`nil`（在Redis里`nil`表示空）
-
-使用`setrange`替换字符串：
-- `set email 123@gmail.com`
-- `setrange email 10 ww`（10表示从第几位开始替换，后面跟上替换的字符串）
-
-## 2.1 String类型（二）
+- 使用`setnx`（not exist）
+    - name如果不存在进行设置，存在就不需要进行设置了，返回0
+- 使用`setex`（expired）
+    - `setex color 10 red`设置color的有效期为10秒，10秒后返回`nil`（在Redis里`nil`表示空）
+- 使用`setrange`替换字符串：
+    - `set email 123@gmail.com`
+    - `setrange email 10 ww`（10表示从第几位开始替换，后面跟上替换的字符串）
 - 一次性设置多个和获取多个值的`mset`、`mget`方法：
     - `mset key1 hbz key2 bai key3 28`
     - `mget key1 key2 key3`方法
@@ -104,7 +99,7 @@ Hash类型是String类型和field和value的映射表，或者说一个String集
 - `hvals`：返回hash的所有value
 - `hgetall`：返回hash里所有的key和value
 
-## 2.3 List类型（一）
+## 2.3 List类型
 List类型是一个链表结构的集合，其主要功能`push`、`pop`、获取元素等。更详细地说，List类型是一个双端链表的结构，我们可以通过相关操作，进行集合的头部或者尾部添加删除元素，List的设计非常精巧，既可以作为栈，又可以作为队列。满足绝大多数需求。
 - `lpush`：从头部加入元素（栈），先进后出
     - `lpush list1 "hello" lpush list1 "world"`
@@ -114,25 +109,92 @@ List类型是一个链表结构的集合，其主要功能`push`、`pop`、获�
     - `lrange list2 0 -1`
 - `linsert`：插入元素
     - `linsert list3 before [集合的元素] [插入的元素]`
-
-## 2.3 List类型（二）
 - `lset`：将指定下标的元素替换
 - `lrem`：删除元素，返回删除的个数
-
-## 2.3 List类型（三）
 - `ltrim`：保留指定key的值范围内的数据
 - `lpop`：从list的头部删除元素，并返回删除元素
 - `rpop`：从list的尾部删除元素，并返回删除元素
-
-## 2.3 List类型（四）
 - `rpoplpush`：第一步从尾部删除元素，然后第二步从头部加入元素
 - `lindex`：返回名称为key的list中index位置的元素
 - `llen`：返回元素的个数
 
-## 2.4 set类型和zset类型（一）
-set集合是String类型的无序集合，set是通过hashtable实现的，对集合我们可以取交集、并集、差集。
-- `sadd`：
-- `srem`：
-- `spop`：
-- `sdiff`：
-- `sdiffstore`：
+## 2.4 set类型和zset类型
+set集合是String类型的无序集合，set是通过Hashtable实现的，对集合我们可以取交集、并集、差集。
+- `sadd`：向名称为key的set中添加元素，set集合不允许重复元素
+- `smembers`查看set集合的元素
+- `srem`：删除set集合元素
+- `spop`：随机返回删除的key
+- `sdiff`：返回两个集合的不同元素（哪个集合在前面就以哪个集合为标准）
+- `sdiffstore`：将返回的不同元素存储到另一个集合里
+- `sinter`：返回集合的交集
+- `sinterstore`：返回交集结果，存入set3中
+- `sunion`：取并集
+- `sunionstore`：取得并集，存入set3中
+- `smove`：从一个set集合移动到另一个set集合里（相当于剪切复制）
+- `scard`：查看集合里元素个数
+- `sismember`：判断某元素是否为集合中的元素
+    - 返回1代表是集合中的元素，0代表不是
+- `srandmember`：随机返回一个预算预算元素
+
+zset类型
+- `zadd`：向有序集合中添加一个元素，该元素如果存在，则更新顺序
+    - 在重复插入的时候，会根据顺序属性更新
+- `zrem`：删除名称为key的zset中的元素member
+- `zincrby`：已指定值去自动递增或者减少，用法和`incrby`类似
+- `zrangebyscore`：找到指定区间范围的数据进行返回
+- `zremrangebyrank`：删除1到1（只删除索引1）
+- `zremrangebyscore`：删除指定序号
+- `zrank`：返回排序索引，从小到大排序（升序排序之后再找索引）
+    - 注意：一个是顺序号，一个是索引号，`zrank`返回的是索引
+- `zrevrank`：返回排序索引，从大到小排序（降序排序之后再找索引）
+- `zrangebyscore zset1 2 3 withscores`：找到指定区间范围的数据进行返回
+- `zcard`：返回集合里所有元素的个数
+- `zcount`：返回集合中score在给定区间中的数量
+- `zremrangebyrank zset [from] [to]`：删除索引
+- `zremrangebyscore zset [from] [to]`：删除指定序号
+
+## 3.1 Redis高级命令及特性
+- `keys *`：返回满足的所有键（可以模糊匹配）
+- `exists`：是否存在指定的key
+- `expire`：设置某个key的过期时间，使用`ttl`查看剩余时间
+- `persist`：取消过期时间
+- `select`：选择数据库，数据库从0到15（一共16个数据库）默认进入的是0数据库
+- `move [key] [数据库下标]`：将当前数据库中的key，转移到其它数据库中
+- `randomkey`：随机返回数据库里的一个key
+- `rename`：重命名key
+- `echo`：打印命令
+- `dbsize`：查看数据库的key数量
+- `info`：获取数据库信息
+- `config get`：实时传存收到的请求（返回相关的配置信息）
+    - `config get *`：返回所有配置
+- `flushdb`：清空当前数据库
+- `flushdball`：清空所有数据库
+
+## 3.2 Redis的安全性
+- `redis.conf`文件，设置密码：
+```
+#requirepass foobared
+requirepass ***
+```
+- 重启服务器：`pkill redis-server`
+- 直接登录授权：`/usr/local/redis/bin/redis-cli -a bhz`
+
+## 3.3 主从复制
+主从复制：
+1. master可以拥有多个slave
+1. 多个slave可以连接同一个master外，还可以连接到其它的slave
+1. 主从复制不会阻塞master。在同步数据时，master可以继续处理client请求
+1. 提供系统的伸缩性
+
+主从复制过程：
+1. slave和master建立连接，发送sync同步命令
+1. master会开启一个后台进程，将数据库快照保存到文件中，同时master主进程会开始收集新的写命令并缓存
+1. 后台完成保存后，就将文件发送给slave
+1. slave将此文件保存到硬盘上
+
+主从复制配置：
+- clone服务器之后修改slave的IP地址
+- 修改配置文件：`/usr/local/redis/etc/redis.conf`
+    1. `slaveof <masterip> <masterport>`
+    1. `masterauth <master-password>`
+- 使用`info`查看role角色，即可知道是主服务或从服务。
