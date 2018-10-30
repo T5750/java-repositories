@@ -256,6 +256,36 @@ Redis是一个支持持久化的内存数据库，也就是说需要经常将内
 - 使用`publish [频道] [发布内容]`进行发布消息广播。
 
 ## 3.8 虚拟内存的使用
+Redis会暂时把不经常访问的数据，从内存交换到磁盘中，腾出宝贵的空间，用于其它需要访问的数据，这需要对vm相关进行配置。（**3.0版本是不带vm特性的，配置无效！**）
+
+修改配置文件：`redis.conf`
+```
+vm-enabled yes #开启vm功能
+vm-swap-file /tmp/redis.swap #交换处理的value保存的文件路径
+vm-max-memory 1000000 #Redis使用的最大内存上限
+vm-page-size 32 #每个页面的大小32个字节
+vm-pages 134217728 #最多使用多少页面
+vm-max-threads 4 #用于执行value对象换入缓存的工作线程数量
+```
+重新启动服务，会弹出是否启用虚拟内存
+
+把提示`really-use-vm yes`粘贴到`redis.conf`中，然后重启服务
 
 ## 4.x Java&Redis
 Jedis就是Redis支持Java的第三方类库，可以使用Jedis类库操作Redis数据库。
+
+## 5.1 Redis集群的搭建
+Redis 3.0已经支持集群的容错功能。集群搭建：至少3个master
+1. 创建一个文件夹`redis-cluster`，然后在其下面分别创建6个文件如下：
+    1. `mkdir -p /usr/local/redis-cluster`
+    1. `mkdir 7001`、`mkdir 7002`、`mkdir 7003`、`mkdir 7004`、`mkdir 7005`、`mkdir 7006`
+1. 把`redis.conf`配置文件分别copy到`700*`下，进行修改各个文件内容，也就是对`700*`下的每一个copy的`redis.conf`文件进行修改。如下：
+    1. `daemonize yes`
+    1. `port 700*`（分别对每个及其的端口号进行设置）
+    1. `bind 192.168.1.171`（必须要绑定当前及其的ip，不然会无限悲剧下去…深坑勿入！！！）
+    1. `dir /usr/local/redis-cluster/700*/`（指定数据文件存放位置，必须要指定不同的目录位置，不然会丢失数据，深坑勿入！！！）
+    1. `cluster-enabled yes`（启动集群模式，开始玩耍）
+    1. `cluster-config-file nodes700*.conf`（这里`700*`最好和`port`对应上）
+    1. `cluster-node-timeout 15000`
+    1. `appendonly yes`
+

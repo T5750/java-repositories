@@ -10,7 +10,7 @@ Redis事务不支持回滚功能
 - `discard`：停止事务的执行
 - `watch`：在事务之前，确保事务中的key没有被其他客户端修改过，才执行事务，否则不执行（类似乐观锁）
 
-事务中watch命令演示时序
+事务中`watch`命令演示时序
 
 时间点 | 客户端-1 | 客户端-2
 ----|----|----
@@ -140,6 +140,20 @@ Redis提供了Bitmaps这个“数据结构”可以实现对位的操作。把�
 - Bitmaps单独提供了一套命令，所以在Redis中使用Bitmaps和使用字符串的方法不太相同。可以把Bitmaps想象成一个以位为单位的数组，数组的每个单元只能存储0和1，数组的下标在Bitmaps中叫做偏移量。
 
 #### 3.5.2　命令
+将每个独立用户是否访问过网站存放在Bitmaps中，将访问的用户记做1，没有访问的用户记做0，用偏移量作为用户的id。
+1. 设置值：`setbit key offset value`
+    - 设置键的第`offset`个位的值（从0算起），假设现在有20个用户，userid=0，5，11，15，19的用户对网站进行了访问，那么当前Bitmaps初始化结果如下所示。
+    - ![redis-setbit-min](http://www.wailian.work/images/2018/10/30/redis-setbit-min.png)
+    - 如果此时有一个userid=50的用户访问了网站，那么Bitmaps的结构变成了下图，第20位~49位都是0。
+    - ![redis-setbit-50-min](http://www.wailian.work/images/2018/10/30/redis-setbit-50-min.png)
+    - 很多应用的用户id以一个指定数字（例如10000）开头，直接将用户id和Bitmaps的偏移量对应势必会造成一定的浪费，通常的做法是每次做`setbit`操作时将用户id减去这个指定数字。在第一次初始化Bitmaps时，假如偏移量非常大，那么整个初始化过程执行会比较慢，可能会造成Redis的阻塞。
+1. 获取值：`getbit key offset`
+1. 获取Bitmaps指定范围值为1的个数：`bitcount [start][end]`
+1. Bitmaps间的运算：`bitop op destkey key[key …]`
+    - `bitop`是一个复合操作，它可以做多个Bitmaps的`and`（交集）、`or`（并集）、`not`（非）、`xor`（异或）操作并将结果保存在`destkey`中。
+    - 利用`bitop and`命令计算两天都访问网站的用户。
+    - ![redis-bitop-min](http://www.wailian.work/images/2018/10/30/redis-bitop-min.png)
+1. 计算Bitmaps中第一个值为`targetBit`的偏移量：`bitpos key targetBit [start] [end]`
 
 #### 3.5.3　Bitmaps分析
 假设网站有1亿用户，每天独立访问的用户有5千万，set和Bitmaps存储一天活跃用户的对比
