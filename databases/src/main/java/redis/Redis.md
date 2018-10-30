@@ -198,3 +198,64 @@ requirepass ***
     1. `slaveof <masterip> <masterport>`
     1. `masterauth <master-password>`
 - 使用`info`查看role角色，即可知道是主服务或从服务。
+>远程文件传输：```scp -r redis-3.0.0/ 192.168.1.122:/usr/local/```
+
+## 3.4 哨兵
+哨兵就是监控Redis系统的运行状况。其主要功能有两点：
+1. 监控主数据库和从数据库是否正常运行。
+1. 主数据库出现故障时，可以自动将从数据库转换为主数据库，实现自动切换。
+
+实现步骤：从其中一台从服务器配置`sentinel.conf`（比如175）
+1. copy文件到`/usr/local/redis/bin/redis-server /usr/local/redis/etc/`中
+1. 修改`sentinel.conf`文件：
+	```
+	sentinel monitor mymaster 192.168.174 6379 1 #名称、ip、端口、投票选举次数
+	sentinel down-after-milliseconds mymaster 5000 #默认1s检测一次，这里配置超时5000毫秒宕机
+	sentinel failover-timeout mymaster 900000
+	sentinel parallel-syncs mymaster 2
+	sentinel can-failover mymaster yes
+	```
+1. 启动sentinel哨兵
+	```
+	/usr/local/redis/bin/redis-server /usr/local/redis/etc/sentinel.conf --sentinel &
+	```
+1. 查看哨兵相关信息命令
+	```
+	/usr/local/redis/bin/redis-cli -h 192.168.1.175 -p 26379 info Sentinel
+	```
+1. 关闭主服务器查看集群信息：
+	```
+	/usr/local/redis/bin/redis-cli -h 192.168.1.174 -p 6379 shutdown
+	```
+
+## 3.5 Redis简单事务
+- `multi`：打开事务，设置的数据都会放入队列里进行保存
+- `exec`：执行事务，把数据一次存储到Redis中
+- `discard`：取消事务
+
+Redis的事务不能保证同时成功或失败进行提交会回滚，所以Redis的事务目前还是比较简单的。
+
+## 3.6 持久化机制
+Redis是一个支持持久化的内存数据库，也就是说需要经常将内存中的数据同步到硬盘，来保证持久化。Redis持久化的两种方式：
+1. snapshotting（快照）默认方式，将内存中以快照的方式写入到二进制文件中，默认为`dump.rdb`。可以通过配置设置自动做快照持久化的方式。可以配置Redis在n秒内，如果超过m个key则修改就自动做快照。snapshotting设置：
+	```
+	save 900 1 #900秒内如果超过1个key被修改，则发起快照保存
+	save 300 10 #300秒内如果超过10个key被修改，则发起快照保存
+	save 60 10000
+	```
+1. append-only file（缩写aof）的方式（有点类似于Oracle日志）由于快照方式是一定时间间隔做一次，所以，可能发生Redis意外down的情况，就会丢失最后一次快照后的所有修改的数据，aof比快照方式有更好的持久化性，是由于使用aof时，Redis会将每一个收到的写命令都通过`write`函数追加到命令中，当Redis重新启动时会执行文件中保存的写命令在内存中重建这个数据库的内容，这个文件在bin目录下：`appendonly.aof`。aof不是立即写到硬盘上，可以通过配置文件修改强制写到硬盘中。aof设置：
+	```
+	appendonly yes #启动aof持久化方式，有三种修改方式：
+	appendfsync always #收到写命令就立即写入到磁盘，效率最慢，但是保证完全的持久化
+	# appendfsync everysec #每秒钟写入磁盘一次，在性能和持久化方面做了很好的折中
+	# appendfsync no #完全依赖os，性能最好，持久化没保证
+	```
+
+## 3.7 发布与订阅消息
+- 使用`subscribe [频道]`进行订阅监听。
+- 使用`publish [频道] [发布内容]`进行发布消息广播。
+
+## 3.8 虚拟内存的使用
+
+## 4.x Java&Redis
+Jedis就是Redis支持Java的第三方类库，可以使用Jedis类库操作Redis数据库。
