@@ -74,6 +74,6 @@ zookeeper中几个关于节点的有趣的性质：
 - `ZookeeperTest`
 
 ## References
-- [redis学习笔记（三）redis数据淘汰策略](https://blog.csdn.net/liubenlong007/article/details/53690103) 
-- [Redis分布式锁正确的实现方法](https://www.w3cschool.cn/redis/redis-yj3f2p0c.html) 
-- [基于Zookeeper的分布式锁](http://www.dengshenyu.com/java/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/2017/10/23/zookeeper-distributed-lock.html) 
+- [redis学习笔记（三）redis数据淘汰策略](https://blog.csdn.net/liubenlong007/article/details/53690103)
+- [Redis分布式锁正确的实现方法](https://www.w3cschool.cn/redis/redis-yj3f2p0c.html)
+- [基于Zookeeper的分布式锁](http://www.dengshenyu.com/java/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/2017/10/23/zookeeper-distributed-lock.html)

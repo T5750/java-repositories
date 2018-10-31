@@ -68,7 +68,6 @@ LRU/LFU/FIFO算法剔除 | 最差 | 低
 1. 自身业务代码或者数据出现问题。
 1. 一些恶意攻击、爬虫等造成大量空命中。
 
-
 #### 1.缓存空对象
 
 ![redis-miss-null-min](http://www.wailian.work/images/2018/10/29/redis-miss-null-min.png)

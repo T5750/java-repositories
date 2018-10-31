@@ -1,6 +1,114 @@
 # Redis开发与运维笔记
 
 ## 第3章　小功能大用处
+### 3.1　慢查询分析
+慢查询日志就是系统在命令执行前后计算每条命令的执行时间，当超过预设阀值，就将这条命令的相关信息（例如：发生时间，耗时，命令的详细信息）记录下来。
+
+>注意，慢查询只统计执行命令的时间，所以没有慢查询并不代表客户端没有超时问题。
+
+#### 3.1.1　慢查询的两个配置参数
+- `slowlog-log-slower-than`：预设阀值，单位是微秒（1秒=1000毫秒=1000000微秒），默认值是10000
+- `slowlog-max-len`：列表的最大长度。一个新的命令满足慢查询条件时被插入到这个列表中，当慢查询日志列表已处于其最大长度时，最早插入的一个命令将从列表中移出
+
+>如果`slowlog-log-slower-than=0`会记录所有的命令，`slowlog-log-slowerthan<0`对于任何命令都不会进行记录。
+
+Redis中有两种修改配置的方法，一种是修改配置文件，另一种是使用`config set`命令动态修改。例如下面使用`config set`命令将`slowlog-log-slowerthan`设置为20000微秒，`slowlog-max-len`设置为1000：
+```
+config set slowlog-log-slower-than 20000
+config set slowlog-max-len 1000
+config rewrite
+```
+
+如果要Redis将配置持久化到本地配置文件，需要执行`config rewrite`命令
+1. 获取慢查询日志：`slowlog get [n]`
+1. 获取慢查询日志列表当前的长度：`slowlog len`
+1. 慢查询日志重置：`slowlog reset`
+
+#### 3.1.2　最佳实践
+在实际使用过程中要注意以下几点：
+- `slowlog-max-len`配置建议：线上建议调大慢查询列表，记录慢查询时Redis会对长命令做截断操作，并不会占用大量内存。增大慢查询列表可以减缓慢查询被剔除的可能，例如线上可设置为1000以上。
+- `slowlog-log-slower-than`配置建议：默认值超过10毫秒判定为慢查询，需要根据Redis并发量调整该值。由于Redis采用单线程响应命令，对于高流量的场景，如果命令执行时间在1毫秒以上，那么Redis最多可支撑OPS不到1000。因此对于高OPS场景的Redis建议设置为1毫秒。
+- 慢查询只记录命令执行时间，并不包括命令排队和网络传输时间。因此客户端执行命令的时间会大于命令实际执行时间。因为命令执行排队机制，慢查询会导致其他命令级联阻塞，因此当客户端出现请求超时，需要检查该时间点是否有对应的慢查询，从而分析出是否为慢查询导致的命令级联阻塞。
+- 由于慢查询日志是一个先进先出的队列，也就是说如果慢查询比较多的情况下，可能会丢失部分慢查询命令，为了防止这种情况发生，可以定期执行`slow get`命令将慢查询日志持久化到其他存储中（例如MySQL），然后可以制作可视化界面进行查询。
+
+### 3.2　Redis Shell
+#### 3.2.1　redis-cli详解
+1. `-r`：将命令执行多次
+1. `-i`：每隔几秒执行一次命令，但是`-i`选项必须和`-r`选项一起使用。注意`-i`的单位是秒，不支持毫秒为单位，但是如果想以每隔10毫秒执行一次，可以用`-i 0.01`
+1. `-x`：从标准输入（stdin）读取数据作为`redis-cli`的最后一个参数
+1. `-c`：连接Redis Cluster节点时需要使用的，`-c`选项可以防止moved和ask异常
+1. `-a`：有了这个选项就不需要手动输入`auth`命令
+1. `--scan和--pattern`：用于扫描指定模式的键，相当于使用`scan`命令
+1. `--slave`：把当前客户端模拟成当前Redis节点的从节点，可以用来获取当前Redis节点的更新操作
+1. `--rdb`：请求Redis实例生成并发送RDB持久化文件，保存在本地。可使用它做持久化文件的定期备份
+1. `--pipe`：用于将命令封装成Redis通信协议定义的数据格式，批量发送给Redis执行
+1. `--bigkeys`：使用scan命令对Redis的键进行采样，从中找到内存占用比较大的键值，这些键可能是系统的瓶颈。
+1. `--eval`：用于执行指定Lua脚本
+1. `--latency`：有三个选项，都可以检测网络延迟
+    1. `--latency`：测试客户端到目标Redis的网络延迟
+    1. `--latency-history`：以分时段的形式了解延迟信息
+    1. `--latency-dist`：会使用统计图表的形式从控制台输出延迟统计信息
+1. `--stat`：可以实时获取Redis的重要统计信息
+1. `--raw`和`--no-raw`：`--no-raw`选项是要求命令的返回结果必须是原始的格式，`--raw`恰恰相反，返回格式化后的结果
+
+#### 3.2.2　redis-server详解
+`redis-server --test-memory`可以用来检测当前操作系统能否稳定地分配指定容量的内存给Redis，通过这种检测可以有效避免因为内存问题造成Redis崩溃，例如下面操作检测当前操作系统能否提供1G的内存给Redis：
+```
+redis-server --test-memory 1024
+```
+当输出passed this test时说明内存检测完毕，最后会提示--test-memory只是简单检测
+
+#### 3.2.3　redis-benchmark详解
+redis-benchmark可以为Redis做基准性能测试
+1. `-c`：代表客户端的并发数量（默认是50）
+1. `-n<requests>`：代表客户端请求总量（默认是100000）
+1. `-q`：仅仅显示redis-benchmark的requests per second信息
+1. `-r`：可以向Redis插入更多随机的键
+1. `-P`：代表每个请求pipeline的数据量（默认为1）
+1. `-k<boolean>`：代表客户端是否使用keepalive，1为使用，0为不使用，默认值为1
+1. `-t`：可以对指定命令进行基准测试
+1. `--csv`：会将结果按照csv格式输出，便于后续处理，如导出到Excel等
+
+### 3.3　Pipeline
+#### 3.3.1　Pipeline概念
+Redis客户端执行一条命令分为如下四个过程：
+1. 发送命令
+1. 命令排队
+1. 命令执行
+1. 返回结果
+
+其中1+4称为Round Trip Time（RTT，往返时间）。
+
+Pipeline（流水线）机制能能将一组Redis命令进行组装，通过一次RTT传输给Redis，再将这组Redis命令的执行结果按顺序返回给客户端
+
+redis-cli的`--pipe`选项实际上就是使用Pipeline机制，例如下面操作将`set hello world`和`incr counter`两条命令组装：
+```
+echo -en '*3\r\n$3\r\nSET\r\n$5\r\nhello\r\n$5\r\nworld\r\n*2\r\n$4\r\nincr\r\
+n$7\r\ncounter\r\n' | redis-cli --pipe
+```
+
+#### 3.3.2　性能测试
+在不同网络下，10000条`set`非Pipeline和Pipeline的执行时间对比
+
+网络 | 延迟 | 非Pipeline | Pipeline
+----|----|----|----
+本机 | 0.17ms | 573ms | 134ms
+内网服务器 | 0.41ms | 1610ms | 240ms
+异地机房 | 7ms | 78499ms | 1104ms
+
+两个结论：
+- Pipeline执行速度一般比逐条执行要快。
+- 客户端和服务端的网络延时越大，Pipeline的效果越明显。
+
+#### 3.3.3　原生批量命令与Pipeline对比
+- 原生批量命令是原子的，Pipeline是非原子的。
+- 原生批量命令是一个命令对应多个key，Pipeline支持多个命令。
+- 原生批量命令是Redis服务端支持实现的，而Pipeline需要服务端和客户端的共同实现。
+
+#### 3.3.4　最佳实践
+Pipeline虽然好用，但是每次Pipeline组装的命令个数不能没有节制，否则一次组装Pipeline数据量过大，一方面会增加客户端的等待时间，另一方面会造成一定的网络阻塞，可以将一次包含大量命令的Pipeline拆分成多次较小的Pipeline来完成。
+
+Pipeline只能操作一个Redis实例，但是即使在分布式Redis场景中，也可以作为批量操作的重要优化手段，具体细节见第11章。
 
 ### 3.4　事务与Lua
 #### 3.4.1　事务
@@ -221,6 +329,36 @@ HyperLogLog内存占用量非常小，但是存在错误率，开发者在进行
 	```
 	for video in video1,video3,video5
 	update {video}
+	```
+
+### 3.8　GEO
+Redis3.2版本提供了GEO（地理信息定位）功能，支持存储地理位置信息用来实现诸如附近位置、摇一摇这类依赖于地理位置信息的功能。
+1. 增加地理位置信息
+	```
+	geoadd key longitude latitude member [longitude latitude member ...]
+	```
+1. 获取地理位置信息
+	```
+	geopos key member [member ...]
+	```
+1. 获取两个地理位置的距离
+	```
+	geodist key member1 member2 [unit]
+	```
+1. 获取指定位置范围内的地理信息位置集合
+	```
+	georadius key longitude latitude radiusm|km|ft|mi [withcoord] [withdist]
+    [withhash] [COUNT count] [asc|desc] [store key] [storedist key]
+    georadiusbymember key member radiusm|km|ft|mi [withcoord] [withdist]
+    [withhash] [COUNT count] [asc|desc] [store key] [storedist key]
+	```
+1. 获取`geohash`
+	```
+	geohash key member [member ...]
+	```
+1. 删除地理位置信息
+	```
+	zrem key member
 	```
 
 ## References
