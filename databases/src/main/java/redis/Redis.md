@@ -14,6 +14,13 @@
     - 3.6　HyperLogLog
     - 3.7　发布订阅
     - 3.8　GEO
+- [第4章　客户端](doc/redisdev/RedisDev04.md)
+    - 4.1　客户端通信协议
+    - 4.2　Java客户端Jedis
+    - 4.3　Python客户端redis-py
+    - 4.4　客户端管理
+    - 4.5　客户端常见异常
+    - 4.6　客户端案例分析
 - [第11章　缓存设计](doc/redisdev/RedisDev11.md)
     - 11.1　缓存的收益和成本
     - 11.2　缓存更新策略
