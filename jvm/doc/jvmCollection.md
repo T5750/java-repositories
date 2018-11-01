@@ -101,4 +101,4 @@ G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时
 组合7 | G1GC | G1GC | `-XX:+UnlockExperimentalVMOptions -XX:+UseG1GC` #开启 `-XX:MaxGCPauseMillis =50` #暂停时间目标 `-XX:GCPauseIntervalMillis =200` #暂停间隔目标 `-XX:+G1YoungGenSize=512m` #年轻代大小 `-XX:SurvivorRatio=6` #幸存区比例
 
 ## References
-- [jvm系列(三):java GC算法 垃圾收集器](https://www.cnblogs.com/ekoeko/p/9695128.html)
+- [jvm系列(三):java GC算法 垃圾收集器](http://www.cnblogs.com/ityouknow/p/5614961.html)
