@@ -149,3 +149,8 @@ public ThreadPoolExecutor(int corePoolSize,
 - 注：在使用kill -9 pid是不会JVM注册的钩子不会被调用。
 - 示例：`TestShutdownHook`
 - [Java应用中使用ShutdownHook友好地清理现场](http://www.cnblogs.com/nexiyi/p/java_add_ShutdownHook.html)
+
+示例：`TestHoldCount`, `UseCondition`, `UseManyCondition`, `UseReentrantLock`, `UseReentrantReadWriteLock`
+
+## References
+- 并发编程

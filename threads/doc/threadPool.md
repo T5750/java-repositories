@@ -27,5 +27,8 @@
 
 ### 方案三：一个服务器提供多个线程池
 
+## 示例
+- `TestThreadPool`
+
 ## Links
 - [线程池的介绍及简单实现](https://www.ibm.com/developerworks/cn/java/l-threadPool/index.html)

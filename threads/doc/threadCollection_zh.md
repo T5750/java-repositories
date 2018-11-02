@@ -48,6 +48,10 @@ Sr.No. | Method | Description
 5 | public void stop() | This method stops a thread completely.
 6 | public void resume() | This method resumes a thread, which was suspended using suspend() method.
 
+## Examples
+- package: `com.tutorialspoint`
+- `InterthreadCommunication`, `TestThread`, `TestThreadSolution`, `CallableThreadTest`, `TestThreadByRunnable`, `TestThreadByThread`, `ThreadClassDemo`, `ThreadSynchronization`, `ThreadWithoutSynchronization`
+
 ## Links
 - [Java - Multithreading](http://www.tutorialspoint.com/java/java_multithreading.htm)
 - [Java 多线程编程](http://www.runoob.com/java/java-multithreading.html)

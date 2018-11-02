@@ -2,11 +2,11 @@
 
 ## Java Executor Service
 
-![Java Executor Service](http://file.mrbool.com/mrbool/articles/Kaushik/JavaExecutor01.png)
+![Java Executor Service](http://www.wailian.work/images/2018/11/02/JavaExecutor01-min.png)
 
 ## Thread Pool Executor
 
-![Thread Pool Executor](http://file.mrbool.com/mrbool/articles/Kaushik/JavaExecutor02.png)
+![Thread Pool Executor](http://www.wailian.work/images/2018/11/02/JavaExecutor02-min.png)
 
 ## Steps
 - Create an executor
@@ -16,6 +16,9 @@
 - Submit the task to the Executor
 - Execute the task
 - Shutdown the Executor
+
+## Examples
+- `ExecutorServiceExample`
 
 ## Links
 - [Working with Java Executor framework in multithreaded application](http://mrbool.com/working-with-java-executor-framework-in-multithreaded-application/27560)
