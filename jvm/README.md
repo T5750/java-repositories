@@ -1,8 +1,8 @@
 # JVM
 
 ## Contents
-### JVM虚拟机笔记
-- [JVM虚拟机笔记](doc/jvmNote.md)
+### JVM虚拟机优化笔记
+- [JVM虚拟机优化笔记](doc/jvmNote.md)
 
 ### JVM网摘笔记
 - [JVM网摘笔记](doc/jvmCollection.md)
