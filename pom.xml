@@ -17,7 +17,6 @@
 	<modules>
 		<module>threads</module>
 		<module>patterns</module>
-		<module>databases</module>
 		<module>jvisualvm</module>
 		<module>networking</module>
 		<module>jdk8</module>
