@@ -153,7 +153,7 @@ TLAB全称是Thread Local Allocation Buffer即线程本地分配缓存，从名�
 ## 4.6 对象创建流程
 一个对象创建在什么位置，JVM会有一个比较细节的流程，根据数据的大小，参数的设置，决定如何创建分配，以及其位置。
 
-![jvm-create-obj-min](https://www.wailian.work/images/2018/11/04/jvm-create-obj-min.png)
+![jvm-create-obj-min](http://www.wailian.work/images/2018/11/04/jvm-create-obj-min.png)
 
 ## 5.x 垃圾收集器
 
