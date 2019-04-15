@@ -1,7 +1,7 @@
 package evangel.hzcourse.chapter03;
 
 /**
- *
+ * PretenureSizeThreshold参数只支持-XX:+UseSerialGC和-XX:+UseParNewGC
  */
 public class TestPretenureSizeThresholdDemo {
 	private static final int _1MB = 1024 * 1024;
