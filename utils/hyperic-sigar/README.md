@@ -1,7 +1,7 @@
 # hyperic-sigar
 
 ## Runtime Environment
-- [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
+- [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
 - [sigar-1.6.4](https://sourceforge.net/projects/sigar/files/sigar/1.6/)
 
 ## Short & Quick introduction

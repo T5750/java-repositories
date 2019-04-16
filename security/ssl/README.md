@@ -1,7 +1,7 @@
 # SSL/TLS
 
 ## Runtime Environment
-- [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
+- [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
 
 ## Java SSL/TLS 安全通讯协议介绍
 ### SSL/TLS 协议的介绍
