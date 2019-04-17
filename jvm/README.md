@@ -19,7 +19,11 @@
     - [Eclipse运行速度调优](doc/UnderstandingTheJvm05.md#Eclipse运行速度调优)
 - [6 类文件结构](doc/UnderstandingTheJvm06.md)
     - [Class类文件的结构](doc/UnderstandingTheJvm06.md#Class类文件的结构)
-    - [常量池](doc/UnderstandingTheJvm06.md#常量池)
+        * [常量池](doc/UnderstandingTheJvm06.md#常量池)
+        * [访问标志](doc/UnderstandingTheJvm06.md#访问标志)
+        * [字段表集合](doc/UnderstandingTheJvm06.md#字段表集合)
+        * [方法表集合](doc/UnderstandingTheJvm06.md#方法表集合)
+        * [属性表集合](doc/UnderstandingTheJvm06.md#属性表集合)
 
 ### JVM虚拟机优化笔记
 - [JVM虚拟机优化笔记](doc/jvmNote.md)
