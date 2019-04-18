@@ -24,6 +24,8 @@
         * [字段表集合](doc/UnderstandingTheJvm06.md#字段表集合)
         * [方法表集合](doc/UnderstandingTheJvm06.md#方法表集合)
         * [属性表集合](doc/UnderstandingTheJvm06.md#属性表集合)
+- [7 虚拟机类加载机制](doc/UnderstandingTheJvm07.md)
+    - [类加载的时机](doc/UnderstandingTheJvm07.md#类加载的时机)
 
 ### JVM虚拟机优化笔记
 - [JVM虚拟机优化笔记](doc/jvmNote.md)
