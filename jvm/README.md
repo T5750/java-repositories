@@ -26,6 +26,10 @@
         * [属性表集合](doc/UnderstandingTheJvm06.md#属性表集合)
 - [7 虚拟机类加载机制](doc/UnderstandingTheJvm07.md)
     - [类加载的时机](doc/UnderstandingTheJvm07.md#类加载的时机)
+    - [双亲委派模型](doc/UnderstandingTheJvm07.md#双亲委派模型)
+- [8 虚拟机字节码执行引擎](doc/UnderstandingTheJvm08.md)
+    - [运行时栈帧结构](doc/UnderstandingTheJvm08.md#运行时栈帧结构)
+    - [基于栈的解释器执行过程](doc/UnderstandingTheJvm08.md#基于栈的解释器执行过程)
 
 ### JVM虚拟机优化笔记
 - [JVM虚拟机优化笔记](doc/jvmNote.md)
