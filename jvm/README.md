@@ -30,7 +30,9 @@
 - [8 虚拟机字节码执行引擎](doc/UnderstandingTheJvm08.md)
     - [运行时栈帧结构](doc/UnderstandingTheJvm08.md#运行时栈帧结构)
     - [基于栈的解释器执行过程](doc/UnderstandingTheJvm08.md#基于栈的解释器执行过程)
-
+- [9 类加载及执行子系统的案例与实战](doc/UnderstandingTheJvm09.md)
+    - [Tomcat：正统的类加载架构](doc/UnderstandingTheJvm09.md#Tomcat)
+    - [实现远程执行功能](doc/UnderstandingTheJvm09.md#实现远程执行功能)
 ### JVM虚拟机优化笔记
 - [JVM虚拟机优化笔记](doc/jvmNote.md)
 
@@ -45,3 +47,4 @@
 - [BTrace](https://github.com/btraceio/btrace)
 - [Eclipse Juno](https://www.eclipse.org/juno/)
 - [WinHex](http://www.winhex.com/winhex/index-m.html)
+- [Retrotranslator](http://retrotranslator.sourceforge.net/)
