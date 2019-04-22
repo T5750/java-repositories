@@ -33,6 +33,10 @@
 - [9 类加载及执行子系统的案例与实战](doc/UnderstandingTheJvm09.md)
     - [Tomcat：正统的类加载架构](doc/UnderstandingTheJvm09.md#Tomcat)
     - [实现远程执行功能](doc/UnderstandingTheJvm09.md#实现远程执行功能)
+- [10 早期（编译期）优化](doc/UnderstandingTheJvm10.md)
+    - [Javac编译器](doc/UnderstandingTheJvm10.md#Javac编译器)
+    - [插入式注解处理器](doc/UnderstandingTheJvm10.md#插入式注解处理器)
+
 ### JVM虚拟机优化笔记
 - [JVM虚拟机优化笔记](doc/jvmNote.md)
 
