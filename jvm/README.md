@@ -39,6 +39,11 @@
 - [11 晚期（运行期）优化](doc/UnderstandingTheJvm11.md)
     - [解释器与编译器](doc/UnderstandingTheJvm11.md#解释器与编译器)
     - [编译优化技术](doc/UnderstandingTheJvm11.md#编译优化技术)
+- [12 Java内存模型与线程](doc/UnderstandingTheJvm12.md)
+    - [内存间交互操作](doc/UnderstandingTheJvm12.md#内存间交互操作)
+    - [对于volatile型变量的特殊规则](doc/UnderstandingTheJvm12.md#对于volatile型变量的特殊规则)
+    - [Java线程调度](doc/UnderstandingTheJvm12.md#Java线程调度)
+    - [状态转换](doc/UnderstandingTheJvm12.md#状态转换)
 
 ### JVM虚拟机优化笔记
 - [JVM虚拟机优化笔记](doc/jvmNote.md)
