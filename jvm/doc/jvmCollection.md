@@ -100,5 +100,22 @@ G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时
 组合6 | Parallel Scavenge | Parallel Old | Parallel Old是Serial Old的并行版本
 组合7 | G1GC | G1GC | `-XX:+UnlockExperimentalVMOptions -XX:+UseG1GC` #开启 `-XX:MaxGCPauseMillis =50` #暂停时间目标 `-XX:GCPauseIntervalMillis =200` #暂停间隔目标 `-XX:+G1YoungGenSize=512m` #年轻代大小 `-XX:SurvivorRatio=6` #幸存区比例
 
+## Java内存模型
+Java (JVM) Memory Model
+
+![Java-Memory-Model-min-min](https://www.wailian.work/images/2019/04/24/Java-Memory-Model-min-min.png)
+
+### Minor GC vs Major GC vs Full GC
+![minor-gc-major-gc-full-gc-min](https://www.wailian.work/images/2019/04/24/minor-gc-major-gc-full-gc-min.jpg)
+
+- every Minor GC cleans the Young generation.
+- Major GC is cleaning the Tenured space.
+- Full GC is cleaning the entire Heap – both Young and Tenured spaces.
+
+## 编译过程
+![jvm-compile-min-min](https://www.wailian.work/images/2019/04/24/jvm-compile-min-min.png)
+
 ## References
 - [jvm系列(三):java GC算法 垃圾收集器](http://www.cnblogs.com/ityouknow/p/5614961.html)
+- [Java (JVM) Memory Model](https://www.journaldev.com/2856/java-jvm-memory-model-memory-management-in-java)
+- [Minor GC vs Major GC vs Full GC](https://www.javacodegeeks.com/2015/03/minor-gc-vs-major-gc-vs-full-gc.html)
