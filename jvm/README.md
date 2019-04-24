@@ -42,8 +42,12 @@
 - [12 Java内存模型与线程](doc/UnderstandingTheJvm12.md)
     - [内存间交互操作](doc/UnderstandingTheJvm12.md#内存间交互操作)
     - [对于volatile型变量的特殊规则](doc/UnderstandingTheJvm12.md#对于volatile型变量的特殊规则)
+    - [先行发生原则](doc/UnderstandingTheJvm12.md#先行发生原则)
     - [Java线程调度](doc/UnderstandingTheJvm12.md#Java线程调度)
     - [状态转换](doc/UnderstandingTheJvm12.md#状态转换)
+- [13 线程安全与锁优化](doc/UnderstandingTheJvm13.md)
+    - [线程安全](doc/UnderstandingTheJvm13.md#线程安全)
+    - [锁优化](doc/UnderstandingTheJvm13.md#锁优化)
 
 ### JVM虚拟机优化笔记
 - [JVM虚拟机优化笔记](doc/jvmNote.md)
