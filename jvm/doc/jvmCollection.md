@@ -34,19 +34,19 @@ GC分代的基本假设：绝大部分对象的生命周期都非常短暂，存
 ### Serial收集器
 串行收集器是最古老，最稳定以及效率高的收集器，可能会产生较长的停顿，只使用**一个线程**去回收。垃圾收集的过程中会Stop The World（服务暂停）
 - 新生代、老年代使用**串行**回收；**新生代复制算法、老年代标记-压缩**
-- 参数控制：`-XX:+UseSerialGC`  串行收集器
+- 参数控制：`-XX:+UseSerialGC` 串行收集器
 
 ### ParNew收集器
 ParNew收集器其实就是Serial收集器的多线程版本。
 - **新生代并行，老年代串行**；新生代复制算法、老年代标记-压缩
 - 参数控制：
-    - `-XX:+UseParNewGC`  ParNew收集器
+    - `-XX:+UseParNewGC` ParNew收集器
     - `-XX:ParallelGCThreads` 限制线程数量
 
 ### Parallel Scavenge收集器
 Parallel Scavenge收集器类似ParNew收集器，Parallel收集器更关注系统的**吞吐量**。可以通过参数来打开**自适应调节策略**，虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或最大的吞吐量；也可以通过参数控制GC的时间不大于多少毫秒或者比例；
 - 新生代复制算法、老年代标记-压缩
-- 参数控制：`-XX:+UseParallelGC`  使用Parallel收集器+ 老年代串行
+- 参数控制：`-XX:+UseParallelGC` 使用Parallel收集器+ 老年代串行
 
 ### Parallel Old收集器
 Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程和“标记－整理”算法。这个收集器是在JDK 1.6中才开始提供
@@ -67,10 +67,10 @@ CMS收集器是基于“标记-清除”算法实现的，运作过程分为4个
 - 优点：**并发收集、低停顿**
 - 缺点：**产生大量空间碎片、并发阶段会降低吞吐量**
 - 参数控制：
-    - `-XX:+UseConcMarkSweepGC`  使用CMS收集器
+    - `-XX:+UseConcMarkSweepGC` 使用CMS收集器
     - `-XX:+ UseCMSCompactAtFullCollection` Full GC后，进行一次碎片整理；整理过程是独占的，会引起停顿时间变长
-    - `-XX:+CMSFullGCsBeforeCompaction`  设置进行几次Full GC后，进行一次碎片整理
-    - `-XX:ParallelCMSThreads`  设定CMS的线程数量（一般情况约等于可用CPU数量）
+    - `-XX:+CMSFullGCsBeforeCompaction` 设置进行几次Full GC后，进行一次碎片整理
+    - `-XX:ParallelCMSThreads` 设定CMS的线程数量（一般情况约等于可用CPU数量）
 
 ### G1 收集器
 与CMS收集器相比G1收集器有以下特点：
@@ -82,10 +82,10 @@ CMS收集器是基于“标记-清除”算法实现的，运作过程分为4个
 ![jvm-Clean-up-min](http://www.wailian.work/images/2018/11/01/jvm-Clean-up-min.png)
 
 G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时候，开始出发收集。和CMS类似，G1收集器收集老年代对象会有短暂停顿。收集步骤：
-1. **标记阶段**，首先初始标记(Initial-Mark),这个阶段是停顿的(Stop the World Event)，并且会触发一次普通Mintor GC。对应GC log:GC pause (young) (inital-mark)
+1. **标记阶段**，首先初始标记(Initial-Mark)，这个阶段是停顿的(Stop the World Event)，并且会触发一次普通Mintor GC。对应GC log:GC pause (young) (inital-mark)
 1. **Root Region Scanning**，程序运行过程中会回收survivor区(存活到老年代)，这一过程必须在young GC之前完成。
 1. **Concurrent Marking**，在整个堆中进行并发标记(和应用程序并发执行)，此过程可能被young GC中断。在并发标记阶段，若发现区域对象中的所有对象都是垃圾，那个这个区域会被立即回收(图中打X)。同时，并发标记过程中，会计算每个区域的对象活性(区域中存活对象的比例)。
-1. **Remark**, 再标记，会有短暂停顿(STW)。再标记阶段是用来收集 并发标记阶段 产生新的垃圾(并发阶段和应用程序一同运行)；G1中采用了比CMS更快的初始快照算法:snapshot-at-the-beginning (SATB)。
+1. **Remark**，再标记，会有短暂停顿(STW)。再标记阶段是用来收集 并发标记阶段 产生新的垃圾(并发阶段和应用程序一同运行)；G1中采用了比CMS更快的初始快照算法:snapshot-at-the-beginning (SATB)。
 1. **Copy/Clean up**，多线程清除失活对象，会有STW。G1将回收区域的存活对象拷贝到新区域，清除Remember Sets，并发清空回收区域并把它返回到空闲区域链表中。
 1. 复制/清除过程后。回收区域的活性对象已经被集中回收到深蓝色和深绿色区域。
 

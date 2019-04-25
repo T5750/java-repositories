@@ -1,6 +1,7 @@
 # 深入理解Java虚拟机：JVM高级特性与最佳实践
 
 ## Chapter01
+```
 #语言选项，这个必须设置，否则编译好后会出现一个HashTable的NPE错
 export LANG=C
 
@@ -47,6 +48,7 @@ unset JAVA_HOME
 unset CLASSPATH
 
 make 2>&1 | tee $ALT_OUTPUTDIR/build.log
+```
 
 ## References
 - [深入理解Java虚拟机：JVM高级特性与最佳实践（第2版）](http://www.hzcourse.com/web/refbook/detail/5070/208)

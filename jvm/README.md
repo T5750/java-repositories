@@ -61,6 +61,8 @@
 
 ## Runtime Environment
 - [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
+- [OpenJDK 7](http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip)
+- [Cygwin](https://cygwin.com/)
 - [VisualGC](https://www.oracle.com/technetwork/java/visualgc-136680.html)
 - [BTrace](https://github.com/btraceio/btrace)
 - [Eclipse Juno](https://www.eclipse.org/juno/)
