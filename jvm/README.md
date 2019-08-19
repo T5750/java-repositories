@@ -59,6 +59,12 @@
     - [Java内存模型](doc/jvmCollection.md#Java内存模型)
     - [编译过程](doc/jvmCollection.md#编译过程)
 
+### VisualVM
+- [VisualVM](doc/jvisualvm.md)
+
+### JMX
+- [JMX](doc/jmxCollection.md)
+
 ## Runtime Environment
 - [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
 - [OpenJDK 7](http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip)

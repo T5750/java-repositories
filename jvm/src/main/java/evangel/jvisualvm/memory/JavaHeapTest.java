@@ -1,4 +1,4 @@
-package com.evangel.memory;
+package evangel.jvisualvm.memory;
 
 /**
  * 内存分析篇-内存堆Heap

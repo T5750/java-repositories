@@ -1,4 +1,4 @@
-package com.evangel.memory;
+package evangel.jvisualvm.memory;
 
 import java.io.File;
 import java.lang.reflect.Method;

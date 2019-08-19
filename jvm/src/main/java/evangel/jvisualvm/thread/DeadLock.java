@@ -1,4 +1,4 @@
-package com.evangel.thread;
+package evangel.jvisualvm.thread;
 
 /**
  * 死锁

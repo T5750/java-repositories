@@ -1,4 +1,4 @@
-# jvisualvm
+# Java VisualVM
 
 ## Runtime Environment
 - [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
@@ -10,5 +10,5 @@
 - CPU分析篇
 - 线程分析篇
 
-## Links
+## References
 - [性能分析神器VisualVM](http://www.cnblogs.com/wade-xu/p/4369094.html)

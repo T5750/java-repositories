@@ -1,4 +1,4 @@
-package com.evangel.thread;
+package evangel.jvisualvm.thread;
 
 /**
  * 线程分析篇
@@ -16,6 +16,7 @@ public class MyThread extends Thread {
 	public MyThread(String name) {
 	}
 
+	@Override
 	public void run() {
 		while (true) {
 		}

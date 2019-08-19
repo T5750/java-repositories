@@ -1,4 +1,4 @@
-package com.evangel.cpu;
+package evangel.jvisualvm.cpu;
 
 /**
  * CPU分析篇

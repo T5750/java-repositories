@@ -17,7 +17,6 @@
 	<modules>
 		<module>threads</module>
 		<module>patterns</module>
-		<module>jvisualvm</module>
 		<module>networking</module>
 		<module>jdk8</module>
 		<module>utils</module>
@@ -30,14 +29,19 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-				</configuration>
-			</plugin>
-		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.1</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
