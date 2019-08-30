@@ -1,6 +1,11 @@
 # JVM
 
 ## Contents
+### Java HotSpot VM Options
+- [Java 6 HotSpot VM Options](doc/jvmJdk6.md)
+- [Java 7 HotSpot VM Options](doc/jvmJdk7.md)
+- [Java 8 HotSpot VM Options](doc/jvmJdk8.md)
+
 ### 深入理解Java虚拟机：JVM高级特性与最佳实践
 - [1 走进Java](doc/UnderstandingTheJvm.md)
 - [2 Java内存区域与内存溢出异常](doc/UnderstandingTheJvm02.md)
