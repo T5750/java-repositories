@@ -16,10 +16,11 @@ public class MemoryTest {
 
 	/**
 	 * 每个方法的参数m都是表示对应区间分配多少M内存<br/>
-	 * -verbose:gc -XX:+PrintGCDetails -Xmx2g -Xms2g -Xmn1g
-	 * -XX:PretenureSizeThreshold=2M -XX:+UseConcMarkSweepGC -XX:+UseParNewGC
-	 * -XX:CMSInitiatingOccupancyFraction=90 -XX:+UseCMSInitiatingOccupancyOnly
-	 * -XX:MaxDirectMemorySize=512m -XX:PermSize=256m -XX:MaxPermSize=256m
+	 * -verbose:gc -XX:+PrintGCDetails -Xmx2g -Xms2g -Xmn1g -XX:PretenureSizeThreshold=2M -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:CMSInitiatingOccupancyFraction=90 -XX:+UseCMSInitiatingOccupancyOnly -XX:MaxDirectMemorySize=512m -XX:PermSize=256m -XX:MaxPermSize=256m
+	 * <p>
+	 * -XX:NativeMemoryTracking=summary
+	 * jcmd 23448 VM.native_memory summary
+	 * </p>
 	 */
 	public static void main(String[] args) throws Exception {
 		youngAllocate(1000);
@@ -56,8 +57,7 @@ public class MemoryTest {
 				declaredMethod.invoke(MemoryTest.class.getClassLoader(),
 						new Object[] { "MyCalc", bcs, 0, bcs.length });
 			} catch (Throwable e) {
-				// 重复定义类会抛出LinkageError: attempted duplicate class definition
-				// for name: "MyCalc"
+				// 重复定义类会抛出LinkageError: attempted duplicate class definition for name: "MyCalc"
 				// System.err.println(e.getCause().getLocalizedMessage());
 			}
 			if (i >= outputCount && i % outputCount == 0) {

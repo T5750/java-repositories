@@ -5,8 +5,7 @@ A ~ C | D ~ G | H ~ L | M ~ P | Q ~ S | T ~ Z
 ----|----|----|----|----|----
 | [blockchain](blockchain/README.md) |  | [jdk7](jdk7/README.md) | [networking](networking/README.md) | [security](security/README.md) | [threads](threads/README.md)
 |  |  | [jdk8](jdk8/README.md) | [nio](nio/README.md) |  | [utils](utils/README.md)
-|  |  | [jvisualvm](jvm/doc/jvisualvm.md) | [patterns](patterns/README.md) |  | 
-|  |  | [jvm](jvm/README.md) |  |  | 
+|  |  | [jvm](jvm/README.md) | [patterns](patterns/README.md) |  | 
 
 ## Runtime Environment
 - [Java 6](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
