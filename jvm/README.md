@@ -58,17 +58,17 @@
 - [JVM虚拟机优化笔记](doc/jvmNote.md)
 
 ### JVM网摘笔记
-- [JVM网摘笔记](doc/jvmCollection.md)
-    - [垃圾收集算法](doc/jvmCollection.md#垃圾收集算法)
-    - [垃圾收集器](doc/jvmCollection.md#垃圾收集器)
-    - [Java内存模型](doc/jvmCollection.md#Java内存模型)
-    - [编译过程](doc/jvmCollection.md#编译过程)
+- [JVM网摘笔记](../doc/source/jvm/jvmCollection.md)
+    - [垃圾收集算法](../doc/source/jvm/jvmCollection.md#垃圾收集算法)
+    - [垃圾收集器](../doc/source/jvm/jvmCollection.md#垃圾收集器)
+    - [Java内存模型](../doc/source/jvm/jvmCollection.md#Java内存模型)
+    - [编译过程](../doc/source/jvm/jvmCollection.md#编译过程)
 
 ### VisualVM
-- [VisualVM](doc/jvisualvm.md)
+- [VisualVM](../doc/source/jvm/jvisualvm.md)
 
 ### JMX
-- [JMX](doc/jmxCollection.md)
+- [JMX](../doc/source/jvm/jmxCollection.md)
 
 ## Runtime Environment
 - [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)

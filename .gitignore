@@ -7,6 +7,7 @@ target
 *.iml
 logs
 out
+**/build
 .idea*.zip
 ### jvm ###
 EclipseStartTime_1.0.0.201011281102.jar
