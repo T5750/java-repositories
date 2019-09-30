@@ -9,19 +9,19 @@
 - 一个是效率问题，标记和清除过程的效率都不高；
 - 另外一个是空间问题，标记清除之后会产生大量不连续的内存碎片，空间碎片太多可能会导致，当程序在以后的运行过程中需要分配较大对象时无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。
 
-![jvm-Mark-Sweep-min](http://www.wailian.work/images/2018/11/01/jvm-Mark-Sweep-min.png)
+![jvm-Mark-Sweep-min](https://www.wailian.work/images/2018/11/01/jvm-Mark-Sweep-min.png)
 
 ### 复制算法
 “复制”（Copying）算法，将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。
 
 这样使得每次都是对其中的一块进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。只是这种算法的代价是将内存缩小为原来的一半，持续复制长生存期的对象则导致效率降低。
 
-![jvm-Copying-min](http://www.wailian.work/images/2018/11/01/jvm-Copying-min.png)
+![jvm-Copying-min](https://www.wailian.work/images/2018/11/01/jvm-Copying-min.png)
 
 ### 标记-压缩算法
 “标记-整理”（Mark-Compact）算法，标记过程仍然与“标记-清除”算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存
 
-![jvm-Mark-Compact-min](http://www.wailian.work/images/2018/11/01/jvm-Mark-Compact-min.png)
+![jvm-Mark-Compact-min](https://www.wailian.work/images/2018/11/01/jvm-Mark-Compact-min.png)
 
 ### 分代收集算法
 GC分代的基本假设：绝大部分对象的生命周期都非常短暂，存活时间短。
@@ -29,7 +29,7 @@ GC分代的基本假设：绝大部分对象的生命周期都非常短暂，存
 “分代收集”（Generational Collection）算法，把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记-清理”或“标记-整理”算法来进行回收。
 
 ## 垃圾收集器
-![jvm-gc-min](http://www.wailian.work/images/2018/11/01/jvm-gc-min.jpg)
+![jvm-gc-min](https://www.wailian.work/images/2018/11/01/jvm-gc-min.jpg)
 
 ### Serial收集器
 串行收集器是最古老，最稳定以及效率高的收集器，可能会产生较长的停顿，只使用**一个线程**去回收。垃圾收集的过程中会Stop The World（服务暂停）
@@ -77,9 +77,9 @@ CMS收集器是基于“标记-清除”算法实现的，运作过程分为4个
 1. **空间整合**，G1收集器采用标记整理算法，不会产生内存空间碎片。分配大对象时不会因为无法找到连续空间而提前触发下一次GC。
 1. **可预测停顿**，这是G1的另一大优势，降低停顿时间是G1和CMS的共同关注点，但G1除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者明确指定在一个长度为N毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒，这几乎已经是实时Java（RTSJ）的垃圾收集器的特征了。
 
-![jvm-Concurrent-Marking-min](http://www.wailian.work/images/2018/11/01/jvm-Concurrent-Marking-min.png)
-![jvm-Copy-min](http://www.wailian.work/images/2018/11/01/jvm-Copy-min.png)
-![jvm-Clean-up-min](http://www.wailian.work/images/2018/11/01/jvm-Clean-up-min.png)
+![jvm-Concurrent-Marking-min](https://www.wailian.work/images/2018/11/01/jvm-Concurrent-Marking-min.png)
+![jvm-Copy-min](https://www.wailian.work/images/2018/11/01/jvm-Copy-min.png)
+![jvm-Clean-up-min](https://www.wailian.work/images/2018/11/01/jvm-Clean-up-min.png)
 
 G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时候，开始出发收集。和CMS类似，G1收集器收集老年代对象会有短暂停顿。收集步骤：
 1. **标记阶段**，首先初始标记(Initial-Mark)，这个阶段是停顿的(Stop the World Event)，并且会触发一次普通Mintor GC。对应GC log:GC pause (young) (inital-mark)

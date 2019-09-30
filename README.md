@@ -7,6 +7,9 @@ A ~ C | D ~ G | H ~ L | M ~ P | Q ~ S | T ~ Z
 |  |  | [jdk8](jdk8/README.md) | [nio](nio/README.md) |  | [utils](utils/README.md)
 |  |  | [jvm](jvm/README.md) | [patterns](patterns/README.md) |  | 
 
+## Docs
+- https://java-repositories.readthedocs.io
+
 ## Runtime Environment
 - [Java 6](http://www.oracle.com/technetwork/java/javase/downloads/jdk6downloads-1902814.html)
 - [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)

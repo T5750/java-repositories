@@ -22,7 +22,7 @@
 	- [2.17 Java FutureTask Example](https://www.journaldev.com/1650/java-futuretask-example-program)
 
 ### Thread Life Cycle in Java
-![Thread-Lifecycle-States](http://www.wailian.work/images/2018/08/28/Thread-Lifecycle-States-450x227.png)
+![Thread-Lifecycle-States](https://www.wailian.work/images/2018/08/28/Thread-Lifecycle-States-450x227.png)
 
 ### Java Thread Dump or Analyze Deadlock
 - Java Mission Control -> Thread Dump
@@ -69,7 +69,6 @@
 ### Tips
 - [Java Lock Example – ReentrantLock](https://www.journaldev.com/2377/java-lock-example-reentrantlock)
 - [AtomicInteger in Java](https://www.journaldev.com/1095/atomicinteger-java)
-
 
 ## Links
 - [Multithreading in Java](https://www.journaldev.com/1079/multithreading-in-java)

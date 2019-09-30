@@ -11,3 +11,4 @@ Welcome to Java Repositories's documentation!
    :glob:
 
    jvm/index
+   threads/index
