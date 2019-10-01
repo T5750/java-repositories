@@ -1,9 +1,10 @@
 ## Chapter03
 
 ### 垃圾收集器
-![jvm-gc-min](http://www.wailian.work/images/2018/11/01/jvm-gc-min.jpg)
+![jvm-gc-min](https://www.wailian.work/images/2018/11/01/jvm-gc-min.jpg)
 
 ### 垃圾收集器参数总结
+
 参数 | 描述
 ---|------
 UseSerialGC | 虚拟机运行在Client模式下的默认值，打开此开关后，使用Serial + Serial Old 的收集器组合进行内存回收

@@ -27,6 +27,7 @@
 - 传递性：如果操作A先行发生于操作B，操作B先行发生于操作C，那就得出操作A先行发生于操作C的结论
 
 ### Java线程调度
+
 Java线程优先级 | Windows线程优先级
 -----|-----
 1（Thread.MIN_PRIORITY） | THREAD_PRIORITY_LOWEST

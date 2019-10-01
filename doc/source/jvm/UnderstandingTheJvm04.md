@@ -1,6 +1,7 @@
 ## Chapter04
 
 ### JDK的命令行工具
+
 名称 | 主要作用
 ---|------
 jps | JVM Process Status Tool，显示指定系统内所有的HotSpot虚拟机进程

@@ -10,5 +10,7 @@ Threads
     concurrentProgramming
     executorFramework
     multithreadingInJava
+    threadCollection
+    threadCollection_zh
     threadJava2s
     threadPool

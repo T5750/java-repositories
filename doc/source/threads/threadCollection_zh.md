@@ -1,8 +1,7 @@
 # Java 多线程
 
 ## 一个线程的生命周期
-
-![Life Cycle of a Thread](http://img.my.csdn.net/uploads/201705/10/1494385217_1840.jpg)
+![Life Cycle of a Thread](https://www.wailian.work/images/2019/10/01/Thread_Life_Cycle-min.jpg)
 
 - **新建状态**:
 使用 new 关键字和 Thread 类或其子类建立一个线程对象后，该线程对象就处于新建状态。它保持这个状态直到程序 start() 这个线程。

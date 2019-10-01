@@ -1,6 +1,7 @@
 ## Chapter06
 
 ### Class类文件的结构
+
 类型 | 名称 | 数量
 ---|----|----
 u4 | magic | 1
@@ -21,6 +22,7 @@ u2 | attributes_count | 1
 attribute_info | attributes | attributes_count
 
 ### 常量池
+
 类型 | 标志 | 描述
 ----|---|----
 CONSTANT_Utf8_info | 1 | UTF-8 编码的字符串
@@ -47,6 +49,7 @@ CONSTANT_InvokeDynamic_info | 18 | 表示一个方法的调用点
 ![Jvm-CONSTANT-Structure-min-min](https://www.wailian.work/images/2019/04/16/Jvm-CONSTANT-Structure-min-min.png)
 
 ### 访问标志
+
 标志名称 | 标志值 | 含义
 ----|---|----
 ACC_PUBLIC | 0x0001 | 是否为Public类型
