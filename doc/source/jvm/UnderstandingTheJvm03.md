@@ -23,6 +23,3 @@ MaxGCPauseMillis | 设置GC 的最大停顿时间。仅在使用Parallel Scaveng
 CMSInitiatingOccupancyFraction | 设置CMS 收集器在老年代空间被使用多少后触发垃圾收集。默认值为68%，仅在使用CMS 收集器时生效
 UseCMSCompactAtFullCollection | 设置CMS 收集器在完成垃圾收集后是否要进行一次内存碎片整理。仅在使用CMS 收集器时生效
 CMSFullGCsBeforeCompaction | 设置CMS 收集器在进行若干次垃圾收集后再启动一次内存碎片整理。仅在使用CMS 收集器时生效
-
-## References
-- [深入理解Java虚拟机：JVM高级特性与最佳实践（第2版）](http://www.hzcourse.com/web/refbook/detail/5070/208)
