@@ -1,6 +1,7 @@
 ## Java 6 HotSpot VM Options
 
 ### JVM参数的含义
+
 参数名称 | 含义 | 默认值 | 描述
 ---|---|---|---
 -Xms | 初始堆大小 | 物理内存的1/64(<1GB) | 默认(MinHeapFreeRatio参数可以调整)空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制
@@ -27,6 +28,7 @@
 -XX:+CollectGen0First | FullGC时是否先YGC | false | 
 
 ### 并行收集器相关参数
+
 参数名称 | 含义 | 默认值 | 描述
 ---|---|---|---
 -XX:+UseParallelGC | Full GC采用parallel MSC(此项待验证) |  | 选择垃圾收集器为并行收集器。此配置仅对年轻代有效。即上述配置下，年轻代使用并发收集，而年老代仍旧使用串行收集。(此项待验证)
@@ -39,6 +41,7 @@
 -XX:+ScavengeBeforeFullGC | Full GC前调用YGC | true | Do young generation GC prior to a full GC. (Introduced in 1.4.1.)
 
 ### CMS相关参数
+
 参数名称 | 含义 | 默认值 | 描述
 ---|---|---|---
 -XX:+UseConcMarkSweepGC | 使用CMS内存收集 |  | 测试中配置这个以后，`-XX:NewRatio=4`的配置失效了，原因不明。所以，此时年轻代大小最好用-Xmn设置
@@ -53,6 +56,7 @@
 -XX:+CMSClassUnloadingEnabled |  |  | 
 
 ### 辅助信息
+
 参数名称 | 含义 | 描述
 ---|---|---
 -XX:+PrintGC |  | 输出形式：`[GC 118250K->113543K(130112K), 0.0094143 secs][Full GC 121376K->10414K(130112K), 0.0650971 secs]`

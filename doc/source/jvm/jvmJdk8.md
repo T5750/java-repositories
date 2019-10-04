@@ -1,6 +1,7 @@
 ## Java 8 HotSpot VM Options
 
 ### Deprecated and Removed Options
+
 Options | Description | Type
 ---|-----|---
 -Xincgc | Enables incremental garbage collection | deprecated
@@ -28,6 +29,7 @@ jinfo -flag MetaspaceSize pid
 
 ### CMS
 #### CMS Collection Phases
+
 Phase | Description
 ---|-----
 (1) Initial Mark(Stop the World Event) | Objects in old generation are “marked” as reachable including those objects which may be reachable from young generation. Pause times are typically short in duration relative to minor collection pause times.
@@ -37,6 +39,7 @@ Phase | Description
 (5) Resetting | Prepare for next concurrent collection by clearing data structures. 
 
 ### G1
+
 参数及默认值 | 描述信息
 ---|-----
 -XX:MaxGCPauseMillis=200 | 期望的最大停顿时间。千万不要对这个参数有误解，认为设置它为10，就能控制每次停顿时间都不会10ms。这种极端的设置只会适得其反，导致每次Mixed GC只能回收很少一部分区域，从而让情况不断恶化，发生FullGC的概率大大提高
@@ -56,6 +59,7 @@ Phase | Description
 >备注：值为ergo意味着其具体值与环境有关。
 
 #### G1 Collection Phases
+
 Phase | Description
 ---|-----
 (1) Initial Mark(Stop the World Event) | This is a stop the world event. With G1, it is piggybacked on a normal young GC. Mark survivor regions (root regions) which may have references to objects in old generation.

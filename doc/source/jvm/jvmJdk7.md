@@ -26,6 +26,7 @@ The options below are loosely grouped into categories.
 - [Debugging options](https://www.oracle.com/technetwork/java/javase/tech/vmoptions-jsp-140102.html#DebuggingOptions) generally enable tracing, printing, or output of VM information.
 
 ### Behavioral Options
+
 Option and Default Value | Description
 ---|---
 -XX:-AllowUserSignalHandlers | Do not complain if the application installs signal handlers. (Relevant to Solaris and Linux only.)
@@ -52,6 +53,7 @@ Option and Default Value | Description
 -XX:+UseVMInterruptibleIO | Thread interrupt before or with EINTR for I/O operations results in OS_INTRPT. (Introduced in 6. Relevant to Solaris only.)
 
 ### Garbage First (G1) Garbage Collection Options
+
 Option and Default Value | Description
 ---|---
 -XX:+UseG1GC | Use the Garbage First (G1) Collector
@@ -66,6 +68,7 @@ Option and Default Value | Description
 -XX:G1HeapRegionSize=n | With G1 the Java heap is subdivided into uniformly sized regions. This sets the size of the individual sub-divisions. The default value of this parameter is determined ergonomically based upon heap size. The minimum value is 1Mb and the maximum value is 32Mb.
 
 ### Performance Options
+
 Option and Default Value | Description
 ---|---
 -XX:+AggressiveOpts | Turn on point performance compiler optimizations that are expected to be default in upcoming releases. (Introduced in 5.0 update 6.)
@@ -93,6 +96,7 @@ Option and Default Value | Description
 -XX:+OptimizeStringConcat | Optimize String concatenation operations where possible. (Introduced in Java 6 Update 20) 
 
 ### Debugging Options
+
 Option and Default Value | Description
 ---|---
 -XX:-CITime | Prints time spent in JIT Compiler. (Introduced in 1.4.0.)

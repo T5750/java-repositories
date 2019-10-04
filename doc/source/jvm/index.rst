@@ -1,7 +1,6 @@
 JVM
 =======
-
-
+Java Virtual Machine ( JVM )
 
 .. toctree::
     :maxdepth: 2
@@ -10,6 +9,10 @@ JVM
     jmxCollection
     jvisualvm
     jvmCollection
+    jvmJdk6
+    jvmJdk7
+    jvmJdk8
+    jvmNote
     UnderstandingTheJvm
     UnderstandingTheJvm02
     UnderstandingTheJvm03

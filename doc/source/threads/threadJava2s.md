@@ -1,4 +1,4 @@
-# Thread
+# Thread Demos
 
 ## Links
 - [Java Thread Creation](http://www.java2s.com/Tutorials/Java/Java_Thread/index.htm)

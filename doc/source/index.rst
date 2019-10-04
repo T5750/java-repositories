@@ -3,8 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Java Repositories's documentation!
+Java Repositories
 =============================================
+This is my technical note, I hope this can help you.
+
+- Docs: https://java-repositories.readthedocs.io
+- Source: https://github.com/T5750/java-repositories
 
 .. toctree::
    :maxdepth: 2
