@@ -2,9 +2,9 @@
 
 ## Contents
 ### Java HotSpot VM Options
-- [Java 6 HotSpot VM Options](doc/jvmJdk6.md)
-- [Java 7 HotSpot VM Options](doc/jvmJdk7.md)
-- [Java 8 HotSpot VM Options](doc/jvmJdk8.md)
+- [Java 6 HotSpot VM Options](../doc/source/jvm/jvmJdk6.md)
+- [Java 7 HotSpot VM Options](../doc/source/jvm/jvmJdk7.md)
+- [Java 8 HotSpot VM Options](../doc/source/jvm/jvmJdk8.md)
 
 ### 深入理解Java虚拟机：JVM高级特性与最佳实践
 - [1 走进Java](../doc/source/jvm/UnderstandingTheJvm.md)
@@ -55,7 +55,7 @@
     - [锁优化](../doc/source/jvm/UnderstandingTheJvm13.md#锁优化)
 
 ### JVM虚拟机优化笔记
-- [JVM虚拟机优化笔记](doc/jvmNote.md)
+- [JVM虚拟机优化笔记](../doc/source/jvm/jvmNote.md)
 
 ### JVM网摘笔记
 - [JVM网摘笔记](../doc/source/jvm/jvmCollection.md)
