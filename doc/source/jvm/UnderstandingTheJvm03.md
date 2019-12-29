@@ -1,4 +1,4 @@
-## Chapter03
+## 深入理解Java虚拟机 Chapter03
 
 ### 垃圾收集器
 ![jvm-gc-min](https://www.wailian.work/images/2018/11/01/jvm-gc-min.jpg)

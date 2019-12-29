@@ -1,4 +1,4 @@
-## Chapter06
+## 深入理解Java虚拟机 Chapter06
 
 ### Class类文件的结构
 

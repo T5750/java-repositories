@@ -142,15 +142,15 @@ public ThreadPoolExecutor(int corePoolSize,
 ### 优雅关机
 - 通过JDK的ShutdownHook来完成优雅关机，这个钩子可以在以下几种场景被调用：
     - 程序正常退出
-    - 使用System.exit()
-    - 终端使用Ctrl+C触发的中断
+    - 使用`System.exit()`
+    - 终端使用`Ctrl+C`触发的中断
     - 系统关闭
-    - 使用kill pid命令干掉进程
-- 注：在使用kill -9 pid是不会JVM注册的钩子不会被调用。
+    - 使用`kill pid`命令干掉进程
+- 注：在使用`kill -9 pid`是不会JVM注册的钩子不会被调用。
 - 示例：`TestShutdownHook`
 - [Java应用中使用ShutdownHook友好地清理现场](http://www.cnblogs.com/nexiyi/p/java_add_ShutdownHook.html)
 
 示例：`TestHoldCount`, `UseCondition`, `UseManyCondition`, `UseReentrantLock`, `UseReentrantReadWriteLock`
 
 ## References
-- 并发编程
+- 尚学堂互联网架构师课程

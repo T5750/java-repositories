@@ -1,4 +1,4 @@
-## Chapter05
+## 深入理解Java虚拟机 Chapter05
 
 ### Eclipse运行速度调优
 最终`eclipse.ini`的配置

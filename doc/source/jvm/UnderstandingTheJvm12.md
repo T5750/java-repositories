@@ -1,4 +1,4 @@
-## Chapter12
+## 深入理解Java虚拟机 Chapter12
 
 ### 内存间交互操作
 ![jvm-memory-min](https://www.wailian.work/images/2019/04/23/jvm-memory-min.png)

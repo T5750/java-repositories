@@ -1,4 +1,4 @@
-## Chapter11
+## 深入理解Java虚拟机 Chapter11
 
 ### 解释器与编译器
 1. 混合模式（Mixed Mode）

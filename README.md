@@ -1,5 +1,9 @@
 # Java Repositories
 
+[![License](https://img.shields.io/badge/license-Apache-blue.svg)](https://github.com/T5750/java-repositories/blob/master/LICENSE.txt)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/T5750/java-repositories/pulls)
+[![Documentation Status](https://readthedocs.org/projects/java-repositories/badge/?version=latest)](https://java-repositories.readthedocs.io/en/latest/?badge=latest)
+
 ## What's included
 A ~ C | D ~ G | H ~ L | M ~ P | Q ~ S | T ~ Z
 ----|----|----|----|----|----
