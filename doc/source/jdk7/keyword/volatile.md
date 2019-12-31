@@ -1,13 +1,12 @@
-# Java™ Platform Standard Ed. 7
+## volatile
 
-## `volatile`
 ### 内存可见性
 由于Java内存模型(`JMM`)规定，所有的变量都存放在主内存中，而每个线程都有着自己的工作内存(高速缓存)。
 
 线程在工作时，需要将主内存中的数据拷贝到工作内存中。这样对数据的任何操作都是基于工作内存(效率提高)，并且不能直接操作主内存以及其他线程工作内存中的数据，之后再将更新之后的数据刷新到主内存中。
 >这里所提到的主内存可以简单认为是**堆内存**，而工作内存则可以认为是**栈内存**。
 
-![mem-min](http://www.wailian.work/images/2018/10/23/mem-min.png)
+![mem-min](https://www.wailian.work/images/2018/10/23/mem-min.png)
 
 所以，在并发运行时，可能会出现线程B所读取到的数据是线程A更新之前的数据。显然这肯定是会出问题的，因此`volatile`的作用出现了：
 >当一个变量被`volatile`修饰时，任何线程对它的写操作都会立即刷新到主内存中，并且会强制让缓存了该变量的线程中的数据清空，必须从主内存重新读取最新数据。
@@ -61,6 +60,7 @@ public class Singleton {
 - `VolatileTest`，`VolatileInc`，`Singleton`
 
 ### 术语定义
+
 术语 | 英文单词 | 描述
 ---|---|-----
 共享变量 |  | 在多个线程之间能够被共享的变量被称为共享变量。共享变量包括所有的实例变量，静态变量和数组元素。他们都被存放在堆内存中，`volatile`只作用于共享变量。
@@ -78,6 +78,6 @@ public class Singleton {
 ### 总结
 `volatile`在Java并发中用的很多，比如像`atomic`包中的`value`、以及`AbstractQueuedLongSynchronizer`中的`state`都是被定义为`volatile`来用于保证内存可见性。
 
-## References
+### References
 - [你应该知道的 volatile 关键字](https://crossoverjie.top/2018/03/09/volatile/)
 - [聊聊并发（一）深入分析Volatile的实现原理](http://ifeve.com/volatile/)

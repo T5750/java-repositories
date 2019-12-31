@@ -1,6 +1,5 @@
-# Java™ Platform Standard Ed. 7
-
 ## 线程通信
+
 ### 等待通知机制
 >等待通知模式是Java中比较经典的线程通信方式。
 
@@ -94,5 +93,5 @@ Java虽说是基于内存通信的，但也可以使用管道通信。
 
 需要注意的是，输入流和输出流需要首先建立连接。这样线程B就可以收到线程A发出的消息了。
 
-## References
+### References
 - [深入理解线程通信](https://crossoverjie.top/2018/03/16/java-senior/thread-communication/)

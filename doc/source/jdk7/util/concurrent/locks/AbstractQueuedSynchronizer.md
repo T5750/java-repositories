@@ -1,8 +1,6 @@
-# Java™ Platform Standard Ed. 7
+## AbstractQueuedSynchronizer
 
-## `java.util.concurrent.locks`
-### `AbstractQueuedSynchronizer`
-#### 简介
+### 简介
 提供了一个基于FIFO队列，可以用于构建锁或者其他相关同步装置的基础框架。子类对于状态的把握，需要使用这个同步器提供的以下三个方法对状态进行操作：
 ```
 AbstractQueuedSynchronizer.getState()
@@ -31,9 +29,10 @@ AbstractQueuedSynchronizer.compareAndSetState(int, int)
 
 节点成为sync队列和condition队列构建的基础，在同步器中就包含了sync队列。同步器拥有三个成员变量：sync队列的头结点`head`、sync队列的尾节点`tail`和状态`state`。对于锁的获取，请求形成节点，将其挂载在尾部，而锁资源的转移（释放再获取）是从头部开始向后进行。对于同步器维护的状态`state`，多个线程对其的获取将会产生一个链式的结构。
 
-![AQS-Node-min](http://www.wailian.work/images/2018/10/25/AQS-Node-min.png)
+![AQS-Node-min](https://www.wailian.work/images/2018/10/25/AQS-Node-min.png)
 
-#### API说明
+### API说明
+
 方法名称 | 描述
 ----|------
 `protected boolean tryAcquire(int arg)` | 独占模式获取状态。需要查询当前状态是否允许获取，然后再进行获取（使用`compareAndSetState`来做）状态。
@@ -64,7 +63,7 @@ if (释放成功) {
 }
 ```
 
-#### 出队操作
+### 出队操作
 ```
 private void setHead(Node node) { // 设置新的head节点
     head = node;
@@ -73,7 +72,7 @@ private void setHead(Node node) { // 设置新的head节点
 }
 ```
 
-#### 入队操作
+### 入队操作
 ```
 private Node addWaiter(Node mode) {
     Node node = new Node(Thread.currentThread(), mode); // 1. 使用当前线程构造Node
@@ -106,8 +105,8 @@ private Node enq(final Node node) {
 }
 ```
 
-#### 独占模式获取
-![acquire-min](http://www.wailian.work/images/2018/10/25/acquire-min.png)
+### 独占模式获取
+![acquire-min](https://www.wailian.work/images/2018/10/25/acquire-min.png)
 ```
 public final void acquire(int arg) {
     // tryAcquire 由子类实现本身不会阻塞线程，如果返回 true，则线程继续。如果返回 false 那么就加入阻塞队列阻塞线程，并等待前继节点释放锁。
@@ -173,7 +172,7 @@ private final boolean parkAndCheckInterrupt() {
 ```
 线程被唤醒只可能是：被`unpark`，被中断或伪唤醒。被中断会设置`interrupted`，`acquire`方法返回前会`selfInterrupt`重置下线程的中断状态，如果是伪唤醒的话会for循环re-check。
 
-#### 独占模式释放
+### 独占模式释放
 ```
 public final boolean release(int arg) {
     // tryRelease由子类实现，通过设置state值来达到同步的效果。
@@ -204,7 +203,7 @@ private void unparkSuccessor(Node node) {
 }
 ```
 
-#### 共享模式获取
+### 共享模式获取
 ```
 public final void acquireShared(int arg) {
     if (tryAcquireShared(arg) < 0) // 1. 尝试获取共享状态；
@@ -269,7 +268,7 @@ private void doReleaseShared() {
 }
 ```
 
-#### 共享模式释放
+### 共享模式释放
 ```
 public final boolean releaseShared(int arg) {
     if (tryReleaseShared(arg)) {
@@ -280,7 +279,7 @@ public final boolean releaseShared(int arg) {
 }
 ```
 
-#### `doAcquireNanos(int arg, long nanosTimeout)`
+### `doAcquireNanos(int arg, long nanosTimeout)`
 该方法提供了具备有超时功能的获取状态的调用，如果在指定的`nanosTimeout`内没有获取到状态，那么返回`false`，反之返回`true`。可以将该方法看做`acquireInterruptibly`的升级版，也就是在判断是否被中断的基础上增加了超时控制。
 ```
 // 这个变量用在doAcquireNanos方法，也就是支持超时的获取版本。
@@ -322,9 +321,9 @@ private boolean doAcquireNanos(int arg, long nanosTimeout) throws InterruptedExc
 1. 计算再次休眠的时间；
 1. 休眠时间的判定。
 
-![doAcquireNanos-min](http://www.wailian.work/images/2018/10/25/doAcquireNanos-min.png)
+![doAcquireNanos-min](https://www.wailian.work/images/2018/10/25/doAcquireNanos-min.png)
 
-#### `acquireInterruptibly(int arg)`
+### `acquireInterruptibly(int arg)`
 该方法提供获取状态能力，当然在无法获取状态的情况下会进入sync队列进行排队，这类似`acquire`，但是和`acquire`不同的地方在于它能够在外界对当前线程进行中断的时候提前结束获取状态的操作，换句话说，就是在类似`synchronized`获取锁时，外界能够对当前线程进行中断，并且获取锁的这个操作能够响应中断并提前返回。
 ```
 public final void acquireInterruptibly(int arg) throws InterruptedException {
@@ -360,7 +359,7 @@ private void doAcquireInterruptibly(int arg)
 1. 构造节点并加入sync队列；
 1. 中断检测。
 
-#### Tips
+### Tips
 - `ReentrantLock`，`Semaphore`，`CountDownLatch`都有一个内部类`Sync`，都是继承自`AbstractQueuedSynchronizer`。
 - `AQS`的核心是通过一个共享变量来同步状态，变量的状态由子类去维护，而`AQS`框架做的是：
     - 线程阻塞队列的维护
@@ -391,10 +390,10 @@ private void doAcquireInterruptibly(int arg)
     - `Future.get`：`FutureTask`
     - `tryAcquire`，`tryAcquireShared`：`ReentrantReadWriteLock`
 
-#### 示例
+### 示例
 - `TwinsLockTest`，`SimpleLock`，`ClhSpinLock`，`LockSupportTest`，`MutexTest`
 
-## References
+### References
 - [AbstractQueuedSynchronizer的介绍和原理分析](http://ifeve.com/introduce-abstractqueuedsynchronizer/)
 - [Java并发包源码学习之AQS框架（四）AbstractQueuedSynchronizer源码分析](https://www.cnblogs.com/zhanjindong/p/java-concurrent-package-aqs-AbstractQueuedSynchronizer.html)
 - [Java并发包源码学习之AQS框架（一）概述](http://zhanjindong.com/2015/03/10/java-concurrent-package-aqs-overview)

@@ -1,6 +1,5 @@
-# Java™ Platform Standard Ed. 7
+## synchronized
 
-## `synchronized`
 众所周知`synchronized`关键字是解决并发问题常用解决方案，有以下三种使用方式：
 - 同步普通方法，锁的是当前对象。
 - 同步静态方法，锁的是当前`Class`对象。
@@ -15,7 +14,7 @@ JVM是通过进入、退出对象监视器(`Monitor`)来实现对方法、同步
 
 而对于没有获取到锁的线程将会阻塞到方法入口处，直到获取锁的线程`monitor.exit`之后才能尝试继续获取锁。
 
-![synchronized-min](http://www.wailian.work/images/2018/10/23/synchronized-min.png)
+![synchronized-min](https://www.wailian.work/images/2018/10/23/synchronized-min.png)
 
 ### 锁优化
 `synchronized`很多都称之为重量锁，JDK1.6中对`synchronized`进行了各种优化，为了能减少获取和释放锁带来的消耗引入了偏向锁和轻量锁。
@@ -34,7 +33,7 @@ JVM是通过进入、退出对象监视器(`Monitor`)来实现对方法、同步
 - 认为大多数锁在整个同步周期都不存在竞争，所以使用`CAS`比使用互斥开销更少。
 - 但如果锁竞争激烈，轻量锁就不但有互斥的开销，还有`CAS`的开销，甚至比重量锁更慢。
 
-![轻量级锁-min](http://www.wailian.work/images/2018/10/23/-min62638.png)
+![轻量级锁-min](https://www.wailian.work/images/2018/10/23/-min62638.png)
 
 #### 偏向锁
 为了进一步的降低获取锁的代价，JDK1.6之后还引入了偏向锁。
@@ -48,7 +47,7 @@ JVM是通过进入、退出对象监视器(`Monitor`)来实现对方法、同步
       
 偏向锁可以提高带有同步却没有竞争的程序性能，但如果程序中大多数锁都存在竞争时，那偏向锁就起不到太大作用。可以使用`-XX:-userBiasedLocking=false`来关闭偏向锁，并默认进入轻量锁。
 
-![偏向锁的撤销-min](http://www.wailian.work/images/2018/10/23/-min.png)
+![偏向锁的撤销-min](https://www.wailian.work/images/2018/10/23/-min.png)
 
 #### 适应性自旋
 在使用`CAS`时，如果操作失败，`CAS`会自旋再次尝试。由于自旋是需要消耗CPU资源的，所以如果长期自旋就白白浪费了CPU。JDK1.6加入了适应性自旋：
@@ -68,6 +67,6 @@ JVM是通过进入、退出对象监视器(`Monitor`)来实现对方法、同步
 ### 总结
 `synchronized`现在已经不像以前那么重了，拿1.8中的`ConcurrentHashMap`就可以看出，里面大量的使用了`synchronized`来进行同步。
 
-## References
+### References
 - [synchronized 关键字原理](https://crossoverjie.top/2018/01/14/Synchronize/)	
 - [聊聊并发（二）Java SE1.6中的Synchronized](http://ifeve.com/java-synchronized/)

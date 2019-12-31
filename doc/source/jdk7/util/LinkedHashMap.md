@@ -1,7 +1,5 @@
-# Java™ Platform Standard Ed. 7
+## LinkedHashMap
 
-## `java.util`
-### `LinkedHashMap`
 具有顺序的`LinkedHashMap`底层是继承于`HashMap`实现的，由一个双向链表所构成。
 
 `LinkedHashMap`的排序方式有两种：
@@ -10,7 +8,7 @@
 
 其中根据访问顺序排序时，每次`get`都会将访问的值移动到链表末尾，这样重复操作就能的到一个按照访问顺序排序的链表。
 
-#### 数据结构
+### 数据结构
 ```
 private transient Entry<K,V> header; // 是这个双向链表的头结点
 private final boolean accessOrder; // 默认按照插入顺序排序，为 true 时按照访问顺序排序
@@ -27,11 +25,11 @@ private static class Entry<K,V> extends HashMap.Entry<K,V> {
 ```
 其中`Entry`继承于`HashMap`的`Entry`，并新增了上下节点的指针，也就形成了双向链表。利用了头节点和其余的各个节点之间通过`Entry`中的`after`和`before`指针进行关联。
 
-![LinkedHashMap-min](http://www.wailian.work/images/2018/10/19/LinkedHashMap-min.jpg)
+![LinkedHashMap-min](https://www.wailian.work/images/2018/10/19/LinkedHashMap-min.jpg)
 
-![LinkedHashMap2](http://www.wailian.work/images/2018/10/19/LinkedHashMap2.gif)
+![LinkedHashMap2](https://s1.wailian.download/2019/12/31/LinkedHashMap2-min.png)
 
-#### 构造方法
+### 构造方法
 `LinkedHashMap`的构造方法:
 ```
 public LinkedHashMap() {
@@ -64,7 +62,7 @@ void init() {
 }
 ```
 
-#### `put` 方法
+### `put` 方法
 主体的实现都是借助于`HashMap`来完成的，只是对其中的`recordAccess()`,`addEntry()`,`createEntry()`进行了重写。`LinkedHashMap`的实现：
 ```
 // 就是判断是否是根据访问顺序排序，如果是则需要将当前这个 Entry 移动到链表的末尾
@@ -103,7 +101,7 @@ private void addBefore(Entry<K,V> existingEntry) {
 }
 ```
 
-#### `get` 方法
+### `get` 方法
 ```
 public V get(Object key) {
 	Entry<K,V> e = (Entry<K,V>)getEntry(key);
@@ -130,11 +128,11 @@ public void clear() {
 }
 ```
 
-#### 示例
+### 示例
 - `LinkedHashMapTest`，`LinkedHashMapDemo`
 
-#### 总结
+### 总结
 总的来说`LinkedHashMap`其实就是对`HashMap`进行了拓展，使用了双向链表来保证了顺序性。
 
-## References
+### References
 - [LinkedHashMap 底层分析](https://crossoverjie.top/2018/02/06/LinkedHashMap/)

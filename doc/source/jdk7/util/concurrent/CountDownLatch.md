@@ -1,12 +1,10 @@
-# Java™ Platform Standard Ed. 7
+## CountDownLatch
 
-## `java.lang.concurrent`
-### `CountDownLatch`
 `CountDownLatch`这个类能够使一个线程等待其他线程完成各自的工作后再执行。例如，应用程序的主线程希望在负责启动框架服务的线程已经启动所有的框架服务之后再执行。
 
 `CountDownLatch`是通过一个计数器来实现的，计数器的初始值为线程的数量。每当一个线程完成了自己的任务后，计数器的值就会减1。当计数器值到达0时，它表示所有的线程已经完成了任务，然后在闭锁上等待的线程就可以恢复执行任务。
 
-![CountDownLatch-min](http://www.wailian.work/images/2018/10/17/CountDownLatch-min.png)
+![CountDownLatch-min](https://www.wailian.work/images/2018/10/17/CountDownLatch-min.png)
 
 `CountDownLatch`类只提供了一个构造器：
 ```
@@ -24,15 +22,16 @@ public void countDown() { };  //将count值减1
 
 通知机制是通过`CountDownLatch.countDown()`方法来完成的；每调用一次这个方法，在构造函数中初始化的`count`值就减1。当`count`的值等于0，主线程就能通过`await()`方法，恢复执行自己的任务。
 
-#### 应用场景
+### 应用场景
 1. 实现最大的并行性：有时我们想同时启动多个线程，实现最大程度的并行性。例如，我们想测试一个单例类。如果我们创建一个初始计数为1的`CountDownLatch`，并让所有线程都在这个锁上等待，那么我们可以很轻松地完成测试。我们只需调用一次`countDown()`方法就可以让所有的等待线程同时恢复执行。
 1. 开始执行前等待n个线程完成各自任务：例如应用程序启动类要确保在处理用户请求前，所有N个外部系统已经启动和运行了。
 1. 死锁检测：一个非常方便的使用场景是，你可以使用n个线程访问共享资源，在每次测试阶段的线程数目是不同的，并尝试产生死锁。
 
-#### 示例
+### 示例
 - `CountDownLatchTest`
 
-### `CyclicBarrier`
+## CyclicBarrier
+
 `CyclicBarrier`的字面意思是可循环使用（Cyclic）的屏障（Barrier）。它要做的事情是，让一组线程到达一个屏障（也可以叫同步点）时被阻塞，直到最后一个线程到达屏障时，屏障才会开门，所有被屏障拦截的线程才会继续干活。
 ```
 public class CyclicBarrier {
@@ -71,13 +70,14 @@ public int await(long timeout, TimeUnit unit)throws InterruptedException,BrokenB
 - 第一个版本比较常用，用来挂起当前线程，直至所有线程都到达barrier状态再同时执行后续任务；
 - 第二个版本是让这些线程等待至一定的时间，如果还有线程没有到达barrier状态就直接让到达barrier的线程执行后续任务。
 
-#### 应用场景
+### 应用场景
 `CyclicBarrier`可以用于多线程计算数据，最后合并计算结果的应用场景。比如我们用一个Excel保存了用户所有银行流水，每个Sheet保存一个帐户近一年的每笔银行流水，现在需要统计用户的日均银行流水，先用多线程处理每个sheet里的银行流水，都执行完之后，得到每个sheet的日均银行流水，最后，再用barrierAction用这些线程的计算结果，计算出整个Excel的日均银行流水。
 
-#### 示例
+### 示例
 - `CyclicBarrierTest`，`CyclicBarrierRunnableTest`，`CyclicBarrierAwaitTest`，`CyclicBarrierReusingTest`，`CyclicBarrierIsBrokenTest`
 
-### `Semaphore`
+## Semaphore
+
 `Semaphore`翻译成字面意思为信号量，`Semaphore`可以控同时访问的线程个数，通过`acquire()`获取一个许可，如果没有就等待，而`release()`释放一个许可。
 
 `Semaphore`类提供了2个构造器：
@@ -104,10 +104,10 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 public int availablePermits() {return sync.getPermits();} // 得到可用的许可数目
 ```
 
-#### 应用场景
+### 应用场景
 `Semaphore`可以用于做流量控制，特别公用资源有限的应用场景，比如数据库连接。假如有一个需求，要读取几万个文件的数据，因为都是IO密集型任务，我们可以启动几十个线程并发的读取，但是如果读到内存后，还需要存储到数据库中，而数据库的连接数只有10个，这时我们必须控制只有十个线程同时获取数据库连接保存数据，否则会报错无法获取数据库连接。这个时候，我们就可以使用`Semaphore`来做流控。
 
-#### 示例
+### 示例
 - `SemaphoreTest`，`SemaphoreProducerConsumer`
 
 ### 总结
@@ -119,7 +119,8 @@ public int availablePermits() {return sync.getPermits();} // 得到可用的许�
     - `CyclicBarrier`还提供其他有用的方法，比如`getNumberWaiting`方法可以获得`CyclicBarrier`阻塞的线程数量。`isBroken`方法用来知道阻塞的线程是否被中断。
 - `Semaphore`其实和锁有点类似，它一般用于控制对某组资源的访问权限。
 
-### `Exchanger`
+## Exchanger
+
 `Exchanger`（交换者）是一个用于线程间协作的工具类。`Exchanger`用于进行线程间的数据交换。它提供一个同步点，在这个同步点两个线程可以交换彼此的数据。这两个线程通过`exchange`方法交换数据， 如果第一个线程先执行`exchange`方法，它会一直等待第二个线程也执行`exchange`，当两个线程都到达同步点时，这两个线程就可以交换数据，将本线程生产出来的数据传递给对方。
 
 `Exchanger`类中，重要的方法：
@@ -128,13 +129,13 @@ public V exchange(V x) throws InterruptedException { }
 public V exchange(V x, long timeout, TimeUnit unit)throws InterruptedException, TimeoutException { } // 设置最大等待时长
 ```
 
-#### 应用场景
+### 应用场景
 `Exchanger`可以用于遗传算法，遗传算法里需要选出两个人作为交配对象，这时候会交换两人的数据，并使用交叉规则得出2个交配结果。`Exchanger`也可以用于校对工作。比如我们需要将纸制银流通过人工的方式录入成电子银行流水，为了避免错误，采用AB岗两人进行录入，录入到Excel之后，系统需要加载这两个Excel，并对这两个Excel数据进行校对，看看是否录入的一致。
 
-#### 示例
+### 示例
 - `ExchangerTest`
 
-## References
+### References
 - [什么时候使用CountDownLatch](http://www.importnew.com/15731.html)
 - [并发工具类（二）同步屏障CyclicBarrier](http://ifeve.com/concurrency-cyclicbarrier/)
 - [Java并发编程：CountDownLatch、CyclicBarrier和Semaphore](http://www.cnblogs.com/dolphin0520/p/3920397.html)

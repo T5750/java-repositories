@@ -14,5 +14,7 @@ This is my technical note, I hope this can help you.
    :maxdepth: 2
    :glob:
 
+   jdk7/index
+   jdk8/index
    jvm/index
    threads/index

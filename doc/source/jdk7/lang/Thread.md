@@ -1,7 +1,4 @@
-# Java™ Platform Standard Ed. 7
-
-## `java.lang`
-### `Thread`
+## Thread
 
 ### `Thread.State`
 - `NEW`: A thread that has not yet started is in this state.

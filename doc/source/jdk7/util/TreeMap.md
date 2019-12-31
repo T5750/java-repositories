@@ -1,8 +1,6 @@
-# Java™ Platform Standard Ed. 7
+## TreeMap
 
-## `java.util`
-### `TreeMap`
-#### 1.介绍
+### 1.介绍
 - `TreeMap`是一个**有序的key-value集合**，它是通过红黑树实现的。
 - `TreeMap`**继承于`AbstractMap`**，所以它是一个`Map`，即一个key-value集合。
 - `TreeMap`实现了`NavigableMap`接口，意味着它**支持一系列的导航方法**。比如返回有序的key集合。
@@ -62,8 +60,9 @@ NavigableMap<K, V>         tailMap(K from, boolean inclusive)
 SortedMap<K, V>            tailMap(K fromInclusive)
 ```
 
-#### 2.数据结构
-![TreeMap-min](http://www.wailian.work/images/2018/10/29/TreeMap-min.jpg)
+### 2.数据结构
+![TreeMap-min](https://www.wailian.work/images/2018/10/29/TreeMap-min.jpg)
+
 1. `TreeMap`实现继承于`AbstractMap`，并且实现了`NavigableMap`接口。
 1. `TreeMap`的本质是R-B Tree(红黑树)，它包含几个重要的成员变量：`root`,`size`,`comparator`。
     - `root`是红黑数的根节点。它是`Entry`类型，`Entry`是红黑数的节点，它包含了红黑数的6个基本组成成分：`key`(键)、`value`(值)、`left`(左孩子)、`right`(右孩子)、`parent`(父节点)、`color`(颜色)。`Entry`节点根据`key`进行排序，`Entry`节点包含的内容为`value`。
@@ -71,11 +70,11 @@ SortedMap<K, V>            tailMap(K fromInclusive)
     - `size`是红黑数中节点的个数。
 
 
-#### 3.源码解析
+### 3.源码解析
 //TODO
 
-#### 4.遍历方式
-##### 4.1 遍历`TreeMap`的键值对
+### 4.遍历方式
+#### 4.1 遍历`TreeMap`的键值对
 1. 根据`entrySet()`获取`TreeMap`的“键值对”的`Set`集合。
 1. 通过`Iterator`迭代器遍历“第一步”得到的集合。
 ```
@@ -91,7 +90,7 @@ while(iter.hasNext()) {
 }
 ```
 
-##### 4.2 遍历`TreeMap`的键
+#### 4.2 遍历`TreeMap`的键
 1. 根据`keySet()`获取`TreeMap`的“键”的Set集合。
 1. 通过`Iterator`迭代器遍历“第一步”得到的集合。
 ```
@@ -107,7 +106,7 @@ while (iter.hasNext()) {
 }
 ```
 
-##### 4.3 遍历`TreeMap`的值
+#### 4.3 遍历`TreeMap`的值
 1. 根据`value()`获取`TreeMap`的“值”的集合。
 1. 通过`Iterator`迭代器遍历“第一步”得到的集合。
 ```
@@ -120,8 +119,8 @@ while (iter.hasNext()) {
 }
 ```
 
-#### 5.示例
+### 5.示例
 - `TreeMapTest`，`TreeMapIteratorTest`，`TreeMapDemo`
 
-## References
+### References
 - [Java 集合系列12之 TreeMap详细介绍(源码解析)和使用示例](http://www.cnblogs.com/skywang12345/p/3310928.html)

@@ -1,12 +1,9 @@
-# Java™ Platform Standard Ed. 7
+## HashMap
 
-## `java.util`
-### `HashMap`
-
-#### Base 1.7
+### Base 1.7
 - `HashMap`底层是基于`数组+链表`组成的。1.7`HashMap`结构图：
 
-![HashMap1.7-min](http://www.wailian.work/images/2018/10/16/HashMap1.7-min.jpg)
+![HashMap1.7-min](https://www.wailian.work/images/2018/10/16/HashMap1.7-min.jpg)
 ```
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16 // Step 1
 
@@ -88,7 +85,7 @@ public HashMap(int initialCapacity, float loadFactor) {
 - `next`：用于实现链表结构。
 - `hash`：存放的是当前`key`的hashcode。
 
-##### `put` 方法
+#### `put` 方法
 ```
 public V put(K key, V value) {
     if (table == EMPTY_TABLE) {
@@ -138,7 +135,7 @@ void createEntry(int hash, K key, V value, int bucketIndex) {
 - 如果需要就进行两倍扩充，并将当前的`key`重新`hash`并定位。
 - 而在`createEntry`中会将当前位置的桶传入到新建的桶中，如果当前桶有值就会在位置形成链表。
 
-##### `get` 方法
+#### `get` 方法
 ```
 public V get(Object key) {
     if (key == null) // （1）当key为空的时候，使用特定的方法来get这个元素
@@ -167,19 +164,19 @@ final Entry<K,V> getEntry(Object key) {
 - 为链表则需要遍历直到`key`及hashcode相等时候就返回值。
 - 啥都没取到就直接返回`null`。
 
-#### Base 1.8
+### Base 1.8
 - 1.7的实现大家看出需要优化的点没有？其实一个很明显的地方就是：
 >当Hash冲突严重时，在桶上形成的链表会变的越来越长，这样在查询时的效率就会越来越低；时间复杂度为`O(N)`。
 
 - 因此1.8中重点优化了这个查询效率。1.8`HashMap`结构图：
 
-![HashMap1.8-min](http://www.wailian.work/images/2018/10/16/HashMap1.8-min.jpg)
+![HashMap1.8-min](https://www.wailian.work/images/2018/10/16/HashMap1.8-min.jpg)
 
 核心成员变量和1.7大体上都差不多，还是有几个重要的区别：
 - `TREEIFY_THRESHOLD`用于判断是否需要将链表转换为红黑树的阈值。
 - `HashEntry`修改为`Node`。
 
-##### `put` 方法
+#### `put` 方法
 ```
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
 	Node<K,V>[] tab; Node<K,V> p; int n, i;
@@ -231,7 +228,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent, boolean evict) {
 1. 如果`e != null`就相当于存在相同的`key`,那就需要将值覆盖。
 1. 最后判断是否需要进行扩容。
 
-##### `get` 方法
+#### `get` 方法
 ```
 public V get(Object key) {
     Node<K,V> e;
@@ -276,9 +273,9 @@ for (int i = 0; i < 1000; i++) {
 ```
 `HashMap`扩容的时候会调用`resize()`方法，就是这里的并发操作容易在一个桶上形成环形链表；这样当获取一个不存在的`key`时，计算出的index正好是环形链表的下标就会出现死循环。如下图：
 
-![EndlessLoop-min](http://www.wailian.work/images/2018/10/16/EndlessLoop-min.jpg)
+![EndlessLoop-min](https://www.wailian.work/images/2018/10/16/EndlessLoop-min.jpg)
 
-#### 遍历方式
+### 遍历方式
 `HashMap`的遍历方式，通常有以下几种：
 ```
 Iterator<Map.Entry<String, Integer>> entryIterator = map.entrySet().iterator();
@@ -297,12 +294,12 @@ Iterator<String> iterator = map.keySet().iterator();
 
 >简单总结下`HashMap`：无论是1.7还是1.8其实都能看出JDK没有对它做任何的同步操作，所以并发会出问题，甚至1.7中出现死循环导致系统不可用（1.8已经修复死循环问题）。
 
-## `java.util.concurrent`
-### `ConcurrentHashMap`
-#### Base 1.7
+## ConcurrentHashMap
+
+### Base 1.7
 1.7由`Segment`数组、`HashEntry`组成，和`HashMap`一样，仍然是`数组+链表`。1.7`ConcurrentHashMap`结构图：
 
-![ConcurrentHashMap1.7-min](http://www.wailian.work/images/2018/10/16/ConcurrentHashMap1.7-min.jpg)
+![ConcurrentHashMap1.7-min](https://www.wailian.work/images/2018/10/16/ConcurrentHashMap1.7-min.jpg)
 
 核心成员变量：
 ```
@@ -343,7 +340,7 @@ static final class HashEntry<K,V> {
 
 原理上来说：`ConcurrentHashMap`采用了分段锁技术，其中`Segment`继承于`ReentrantLock`。不会像`HashTable`那样不管是`put`还是`get`操作都需要做同步处理，理论上`ConcurrentHashMap`支持CurrencyLevel(`Segment`数组数量)的线程并发。每当一个线程占用锁访问一个`Segment`时，不会影响到其他的`Segment`。
 
-##### `put` 方法
+#### `put` 方法
 ```
 public V put(K key, V value) {
     Segment<K,V> s;
@@ -487,7 +484,7 @@ final V put(K key, int hash, V value, boolean onlyIfAbsent) {
 1. 不为空则需要新建一个`HashEntry`并加入到`Segment`中，同时会先判断是否需要扩容。
 1. 最后会解除在1中所获取当前`Segment`的锁。
 
-##### `get` 方法
+#### `get` 方法
 ```
 public V get(Object key) {
     Segment<K,V> s; // manually integrate access methods to reduce overhead
@@ -512,10 +509,10 @@ public V get(Object key) {
 
 `ConcurrentHashMap`的`get`方法是非常高效的，**因为整个过程都不需要加锁**。
 
-#### Base 1.8
+### Base 1.8
 1.8`ConcurrentHashMap`结构图：
 
-![ConcurrentHashMap1.8-min](http://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-min.jpg)
+![ConcurrentHashMap1.8-min](https://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-min.jpg)
 
 其中抛弃了原有的`Segment`分段锁，而采用了`CAS+synchronized`来保证并发安全性。
 ```
@@ -540,7 +537,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 ```
 也将1.7中存放数据的`HashEntry`改为`Node`，但作用都是相同的。其中，`val next`都用了`volatile`修饰，保证了可见性。
 
-##### `put` 方法
+#### `put` 方法
 ```
 final V putVal(K key, V value, boolean onlyIfAbsent) {
 	if (key == null || value == null) throw new NullPointerException();
@@ -608,7 +605,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 1. 如果都不满足，则利用`synchronized`锁写入数据。
 1. 如果数量大于`TREEIFY_THRESHOLD`则要转换为红黑树。
 
-##### `get` 方法
+#### `get` 方法
 ```
 public V get(Object key) {
 	Node<K,V>[] tab; Node<K,V> e, p; int n, eh; K ek;
@@ -633,19 +630,19 @@ public V get(Object key) {
 - 就不满足那就按照链表的方式遍历获取值。
 >1.8在1.7的数据结构上做了大的改动，采用红黑树之后可以保证查询效率（`O(logn)`），甚至取消了`ReentrantLock`改为了`synchronized`，这样可以看出在新版的JDK中对`synchronized`优化是很到位的。
 
-#### 示例
+### 示例
 - `HashMapTest`，`HashMapDemo`，`HashMapKeyTest`，`HashMapResizeTest`
 
-#### hash碰撞
+### hash碰撞
 两个对象的`key`的`hashcode`是一样的，这个时候怎么`get`它的`value`呢？答案是通过`equals`遍历`table`那个位置上面的`Entry`链表。
 
-##### 出现情景
+#### 出现情景
 - 一般会出现在大的数据情况之下
 - hashcode的生成方法唯一性较弱（比如人为生产的hashcode）
 
-##### 示例
+#### 示例
 - `HashCollisionTest`
 
-## References
+### References
 - [HashMap? ConcurrentHashMap? 相信看完这篇没人能难住你！](http://www.codeceo.com/article/java-hashmap-concurrenthashmap.html)
 - [介绍HashMap的工作原理-hash碰撞](https://blog.csdn.net/raylee2007/article/details/50449742)

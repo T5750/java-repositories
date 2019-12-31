@@ -1,11 +1,9 @@
-# Java™ Platform Standard Ed. 7
+## ReentrantLock
 
-## `java.util.concurrent.locks`
-### `ReentrantLock`
 `ReentrantLock`是基于`AQS(AbstractQueuedSynchronizer)`来实现的。是一个**重入锁**：一个线程获得了锁之后仍然可以**反复**的加锁，不会出现自己阻塞自己的情况。
 >`AQS`是`Java`并发包里实现锁、同步的一个重要的基础框架。
 
-#### 锁类型
+### 锁类型
 `ReentrantLock`分为**公平锁**和**非公平锁**，可以通过构造方法来指定具体类型：
 ```
 // 默认非公平锁
@@ -19,7 +17,7 @@ public ReentrantLock(boolean fair) {
 ```
 默认一般使用**非公平锁**，它的效率和吞吐量都比公平锁高的多(后面会分析具体原因)。
 
-#### 获取锁
+### 获取锁
 通常的使用方式如下：
 ```
 private ReentrantLock lock = new ReentrantLock();
@@ -35,7 +33,7 @@ public void run() {
 }
 ```
 
-##### 公平锁获取锁
+#### 公平锁获取锁
 首先看下获取锁的过程：
 ```
 public void lock() {
@@ -83,7 +81,7 @@ protected final boolean tryAcquire(int acquires) {
 
 如果`state`大于0时，说明锁已经被获取了，则需要判断获取锁的线程是否为当前线程(`ReentrantLock`支持重入)，则需要将`state + 1`，并将值更新。
 
-###### 写入队列
+##### 写入队列
 如果`tryAcquire(arg)`获取锁失败，则需要用`addWaiter(Node.EXCLUSIVE)`将当前线程写入队列中。
 
 写入之前需要将当前线程包装为一个`Node`对象(`addWaiter(Node.EXCLUSIVE)`)。
@@ -124,7 +122,7 @@ private Node enq(final Node node) {
 ```
 这个处理逻辑就相当于**自旋**加上`CAS`保证一定能写入队列。
 
-###### 挂起等待线程
+##### 挂起等待线程
 写入队列之后需要将当前线程挂起(利用`acquireQueued(addWaiter(Node.EXCLUSIVE), arg)`)：
 ```
 final boolean acquireQueued(final Node node, int arg) {
@@ -161,7 +159,7 @@ private final boolean parkAndCheckInterrupt() {
 }
 ```
 
-##### 非公平锁获取锁
+#### 非公平锁获取锁
 公平锁与非公平锁的差异主要在获取锁：
 - 公平锁就相当于买票，后来的人需要排到队尾依次买票，**不能插队**。而非公平锁则没有这些规则，是**抢占模式**，每来一个人不会去管队列如何，直接尝试获取锁。
     - 非公平锁:
@@ -208,7 +206,7 @@ final boolean nonfairTryAcquire(int acquires) {
 - 如果状态被设置，且获取锁的线程又是当前线程的时候，进行状态的自增；
 - 如果未设置成功状态且当前线程不是获取锁的线程，那么返回失败。
 
-#### 释放锁
+### 释放锁
 公平锁和非公平锁的释放流程都是一样的：
 ```
 public void unlock() {
@@ -242,12 +240,12 @@ protected final boolean tryRelease(int releases) {
 
 释放之后需要调用`unparkSuccessor(h)`来唤醒被挂起的线程。
 
-#### 示例
+### 示例
 - `ReentrantLockTest`，`CustomReentrantLockTest`
 
-#### 总结
+### 总结
 由于公平锁需要关心队列的情况，得按照队列里的先后顺序来获取锁(会造成大量的线程上下文切换)，而非公平锁则没有这个限制。所以，非公平锁的效率比公平锁更高。
 
-## References
+### References
 - [ReentrantLock 实现原理](https://crossoverjie.top/2018/01/25/ReentrantLock/)
 - [ReentrantLock(重入锁)以及公平性](http://ifeve.com/reentrantlock-and-fairness/)

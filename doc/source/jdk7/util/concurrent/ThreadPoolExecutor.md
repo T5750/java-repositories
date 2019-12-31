@@ -1,7 +1,5 @@
-# Java™ Platform Standard Ed. 7
+## ThreadPoolExecutor
 
-## `java.lang.concurrent`
-### `ThreadPoolExecutor`
 >【强制】线程资源必须通过线程池提供，不允许在应用中自行显式创建线程。
 >说明：使用线程池的好处是减少在创建和销毁线程上所花的时间以及系统资源的开销，解决资源不足的问题。如果不使用线程池，有可能造成系统创建大量同类线程而导致消耗完内存或者“过度切换”的问题。
 
@@ -10,7 +8,7 @@
 - 解耦作用；线程的创建于执行完全分开，方便维护。
 - 应当将其放入一个池子中，可以给其他任务进行复用。
 
-![structure-min](http://www.wailian.work/images/2018/10/18/structure-min.png)
+![structure-min](https://www.wailian.work/images/2018/10/18/structure-min.png)
 
 `ThreadPoolExecutor`类提供了四个构造方法：
 ```
@@ -38,9 +36,9 @@ shutdown() // 执行后停止接受新任务，会把队列的任务执行完毕
 shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将线程池状态变为stop。
 ```
 
-#### 实现原理
-![process-min](http://www.wailian.work/images/2018/10/18/process-min.png)
-![runState-min](http://www.wailian.work/images/2018/10/18/runState-min.jpg)
+### 实现原理
+![process-min](https://www.wailian.work/images/2018/10/18/process-min.png)
+![runState-min](https://www.wailian.work/images/2018/10/18/runState-min.jpg)
 
 1. 线程池状态
     ```
@@ -183,7 +181,7 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
     - `setCorePoolSize`：设置核心池大小
     - `setMaximumPoolSize`：设置线程池最大能创建的线程数目大小
 
-#### 示例
+### 示例
 - `ThreadPoolExecutorTest`
 - 使用`Executors`类中提供的几个静态方法来创建线程池：
     ```
@@ -209,14 +207,14 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
     - `newCachedThreadPool`将`corePoolSize`设置为0，将`maximumPoolSize`设置为`Integer.MAX_VALUE`，使用的`SynchronousQueue`，也就是说来了任务就创建线程运行，当线程空闲超过60秒，就销毁线程。
     - `newScheduledThreadPool`，使用`DelayedWorkQueue`
 
-#### 合理配置线程池的大小
+### 合理配置线程池的大小
 一般需要根据任务的类型来配置线程池大小：
-- 如果是CPU密集型任务，就需要尽量压榨CPU，参考值可以设为：N*CPU* + 1
-- 如果是IO密集型任务，参考值可以设置为：2 * N*CPU*
+- 如果是CPU密集型任务，就需要尽量压榨CPU，参考值可以设为：`N*CPU* + 1`
+- 如果是IO密集型任务，参考值可以设置为：`2 * N*CPU*`
 
 当然，这只是一个参考值，具体的设置还需要根据实际情况进行调整，比如可以先将线程池大小设置为参考值，再观察任务运行情况和系统负载、资源利用率来进行适当调整。
 
-#### SpringBoot使用线程池
+### SpringBoot使用线程池
 管理线程池：
 ```
 @Configuration
@@ -247,13 +245,13 @@ public void execute() {
 ```
 也可利用SpringBoot actuator组件来做线程池的监控。
 
-#### 线程池隔离
+### 线程池隔离
 如果我们很多业务都依赖于同一个线程池，当其中一个业务因为各种不可控的原因消耗了所有的线程，导致线程池全部占满。这样其他的业务也就不能正常运转了，这对系统的打击是巨大的。所以我们需要将线程池**进行隔离**。
 
 通常的做法是按照业务进行划分：
 >比如下单的任务用一个线程池，获取数据的任务用另一个线程池。这样即使其中一个出现问题把线程池耗尽，那也不会影响其他的任务运行。
 
-#### Hystrix隔离
+### Hystrix隔离
 [Hystrix](https://github.com/Netflix/Hystrix)简单的应用：首先需要定义两个线程池，分别用于执行订单、处理用户。
 ```
 /**
@@ -340,7 +338,8 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-### `AbstractExecutorService`
+## AbstractExecutorService
+
 ```
 public abstract class AbstractExecutorService implements ExecutorService {
 	protected <T> RunnableFuture<T> newTaskFor(Runnable runnable, T value) { };
@@ -356,7 +355,8 @@ public abstract class AbstractExecutorService implements ExecutorService {
 }
 ```
 
-### `ExecutorService`
+## ExecutorService
+
 ```
 public interface ExecutorService extends Executor {
 	void shutdown();
@@ -374,14 +374,16 @@ public interface ExecutorService extends Executor {
 }
 ```
 
-### `Executor`
+## Executor
+
 ```
 public interface Executor {
 	void execute(Runnable command); // 用来执行传进去的任务
 }
 ```
 
-### `TimeUnit`
+## TimeUnit
+
 `TimeUnit`类中有7种静态属性：
 ```
 TimeUnit.DAYS; // 天
@@ -393,6 +395,6 @@ TimeUnit.MICROSECONDS; // 微妙
 TimeUnit.NANOSECONDS; // 纳秒
 ```
 
-## References
+### References
 - [Java并发编程：线程池的使用](https://www.cnblogs.com/dolphin0520/p/3932921.html)
 - [如何优雅的使用和理解线程池](https://crossoverjie.top/2018/07/29/java-senior/ThreadPool/)

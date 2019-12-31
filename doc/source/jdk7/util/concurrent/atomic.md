@@ -1,6 +1,5 @@
-# Java™ Platform Standard Ed. 7
+## atomic
 
-## `java.util.concurrent.atomic`
 ### `atomic`包介绍
 在`atomic`包里一共有12个类，四种原子更新方式，分别是：
 - 原子更新基本类型
@@ -59,5 +58,5 @@
 
 示例：`AtomicIntegerFieldUpdaterTest`
 
-## References
+### References
 - [Java中的Atomic包使用指南](http://ifeve.com/java-atomic/)
