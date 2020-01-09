@@ -6,37 +6,41 @@
 两个线程通过对同一对象调用等待`wait()`和通知`notify()`方法来进行通讯。
 - 示例：`TwoThreadWaitNotify`
 
-有一些需要注意:
-- `wait()`、`nofify()`、`nofityAll()`调用的前提都是获得了对象的锁(也可称为对象监视器)。
-- 调用`wait()`方法后线程会释放锁，进入`WAITING`状态，该线程也会被移动到**等待队列**中。
-- 调用`notify()`方法会将**等待队列**中的线程移动到**同步队列**中，线程状态也会更新为`BLOCKED`。
-- 从`wait()`方法返回的前提是调用`notify()`方法的线程释放锁，`wait()`方法的线程获得锁。
+需要注意的细节，如下
+1. 使用`wait()`、`notify()`和`notifyAll()`时需要先对调用对象加锁。
+1. 调用`wait()`方法后，线程状态由`RUNNING`变为`WAITING`，并将当前线程放置到对象的等待队列。
+1. `notify()`或`notifyAll()`方法调用后，等待线程依旧不会从`wait()`返回，需要调用`notify()`或`notifAll()`的线程释放锁之后，等待线程才有机会从`wait()`返回。
+1. `notify()`方法将等待队列中的一个等待线程从等待队列中移到同步队列中，而`notifyAll()`方法则是将等待队列中所有的线程全部移到同步队列，被移动的线程状态由`WAITING`变为`BLOCKED`。
+1. 从`wait()`方法返回的前提是获得了调用对象的锁。
 
-等待通知有着一个经典范式：
+`WaitNotify.java`运行过程
 
-线程A作为消费者：
+![WaitNotify-min](https://s1.wailian.download/2020/01/09/WaitNotify-min.png)
+
+### 等待通知的经典范式
+等待方遵循如下原则
 1. 获取对象的锁。
-1. 进入`while(判断条件)`，并调用`wait()`方法。
-1. 当条件满足跳出循环执行具体处理逻辑。
+1. 如果条件不满足，那么调用对象的`wait()`方法，被通知后仍要检查条件。
+1. 条件满足则执行对应的逻辑。
 
-线程B作为生产者：
-1. 获取对象锁。
-1. 更改与线程A共用的判断条件。
-1. 调用`notify()`方法。
-
-伪代码如下：
 ```
-//Thread A
-synchronized(Object){
-    while(条件){
-        Object.wait();
-    }
-    //do something
+synchronized(对象) {
+	while(条件不满足) {
+		对象.wait();
+	}
+	对应的处理逻辑
 }
-//Thread B
-synchronized(Object){
-    条件=false;//改变条件
-    Object.notify();
+```
+
+通知方遵循如下原则
+1. 获得对象的锁。
+1. 改变条件。
+1. 通知所有等待在对象上的线程。
+
+```
+synchronized(对象) {
+	改变条件
+	对象.notifyAll();
 }
 ```
 
@@ -95,3 +99,4 @@ Java虽说是基于内存通信的，但也可以使用管道通信。
 
 ### References
 - [深入理解线程通信](https://crossoverjie.top/2018/03/16/java-senior/thread-communication/)
+- [Java并发编程的艺术](http://www.hzcourse.com/web/refbook/detail/6119/208)
