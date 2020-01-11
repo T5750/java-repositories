@@ -18,5 +18,5 @@
 ## Examples
 - `ExecutorServiceExample`
 
-## Links
+## References
 - [Working with Java Executor framework in multithreaded application](http://mrbool.com/working-with-java-executor-framework-in-multithreaded-application/27560)

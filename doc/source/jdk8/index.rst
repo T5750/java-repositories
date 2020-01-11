@@ -1,5 +1,5 @@
 Java 8
-=======
+===============================
 Java™ Platform Standard Ed. 8
 
 .. toctree::

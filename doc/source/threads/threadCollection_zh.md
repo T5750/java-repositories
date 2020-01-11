@@ -51,7 +51,7 @@ Sr.No. | Method | Description
 - package: `com.tutorialspoint`
 - `InterthreadCommunication`, `TestThread`, `TestThreadSolution`, `CallableThreadTest`, `TestThreadByRunnable`, `TestThreadByThread`, `ThreadClassDemo`, `ThreadSynchronization`, `ThreadWithoutSynchronization`
 
-## Links
+## References
 - [Java - Multithreading](http://www.tutorialspoint.com/java/java_multithreading.htm)
 - [Java 多线程编程](http://www.runoob.com/java/java-multithreading.html)
 - [java多线程总结](http://www.cnblogs.com/rollenholt/archive/2011/08/28/2156357.html)

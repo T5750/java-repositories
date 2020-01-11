@@ -28,5 +28,5 @@
 ## 示例
 - `TestThreadPool`
 
-## Links
+## References
 - [线程池的介绍及简单实现](https://www.ibm.com/developerworks/cn/java/l-threadPool/index.html)

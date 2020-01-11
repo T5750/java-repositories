@@ -70,6 +70,6 @@
 - [Java Lock Example – ReentrantLock](https://www.journaldev.com/2377/java-lock-example-reentrantlock)
 - [AtomicInteger in Java](https://www.journaldev.com/1095/atomicinteger-java)
 
-## Links
+## References
 - [Multithreading in Java](https://www.journaldev.com/1079/multithreading-in-java)
 - [Java Multithreading Concurrency Interview Questions and Answers](https://www.journaldev.com/1162/java-multithreading-concurrency-interview-questions-answers)

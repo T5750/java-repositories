@@ -1,5 +1,5 @@
 Java 7
-=======
+===============================
 Java™ Platform Standard Ed. 7
 
 .. toctree::

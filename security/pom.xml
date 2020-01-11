@@ -12,11 +12,9 @@
 	<artifactId>security</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>ssl</module>
 		<module>rsa</module>
 		<module>dsa</module>
 		<module>aes</module>
-		<module>https</module>
 	</modules>
 
 

@@ -86,7 +86,7 @@ Because the `ActionListener` interface defines only one method `actionPerformed(
 button.addActionListener(e -> System.out.println("Handled by Lambda listener"));
 ```
 
-## Links
+## References
 - [Java 8 Lambda - Runnable Example](http://www.codejava.net/java-core/the-java-language/java-8-lambda-runnable-example)
 - [Java 8 Lambda - Collections Comparator Example](http://www.codejava.net/java-core/the-java-language/java-8-lambda-collections-comparator-example)
 - [Java 8 Lambda - Listener Example](http://www.codejava.net/java-core/the-java-language/java-8-lambda-listener-example)

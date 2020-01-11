@@ -6,7 +6,7 @@
 - 根据写入顺序排序。
 - 根据访问顺序排序。
 
-其中根据访问顺序排序时，每次`get`都会将访问的值移动到链表末尾，这样重复操作就能的到一个按照访问顺序排序的链表。
+其中根据访问顺序排序时，每次`get`都会将访问的值移动到链表末尾，这样重复操作就能得到一个按照访问顺序排序的链表。
 
 ### 数据结构
 ```
@@ -132,7 +132,7 @@ public void clear() {
 - `LinkedHashMapTest`，`LinkedHashMapDemo`
 
 ### 总结
-总的来说`LinkedHashMap`其实就是对`HashMap`进行了拓展，使用了双向链表来保证了顺序性。
+总的来说`LinkedHashMap`其实就是对`HashMap`进行了拓展，使用了双向链表来保证顺序性。
 
 ### References
 - [LinkedHashMap 底层分析](https://crossoverjie.top/2018/02/06/LinkedHashMap/)
