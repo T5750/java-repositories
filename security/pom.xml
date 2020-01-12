@@ -11,11 +11,22 @@
 
 	<artifactId>security</artifactId>
 	<packaging>pom</packaging>
-	<modules>
-		<module>rsa</module>
-		<module>dsa</module>
-		<module>aes</module>
-	</modules>
 
-
+	<dependencies>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<version>1.54</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
+	</dependencies>
 </project>

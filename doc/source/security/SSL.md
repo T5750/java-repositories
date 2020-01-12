@@ -1,7 +1,6 @@
 # SSL/TLS
 
-## Java SSL/TLS 安全通讯协议介绍
-### SSL/TLS 协议的介绍
+## SSL/TLS 协议的介绍
 SSL/TLS 协议（RFC2246 RFC4346）处于 TCP/IP 协议与各种应用层协议之间，为数据通讯提供安全支持。
 
 从协议内部的功能层面上来看，SSL/TLS 协议可分为两层：
@@ -16,7 +15,7 @@ SSL/TLS 协议（RFC2246 RFC4346）处于 TCP/IP 协议与各种应用层协议�
 
 2. SSL/TLS 双向认证，就是双方都会互相认证，也就是两者之间将会交换证书。基本的过程和单向认证完全一样，只是在协商阶段多了几个步骤。在服务器端将协商的结果和服务器端的公钥一起发送给客户端后，会请求客户端的证书，客户端则会将证书发送给服务器端。然后，在客户端给服务器端发送加密数据后，客户端会将私钥生成的数字签名发送给服务器端。而服务器端则会用客户端证书中的公钥来验证数字签名的合法性。建立握手之后过程则和单向通讯完全保持一致。
 
-### SSL/TLS 协议建立通讯的基本流程
+## SSL/TLS 协议建立通讯的基本流程
 ![SSL/TLS 基本流程图](https://www.ibm.com/developerworks/cn/java/j-lo-ssltls/image001.png)
 
 **步骤 1.** ClientHello – 客户端发送所支持的 SSL/TLS 最高协议版本号和所支持的加密算法集合及压缩方法集合等信息给服务器端。
@@ -49,7 +48,7 @@ SSL/TLS 协议（RFC2246 RFC4346）处于 TCP/IP 协议与各种应用层协议�
 
 **步骤 15.** ClosedConnection – 通讯结束后，任何一方发出断开 SSL 连接的消息。
 
-### SSL/TLS 协议概念
+## SSL/TLS 协议概念
 
 **Key：** Key 是一个比特（bit）字符串，用来加密解密数据的，就像是一把开锁的钥匙。
 
@@ -65,7 +64,7 @@ SSL/TLS 协议（RFC2246 RFC4346）处于 TCP/IP 协议与各种应用层协议�
 
 **数字签名（Digital Signature）：** 一个消息的加密哈希被创建后，哈希值用发送者的私钥加密，加密的结果就是叫做数字签名。
 
-### JSSE（Java Secure Socket Extension）使用介绍
+## JSSE（Java Secure Socket Extension）使用介绍
 在 Java SDK 中有一个叫 JSSE（javax.net.ssl）包，这个包中提供了一些类来建立 SSL/TLS 连接。通过这些类，开发者就可以忽略复杂的协议建立流程，较为简单地在网络上建成安全的通讯通道。JSSE 包中主要包括以下一些部分：
 - 安全套接字（secure socket）和安全服务器端套接字
 - 非阻塞式 SSL/TLS 数据处理引擎（SSLEngine）
@@ -73,7 +72,7 @@ SSL/TLS 协议（RFC2246 RFC4346）处于 TCP/IP 协议与各种应用层协议�
 - 套接字上下文 , 用来保存用于创建和数据引擎处理过程中的信息
 - 符合 X.509 规范密码匙和安全管理接口
 
-### 安全钥匙与证书的管理工具 Keytool
+## 安全钥匙与证书的管理工具 Keytool
 1. 进入本地的 java 安装位置的 bin 目录中 cd /java/bin
 
 2. 创建一个客户端 keystore 文件

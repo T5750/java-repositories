@@ -1,10 +1,9 @@
 # HTTPS
 
-## Short & Quick introduction
-### HTTPS 简介
+## HTTPS 简介
 超文本传输安全协议（英语：Hypertext Transfer Protocol Secure，缩写：HTTPS，常称为HTTP over TLS，HTTP over SSL或HTTP Secure）是一种网络安全传输协议。
 
-### HTTPS 工作原理
+## HTTPS 工作原理
 1. 浏览器将自己支持的一套加密规则发送给网站。
 1. 网站从中选出一组加密算法与HASH算法，并将自己的身份信息以证书的形式发回给浏览器。证书里面包含了网站地址，加密公钥，以及证书的颁发机构等信息（证书中的私钥只能用于服务器端进行解密，在握手的整个过程中，都用到了证书中的公钥和浏览器发送给服务器的随机密码以及对称加密算法）。
 1. 浏览器获得网站证书之后浏览器要做以下工作：  
@@ -16,20 +15,20 @@
     - 使用密码加密一段握手消息，发送给浏览器。
 1. 浏览器解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束，之后所有的通信数据将由之前浏览器生成的随机密码并利用对称加密算法进行加密。
 
-### HTTPS 通信时序图
+## HTTPS 通信时序图
 ![https](https://www.wailian.work/images/2018/03/15/https.png)
 
-### HTTPS协议和HTTP协议的区别
+## HTTPS协议和HTTP协议的区别
 - https协议需要到ca申请证书，一般免费证书很少，需要交费。
 - http是超文本传输协议，信息是明文传输，https 则是具有安全性的ssl加密传输协议。
 - http和https使用的是完全不同的连接方式用的端口也不一样,前者是80,后者是443。
 - http的连接很简单,是无状态的 。
 - HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议， 要比http协议安全。
 
-### SSL 证书
+## SSL 证书
 SSL证书和我们日常用的身份证类似，是一个支持HTTPS网站的身份证明，SSL证书里面包含了网站的域名，证书有效期，证书的颁发机构以及用于加密传输密码的公钥等信息
 
-### 证书的类型
+## 证书的类型
 1. SSL证书，用于加密HTTP协议，也就是HTTPS。
 1. 代码签名证书，用于签名二进制文件，比如Windows内核驱动，Firefox插件，Java代码签名等等。
 1. 客户端证书，用于加密邮件。
@@ -99,7 +98,7 @@ secure="true" sslProtocol="TLS" />
 </security-constraint>
 ```
 
-将 URL 映射设为 /* ，这样你的整个应用都要求是 HTTPS 访问，而 `transport-guarantee` 标签设置为 `CONFIDENTIAL` 以便使应用支持 SSL。
+将 URL 映射设为 `/*` ，这样你的整个应用都要求是 HTTPS 访问，而 `transport-guarantee` 标签设置为 `CONFIDENTIAL` 以便使应用支持 SSL。
 
 如果你希望关闭 SSL ，只需要将 `CONFIDENTIAL` 改为 `NONE` 即可。
 
