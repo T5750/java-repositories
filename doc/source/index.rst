@@ -5,10 +5,14 @@
 
 Java Repositories
 =============================================
-This is my technical note, I hope this can help you.
+.. note::
+   This is my technical note, I hope this can help you.
 
-- Docs: https://java-repositories.readthedocs.io
-- Source: https://github.com/T5750/java-repositories
+.. tip::
+   - Docs:
+       - https://jse.readthedocs.io
+       - http://jse.rtfd.io
+   - Source: https://github.com/T5750/java-repositories
 
 .. toctree::
    :maxdepth: 3

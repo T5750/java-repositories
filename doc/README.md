@@ -2,7 +2,9 @@
 
 ## Java Repositories RTD
 Read the Docs for Java Repositories
-- Docs: https://java-repositories.readthedocs.io
+- Docs:
+    - https://jse.readthedocs.io
+    - http://jse.rtfd.io
 - Source: https://github.com/T5750/java-repositories
 
 ## Runtime Environment

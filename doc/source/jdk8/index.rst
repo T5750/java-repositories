@@ -6,4 +6,5 @@ Java™ Platform Standard Ed. 8
     :maxdepth: 2
     :numbered: 0
     
+    jdkJre
     Lambda
