@@ -22,5 +22,6 @@ Java Repositories
    jdk8/index
    jvm/index
    nio/index
+   patterns/index
    security/index
    threads/index
