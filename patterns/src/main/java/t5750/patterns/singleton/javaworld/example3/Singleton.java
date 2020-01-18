@@ -1,4 +1,4 @@
-package singleton.javaworld.example3;
+package t5750.patterns.singleton.javaworld.example3;
 
 public class Singleton implements java.io.Serializable {
 	public static Singleton INSTANCE = new Singleton();

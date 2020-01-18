@@ -1,4 +1,4 @@
-package singleton.ibm.example2;
+package t5750.patterns.singleton.ibm.example2;
 
 class SingletonException extends RuntimeException {
 	public SingletonException(String s) {

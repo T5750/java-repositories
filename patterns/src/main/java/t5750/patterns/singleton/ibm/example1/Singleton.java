@@ -1,4 +1,4 @@
-package singleton.ibm.example1;
+package t5750.patterns.singleton.ibm.example1;
 
 //https://www.ibm.com/developerworks/cn/java/designpattern/singleton/index.html
 public class Singleton {

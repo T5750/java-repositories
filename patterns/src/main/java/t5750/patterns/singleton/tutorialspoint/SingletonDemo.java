@@ -1,4 +1,4 @@
-package singleton.tutorialspoint;
+package t5750.patterns.singleton.tutorialspoint;
 
 //https://www.tutorialspoint.com/java/java_using_singleton.htm
 // File Name: SingletonDemo.java

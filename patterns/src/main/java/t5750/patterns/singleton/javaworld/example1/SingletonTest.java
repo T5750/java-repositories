@@ -1,4 +1,4 @@
-package singleton.javaworld.example1;
+package t5750.patterns.singleton.javaworld.example1;
 
 import org.apache.log4j.Logger;
 

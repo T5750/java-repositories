@@ -6,3 +6,4 @@ Design Patterns
     :numbered: 0
     
     designPatternsPrinciple
+    designPatterns23

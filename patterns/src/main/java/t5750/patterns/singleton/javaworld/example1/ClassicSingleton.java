@@ -1,4 +1,4 @@
-package singleton.javaworld.example1;
+package t5750.patterns.singleton.javaworld.example1;
 
 //http://www.javaworld.com/article/2073352/core-java/simply-singleton.html
 public class ClassicSingleton {

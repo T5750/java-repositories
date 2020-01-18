@@ -1,4 +1,4 @@
-package singleton.javaworld.example3;
+package t5750.patterns.singleton.javaworld.example3;
 
 import java.io.*;
 
