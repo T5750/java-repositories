@@ -49,7 +49,7 @@ public class ClassLoaderTest {
 	public void javassistLoader() throws Throwable {
 		Loader cl = new Loader(pool);
 		CtClass ct = pool.get(JavassistUtil.DOMAIN + "Rectangle");
-		ct.setSuperclass(pool.get("java.awt.Point"));
+		ct.setSuperclass(pool.get(JavassistUtil.POINT));
 		Class c = cl.loadClass(JavassistUtil.DOMAIN + "Rectangle");
 		Object rect = c.newInstance();
 		System.out.println(rect.toString());

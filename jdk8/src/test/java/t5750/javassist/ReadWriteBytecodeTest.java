@@ -22,7 +22,7 @@ public class ReadWriteBytecodeTest {
 	@Test
 	public void main() throws Exception {
 		CtClass cc = pool.get(JavassistUtil.DOMAIN + "Rectangle");
-		cc.setSuperclass(pool.get("java.awt.Point"));
+		cc.setSuperclass(pool.get(JavassistUtil.POINT));
 		cc.writeFile();
 		byte[] b = cc.toBytecode();
 		Class clazz = cc.toClass();

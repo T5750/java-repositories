@@ -219,11 +219,275 @@ If the JVM is launched with the JPDA (Java Platform Debugger Architecture) enabl
 Javassist provides a convenient class for reloading a class at runtime. For more information, see the API documentation of `javassist.tools.HotSwapper`.
 
 ## 4. Introspection and customization
+`CtClass` provides methods for introspection. The introspective ability of Javassist is compatible with that of the Java reflection API. `CtClass` provides `getName()`, `getSuperclass()`, `getMethods()`, and so on. `CtClass` also provides methods for modifying a class definition. It allows to add a new field, constructor, and method. Instrumenting a method body is also possible.
 
+### 4.1 Inserting source text at the beginning/end of a method body
+The `String` object passed to the methods `insertBefore()`, `insertAfter()`, `addCatch()`, and `insertAt()` are compiled by the compiler included in Javassist. Since the compiler supports language extensions, several identifiers starting with `$` have special meaning:
 
+identifiers | meaning
+---|-----
+`$0, $1, $2, ...` | `this` and actual parameters
+`$args` | An array of parameters. The type of `$args` is `Object[]`.
+`$$` | All actual parameters. For example, `m($$)` is equivalent to `m($1,$2,...)`
+`$cflow(...)` | `cflow` variable
+`$r` | The result type. It is used in a cast expression.
+`$w` | The wrapper type. It is used in a cast expression.
+`$_` | The resulting value
+`$sig` | An array of `java.lang.Class` objects representing the formal parameter types.
+`$type` | A `java.lang.Class` object representing the formal result type.
+`$class` | A `java.lang.Class` object representing the class currently edited.
+
+#### $0, $1, $2, ...
+`$1` represents the first parameter, `$2` represents the second parameter, and so on.
+
+`$0` is equivalent to `this`. If the method is static, `$0` is not available.
+
+```
+ClassPool pool = ClassPool.getDefault();
+CtClass cc = pool.get("Point");
+CtMethod m = cc.getDeclaredMethod("move");
+m.insertBefore("{ System.out.println($1); System.out.println($2); }");
+cc.writeFile();
+```
+
+#### $$
+If `move()` does not take any parameters, then `move($$)` is equivalent to `move()`.
+
+`$$` can be used with another method. If you write an expression:
+```
+exMove($$, context)
+```
+then this expression is equivalent to:
+```
+exMove($1, $2, $3, context)
+```
+
+#### $cflow
+To use `$cflow`, first declare that `$cflow` is used for monitoring calls to the method `fact()`:
+```
+CtMethod cm = ...;
+cm.useCflow("fact");
+```
+Then, `$cflow(fact)` represents the depth of the recursive calls to the method specified by `cm`. The value of `$cflow(fact)` is 0 (zero) when the method is first called whereas it is 1 when the method is recursively called within the method. For example,
+```
+cm.insertBefore("if ($cflow(fact) == 0)"
+	+ "    System.out.println(\"fact \" + $1);");
+```
+
+#### $r
+`$r` represents the result type (return type) of the method.
+- If the result type is `int`, then `($r)` converts from `java.lang.Integer` to `int`
+- If the result type is `void`, then `($r)` does not convert a type
+- Even if the result type is `void`, the following `return` statement is valid: `return ($r)result;`. This `return` statement is regarded as the equivalent of the `return` statement without a resulting value: `return;`
+
+#### $w
+If the type of the expression following `($w)` is not a primitive type, then `($w)` does nothing.
+
+#### $_
+The variable `$_` represents the resulting value of the method. The type of that variable is the type of the result type (the return type) of the method. If the result type is `void`, then the type of `$_` is `Object` and the value of `$_` is `null`.
+
+Note that the value of `$_` is never thrown to the caller; it is rather discarded.
+
+#### addCatch()
+`addCatch()` inserts a code fragment into a method body so that the code fragment is executed when the method body throws an exception and the control returns to the caller. In the source text representing the inserted code fragment, the exception value is referred to with the special variable `$e`.
+```
+CtClass etype = ClassPool.getDefault().get("java.io.IOException");
+m.addCatch("{ System.out.println($e); throw $e; }", etype);
+```
+Note that the inserted code fragment must end with a `throw` or `return` statement.
+
+### 4.2 Altering a method body
+`CtMethod` and `CtConstructor` provide `setBody()` for substituting a whole method body. They compile the given source text into Java bytecode and substitutes it for the original method body. If the given source text is `null`, the substituted body includes only a `return` statement, which returns zero or null unless the result type is `void`.
+
+Note that `$_` is not available.
+
+#### Substituting source text for an existing expression
+Javassist allows modifying only an expression included in a method body. `javassist.expr.ExprEditor` is a class for replacing an expression in a method body. The users can define a subclass of `ExprEditor` to specify how an expression is modified.
+```
+CtMethod cm = ... ;
+cm.instrument(
+    new ExprEditor() {
+        public void edit(MethodCall m)
+                      throws CannotCompileException
+        {
+            if (m.getClassName().equals("Point")
+                          && m.getMethodName().equals("move"))
+                m.replace("{ $1 = 0; $_ = $proceed($$); }");
+        }
+    });
+```
+Note that the substituted code is not an expression but a statement or a block. It cannot be or contain a try-catch statement.
+
+If the given block is an empty block, that is, if `replace("{}")` is executed, then the expression is removed from the method body. If you want to insert a statement (or a block) before/after the expression, a block like the following should be passed to `replace()`:
+```
+{ before-statements;
+  $_ = $proceed($$);
+  after-statements; }
+```
+
+#### javassist.expr.MethodCall
+A `MethodCall` object represents a method call. 
+- The method `replace()` in `MethodCall` substitutes a statement or a block for the method call. It receives source text representing the substitued statement or block, in which the identifiers starting with `$` have special meaning as in the source text passed to `insertBefore()`.
+
+#### javassist.expr.ConstructorCall
+A `ConstructorCall` object represents a constructor call such as `this()` and `super` included in a constructor body.
+- The method `replace()` in `ConstructorCall` substitutes a statement or a block for the constructor call. It receives source text representing the substituted statement or block, in which the identifiers starting with `$` have special meaning as in the source text passed to `insertBefore()`.
+
+#### javassist.expr.FieldAccess
+A `FieldAccess` object represents field access.
+- The method `edit()` in `ExprEditor` receives this object if field access is found.
+- The method `replace()` in `FieldAccess` receives source text representing the substitued statement or block for the field access.
+
+#### javassist.expr.NewExpr
+A `NewExpr` object represents object creation with the `new` operator (not including array creation).
+- The method `edit()` in `ExprEditor` receives this object if object creation is found.
+- The method `replace()` in `NewExpr` receives source text representing the substitued statement or block for the object creation.
+
+#### javassist.expr.NewArray
+A `NewArray` object represents array creation with the `new` operator.
+- The method `edit()` in `ExprEditor` receives this object if array creation is found.
+- The method `replace()` in `NewArray` receives source text representing the substitued statement or block for the array creation.
+
+#### javassist.expr.Instanceof
+A `Instanceof` object represents an `instanceof` expression.
+- The method `edit()` in `ExprEditor` receives this object if an instanceof expression is found.
+- The method `replace()` in `Instanceof` receives source text representing the substitued statement or block for the expression.
+
+#### javassist.expr.Cast
+A `Cast` object represents an expression for explicit type casting.
+- The method `edit()` in `ExprEditor` receives this object if explicit type casting is found.
+- The method `replace()` in `Cast` receives source text representing the substitued statement or block for the expression.
+
+#### javassist.expr.Handler
+A `Handler` object represents a `catch` clause of `try-catch` statement.
+- The method `edit()` in `ExprEditor` receives this object if a `catch` is found.
+- The method `insertBefore()` in `Handler` compiles the received source text and inserts it at the beginning of the `catch` clause.
+
+### 4.3 Adding a new method or field
+#### Adding a method
+Javassist allows the users to create a new method and constructor from scratch. `CtNewMethod` and `CtNewConstructor` provide several factory methods, which are static methods for creating `CtMethod` or `CtConstructor` objects. Especially, `make()` creates a `CtMethod` or `CtConstructor` object from the given source text.
+```
+CtClass point = ClassPool.getDefault().get("Point");
+CtMethod m = CtNewMethod.make(
+                 "public int xmove(int dx) { x += dx; }",
+                 point);
+point.addMethod(m);
+```
+```
+CtClass point = ClassPool.getDefault().get("Point");
+CtMethod m = CtNewMethod.make(
+                 "public int ymove(int dy) { $proceed(0, dy); }",
+                 point, "this", "move");
+```
+```
+CtClass cc = ... ;
+CtMethod m = new CtMethod(CtClass.intType, "move",
+                          new CtClass[] { CtClass.intType }, cc);
+cc.addMethod(m);
+m.setBody("{ x += $1; }");
+cc.setModifiers(cc.getModifiers() & ~Modifier.ABSTRACT);
+```
+Since Javassist makes a class abstract if an abstract method is added to the class, you have to explicitly change the class back to a non-abstract one after calling `setBody()`.
+
+#### Mutual recursive methods
+Javassist cannot compile a method if it calls another method that has not been added to a class. (Javassist can compile a method that calls itself recursively.) To add mutual recursive methods to a class, you need a trick shown below. Suppose that you want to add methods `m()` and `n()` to a class represented by `cc`:
+```
+CtClass cc = ... ;
+CtMethod m = CtNewMethod.make("public abstract int m(int i);", cc);
+CtMethod n = CtNewMethod.make("public abstract int n(int i);", cc);
+cc.addMethod(m);
+cc.addMethod(n);
+m.setBody("{ return ($1 <= 0) ? 1 : (n($1 - 1) * $1); }");
+n.setBody("{ return m($1); }");
+cc.setModifiers(cc.getModifiers() & ~Modifier.ABSTRACT);
+```
+
+- You must first make two abstract methods and add them to the class.
+- Then you can give the method bodies to these methods even if the method bodies include method calls to each other.
+- Finally you must change the class to a not-abstract class since `addMethod()` automatically changes a class into an abstract one if an abstract method is added.
+
+#### Adding a field
+Javassist also allows the users to create a new field.
+```
+CtClass point = ClassPool.getDefault().get("Point");
+CtField f = new CtField(CtClass.intType, "z", point);
+// point.addField(f);
+point.addField(f, "0"); // initial value is 0
+```
+```
+CtClass point = ClassPool.getDefault().get("Point");
+CtField f = CtField.make("public int z = 0;", point);
+point.addField(f);
+```
+
+#### Removing a member
+To remove a field or a method, call `removeField()` or `removeMethod()` in `CtClass`. A `CtConstructor` can be removed by `removeConstructor()` in `CtClass`.
+
+### 4.4 Annotations
+`CtClass`, `CtMethod`, `CtField` and `CtConstructor` provides a convenient method `getAnnotations()` for reading annotations. It returns an annotation-type object.
+```
+public @interface Author {
+    String name();
+    int year();
+}
+```
+
+To use `getAnnotations()`, annotation types such as `Author` must be included in the current class path. **They must be also accessible from a `ClassPool` object.** If the class file of an annotation type is not found, Javassist cannot obtain the default values of the members of that annotation type.
+
+### 4.5 Runtime support classes
+In most cases, a class modified by Javassist does not require Javassist to run. However, some kinds of bytecode generated by the Javassist compiler need runtime support classes, which are in the `javassist.runtime` package (for details, please read the API reference of that package). Note that the `javassist.runtime` package is the only package that classes modified by Javassist may need for running. The other Javassist classes are never used at runtime of the modified classes.
+
+### 4.6 Import
+All the class names in source code must be fully qualified (they must include package names). However, the `java.lang` package is an exception
+```
+ClassPool pool = ClassPool.getDefault();
+pool.importPackage("java.awt");
+CtClass cc = pool.makeClass("Test");
+CtField f = CtField.make("public Point p;", cc);
+cc.addField(f);
+```
+
+Note that `importPackage()` **does not** affect the `get()` method in `ClassPool`. Only the compiler considers the imported packages. The parameter to `get()` must be always a fully qualified name.
+
+### 4.7 Limitations
+In the current implementation, the Java compiler included in Javassist has several limitations with respect to the language that the compiler can accept. Those limitations are:
+- The new syntax introduced by J2SE 5.0 (including enums and generics) has not been supported. Annotations are supported by the low level API of Javassist. See the `javassist.bytecode.annotation` package (and also `getAnnotations()` in `CtClass` and `CtBehavior`). Generics are also only partly supported.
+- Array initializers, a comma-separated list of expressions enclosed by braces `{` and `}`, are not available unless the array dimension is one.
+- Inner classes or anonymous classes are not supported. Note that this is a limitation of the compiler only. It cannot compile source code including an anonymous-class declaration. Javassist can read and modify a class file of inner/anonymous class.
+- Labeled `continue` and `break` statements are not supported.
+- The compiler does not correctly implement the Java method dispatch algorithm. The compiler may confuse if methods defined in a class have the same name but take different parameter lists.
+- The users are recommended to use `#` as the separator between a class name and a static method or field name.
 
 ## 5. Bytecode level API
+Javassist also provides lower-level API for directly editing a class file.
 
+If you want to just produce a simple class file, `javassist.bytecode.ClassFileWriter` might provide the best API for you. It is much faster than `javassist.bytecode.ClassFile` although its API is minimum.
+
+### 5.1 Obtaining a ClassFile object
+```
+BufferedInputStream fin = new BufferedInputStream(new FileInputStream("Point.class"));
+ClassFile cf = new ClassFile(new DataInputStream(fin));
+```
+You can create a new class file from scratch.
+```
+ClassFile cf = new ClassFile(false, "test.Foo", null);
+cf.setInterfaces(new String[] { "java.lang.Cloneable" });
+FieldInfo f = new FieldInfo(cf.getConstPool(), "width", "I");
+f.setAccessFlags(AccessFlag.PUBLIC);
+cf.addField(f);
+cf.write(new DataOutputStream(new FileOutputStream("Foo.class")));
+```
+
+### 5.2 Adding and removing a member
+
+
+### 5.3 Traversing a method body
+
+
+### 5.4 Producing a bytecode sequence
+
+
+### 5.5 Annotations (Meta tags)
 
 
 ## 6. Generics
