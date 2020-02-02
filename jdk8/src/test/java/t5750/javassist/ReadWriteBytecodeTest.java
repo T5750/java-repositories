@@ -9,6 +9,9 @@ import javassist.CtClass;
 import javassist.URLClassPath;
 import t5750.javassist.util.JavassistUtil;
 
+/**
+ * 1. Reading and writing bytecode
+ */
 public class ReadWriteBytecodeTest {
 	private ClassPool pool;
 	private ClassPool poolNew;

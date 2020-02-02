@@ -11,7 +11,7 @@ import t5750.javassist.annotation.Author;
 import t5750.javassist.util.JavassistUtil;
 
 /**
- * Introspection and customization
+ * 4. Introspection and customization
  */
 public class IntrospectionAndCustomizationTest {
 	private ClassPool pool;

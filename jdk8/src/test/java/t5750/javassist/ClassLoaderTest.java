@@ -10,6 +10,9 @@ import t5750.javassist.service.Hello;
 import t5750.javassist.service.impl.MyTranslator;
 import t5750.javassist.util.JavassistUtil;
 
+/**
+ * 3. Class loader
+ */
 public class ClassLoaderTest {
 	private ClassPool pool;
 

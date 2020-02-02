@@ -8,4 +8,5 @@ public final class JavassistUtil {
 	public static final String POINT = "java.awt.Point";
 	public static final String[] ARGS = new String[] { "World", "T5750" };
 	public static final String PATH_DOMAIN = DOMAIN.replace(".", "/");
+	public static final String PATH_SERVICE = SERVICE.replace(".", "/");
 }

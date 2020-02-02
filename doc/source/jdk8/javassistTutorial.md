@@ -479,35 +479,114 @@ cf.write(new DataOutputStream(new FileOutputStream("Foo.class")));
 ```
 
 ### 5.2 Adding and removing a member
+`ClassFile` provides `addField()` and `addMethod()` for adding a field or a method (note that a constructor is regarded as a method at the bytecode level). It also provides `addAttribute()` for adding an attribute to the class file.
 
+Note that `FieldInfo`, `MethodInfo`, and `AttributeInfo` objects include a link to a `ConstPool` (constant pool table) object. The `ConstPool` object must be common to the `ClassFile` object and a `FieldInfo` (or `MethodInfo` etc.) object that is added to that `ClassFile` object. In other words, a `FieldInfo` (or `MethodInfo` etc.) object must not be shared among different `ClassFile` objects.
+
+To remove a field or a method from a `ClassFile` object, you must first obtain a `java.util.List` object containing all the fields of the class. `getFields()` and `getMethods()` return the lists. A field or a method can be removed by calling `remove()` on the `List` object. An attribute can be removed in a similar way. Call `getAttributes()` in `FieldInfo` or `MethodInfo` to obtain the list of attributes, and remove one from the list.
 
 ### 5.3 Traversing a method body
+To examine every bytecode instruction in a method body, `CodeIterator` is useful.
+```
+ClassFile cf = ... ;
+MethodInfo minfo = cf.getMethod("move");    // we assume move is not overloaded.
+CodeAttribute ca = minfo.getCodeAttribute();
+CodeIterator ci = ca.iterator();
+while (ci.hasNext()) {
+    int index = ci.next();
+    int op = ci.byteAt(index);
+    System.out.println(Mnemonic.OPCODE[op]);
+}
+```
 
+A `CodeIterator` object allows you to visit every bytecode instruction one by one from the beginning to the end. The following methods are part of the methods declared in `CodeIterator`:
+- `void begin()`: Move to the first instruction.
+- `void move(int index)`: Move to the instruction specified by the given index.
+- `boolean hasNext()`: Returns true if there is more instructions.
+- `int next()`: Returns the index of the next instruction. **Note that it does not return the opcode of the next instruction.**
+- `int byteAt(int index)`: Returns the unsigned 8bit value at the index.
+- `int u16bitAt(int index)`: Returns the unsigned 16bit value at the index.
+- `int write(byte[] code, int index)`: Writes a byte array at the index.
+- `void insert(int index, byte[] code)`: Inserts a byte array at the index. Branch offsets etc. are automatically adjusted.
 
 ### 5.4 Producing a bytecode sequence
+A `Bytecode` object represents a sequence of bytecode instructions. It is a growable array of bytecode.
+```
+ConstPool cp = ...;    // constant pool table
+Bytecode b = new Bytecode(cp, 1, 0);
+b.addIconst(3);
+b.addReturn(CtClass.intType);
+CodeAttribute ca = b.toCodeAttribute();
+```
 
+`Bytecode` can be used to construct a method.
+```
+ClassFile cf = ...
+Bytecode code = new Bytecode(cf.getConstPool());
+code.addAload(0);
+code.addInvokespecial("java/lang/Object", MethodInfo.nameInit, "()V");
+code.addReturn(null);
+code.setMaxLocals(1);
+MethodInfo minfo = new MethodInfo(cf.getConstPool(), MethodInfo.nameInit, "()V");
+minfo.setCodeAttribute(code.toCodeAttribute());
+cf.addMethod(minfo);
+```
 
 ### 5.5 Annotations (Meta tags)
+Annotations are stored in a class file as runtime invisible (or visible) annotations attribute. These attributes can be obtained from `ClassFile`, `MethodInfo`, or `FieldInfo` objects. Call `getAttribute(AnnotationsAttribute.invisibleTag)` on those objects. For more details, see the javadoc manual of `javassist.bytecode.AnnotationsAttribute` class and the `javassist.bytecode.annotation` package.
 
+Javassist also let you access annotations by the higher-level API. If you want to access annotations through `CtClass`, call `getAnnotations()` in `CtClass` or `CtBehavior`.
 
 ## 6. Generics
+The lower-level API of Javassist fully supports generics introduced by Java 5. On the other hand, the higher-level API such as `CtClass` does not directly support generics. However, this is not a serious problem for bytecode transformation.
 
+The generics of Java is implemented by the erasure technique. After compilation, all type parameters are dropped off.
 
+Note that no type parameters are necessary. Since `get` returns an `Object`, an explicit type cast is needed at the caller site if the source code is compiled by Javassist. For example, if the type parameter `T` is `String`, then (`String`) must be inserted as follows:
+```
+Wrapper w = ...
+String s = (String)w.get();
+```
 
 ## 7. Varargs
-
-
+Currently, Javassist does not directly support varargs. So to make a method with varargs, you must explicitly set a method modifier.
+```
+CtClass cc = /* target class */;
+CtMethod m = CtMethod.make("public int length(int[] args) { return args.length; }", cc);
+m.setModifiers(m.getModifiers() | Modifier.VARARGS);
+cc.addMethod(m);
+```
 
 ## 8. J2ME
+If you modify a class file for the J2ME execution environment, you must perform preverification. Preverifying is basically producing stack maps, which is similar to stack map tables introduced into J2SE at JDK 1.6. Javassist maintains the stack maps for J2ME only if `javassist.bytecode.MethodInfo.doPreverify` is true.
 
-
+You can also manually produce a stack map for a modified method. For a given method represented by a `CtMethod` object `m`, you can produce a stack map by calling the following methods:
+```
+m.getMethodInfo().rebuildStackMapForME(cpool);
+```
+Here, `cpool` is a `ClassPool` object, which is available by calling `getClassPool()` on a `CtClass` object. A `ClassPool` object is responsible for finding class files from given class pathes. To obtain all the `CtMethod` objects, call the `getDeclaredMethods` method on a `CtClass` object.
 
 ## 9. Boxing/Unboxing
+Boxing and unboxing in Java are syntactic sugar. There is no bytecode for boxing or unboxing. So the compiler of Javassist does not support them.
 
-
+For Javassist, however, you must explicitly convert a value type from `int` to `Integer`:
+```
+Integer i = new Integer(3);
+```
 
 ## 10. Debug
+Set `CtClass.debugDump` to a directory name. Then all class files modified and generated by Javassist are saved in that directory. To stop this, set `CtClass.debugDump` to null. The default value is null.
+```
+CtClass.debugDump = "./dump";
+```
+All modified class files are saved in `./dump`.
 
+## Results
+- `ReadWriteBytecodeTest`
+- `ClassPoolTest`
+- `ClassLoaderTest`
+- `IntrospectionAndCustomizationTest`
+- `BytecodeLevelApiTest`
 
 ## References
 - [Getting Started with Javassist](http://www.javassist.org/tutorial/tutorial.html)

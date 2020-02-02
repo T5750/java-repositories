@@ -7,6 +7,9 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import t5750.javassist.util.JavassistUtil;
 
+/**
+ * 2. ClassPool
+ */
 public class ClassPoolTest {
 	private ClassPool pool;
 
