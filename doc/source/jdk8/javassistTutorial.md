@@ -588,6 +588,43 @@ All modified class files are saved in `./dump`.
 - `IntrospectionAndCustomizationTest`
 - `BytecodeLevelApiTest`
 
+### What Is the Bytecode?
+```
+cd java-repositories/jdk8/t5750/javassist/domain
+javap -c Pair.class
+```
+```
+public class t5750.javassist.domain.Pair extends java.awt.geom.Point2D implements java.io.Serializable {
+  public t5750.javassist.domain.Pair(int, int);
+    Code:
+       0: aload_0
+       1: invokespecial #80                 // Method java/awt/geom/Point2D."<init>":()V
+       4: aload_0
+       5: iload_1
+       6: putfield      #75                 // Field x:I
+       9: aload_0
+      10: iload_2
+      11: putfield      #76                 // Field y:I
+      14: return
+
+  public void move(int, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: putfield      #75                 // Field x:I
+       5: aload_0
+       6: iload_2
+       7: putfield      #76                 // Field y:I
+      10: return
+}
+```
+Let's analyze the bytecode instructions of the `move()` method:
+- `aload_0` instruction is loading a reference onto the stack from the local variable 0
+- `iload_1` is loading an int value from the local variable 1
+- `putfield` is setting a field `x` of our object. All operations are analogical for field `y`
+- The last instruction is a `return`
+
 ## References
 - [Getting Started with Javassist](http://www.javassist.org/tutorial/tutorial.html)
 - [Dynamic Class Loading Example](https://examples.javacodegeeks.com/core-java/dynamic-class-loading-example/)
+- [Introduction to Javassist](https://www.baeldung.com/javassist)
