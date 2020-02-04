@@ -5,6 +5,9 @@
 - [JDK, JRE, JVM, JSE, JEE, JME](../doc/source/jdk8/jdkJre.md)
 - [javap](../doc/source/jdk8/javap.md)
 
+### ASM
+- [asm](../doc/source/jdk8/asm.md)
+
 ### Javassist
 [Javassist Tutorial](../doc/source/jdk8/javassistTutorial.md)
 1. Reading and writing bytecode
@@ -21,3 +24,4 @@
 ## Runtime Environment
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Javassist 3.26.x](https://github.com/jboss-javassist/javassist)
+- [ASM 6.x](https://asm.ow2.io/)
