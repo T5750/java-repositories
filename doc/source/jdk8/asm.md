@@ -137,7 +137,7 @@ To instrument the `java.lang.Integer` class, we **write an agent that will be co
 
 Building and packaging our code so far produces the jar that we can load as an agent. To use our customized `Integer` class in a hypothetical `YourClass.class`:
 ```
-java t5750.asm.instrumentation.PremainTest -javaagent:jdk8.jar
+java -javaagent:jdk8.jar -cp . t5750.asm.instrument.PremainTest
 ```
 
 ## References

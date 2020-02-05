@@ -62,13 +62,12 @@
 				<version>${maven-jar-plugin.version}</version>
 				<configuration>
 					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
 						<manifestEntries>
-							<Premain-Class>
-								t5750.asm.instrumentation.Premain
-							</Premain-Class>
-							<Can-Retransform-Classes>
-								true
-							</Can-Retransform-Classes>
+							<Premain-Class>t5750.asm.instrument.Premain</Premain-Class>
+							<Can-Retransform-Classes>true</Can-Retransform-Classes>
 						</manifestEntries>
 					</archive>
 				</configuration>

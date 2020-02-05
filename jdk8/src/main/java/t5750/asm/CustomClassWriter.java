@@ -10,12 +10,12 @@ import t5750.asm.visitor.AddInterfaceAdapter;
 import t5750.asm.visitor.PublicizeMethodAdapter;
 
 public class CustomClassWriter {
-	final static String CLASS_NAME = "java.lang.Integer";
-	ClassReader reader;
-	ClassWriter writer;
-	AddFieldAdapter addFieldAdapter;
-	PublicizeMethodAdapter pubMethAdapter;
-	AddInterfaceAdapter addInterfaceAdapter;
+	private final static String CLASS_NAME = "java.lang.Integer";
+	private ClassReader reader;
+	private ClassWriter writer;
+	private AddFieldAdapter addFieldAdapter;
+	private PublicizeMethodAdapter pubMethAdapter;
+	private AddInterfaceAdapter addInterfaceAdapter;
 
 	public CustomClassWriter() {
 		try {
