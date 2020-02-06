@@ -1,4 +1,4 @@
-package com.evangel.lambda;
+package t5750.lambda;
 
 import java.util.Arrays;
 import java.util.Collections;

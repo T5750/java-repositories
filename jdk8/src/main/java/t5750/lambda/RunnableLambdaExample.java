@@ -1,4 +1,4 @@
-package com.evangel.lambda;
+package t5750.lambda;
 
 /**
  * This simple program demonstrates how to use Lambda expressions to create and
