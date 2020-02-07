@@ -4,7 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 public class JavaClassLoader extends ClassLoader {
-	public void invokeClassMethod(String classBinName, String methodName) {
+	public void invokeClassMethod(String classBinName, String methodName,
+			Class[] parameterTypes, Object[] args) {
 		try {
 			// Create a new JavaClassLoader
 			ClassLoader classLoader = this.getClass().getClassLoader();
@@ -16,13 +17,17 @@ public class JavaClassLoader extends ClassLoader {
 			Object myClassObject = constructor.newInstance();
 			// Getting the target method from the loaded class and invoke it
 			// using its name
-			Method method = loadedMyClass.getMethod(methodName);
+			Method method = loadedMyClass.getMethod(methodName, parameterTypes);
 			System.out.println("Invoked method name: " + method.getName());
-			method.invoke(myClassObject);
+			method.invoke(myClassObject, args);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void invokeClassMethod(String classBinName, String methodName) {
+		invokeClassMethod(classBinName, methodName, null, null);
 	}
 }

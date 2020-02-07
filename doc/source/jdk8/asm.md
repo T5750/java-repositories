@@ -13,6 +13,17 @@ ASM is used in many projects, including:
 ## ASM API Basics
 The ASM API provides two styles of interacting with Java classes for transformation and generation: event-based and tree-based.
 
+### Overview
+
+Package | Description
+---|---
+`org.objectweb.asm` | Provides a small and fast bytecode manipulation framework.
+`org.objectweb.asm.commons` | Provides some useful class and method adapters.
+`org.objectweb.asm.signature` | Provides support for type signatures.
+`org.objectweb.asm.tree` | Provides an ASM visitor that constructs a tree representation of the classes it visits.
+`org.objectweb.asm.tree.analysis` | Provides a framework for static code analysis based on the asm.tree package.
+`org.objectweb.asm.util` | Provides ASM visitors that can be useful for programming and debugging purposes.
+
 ### Event-based API
 This API is heavily **based on the Visitor pattern** and is **similar in feel to the SAX parsing model** of processing XML documents. It is comprised, at its core, of the following components:
 - `ClassReader` – helps to read class files and is the beginning of transforming a class
@@ -143,3 +154,4 @@ java -javaagent:jdk8.jar -cp . t5750.asm.instrument.PremainTest
 ## References
 - [A Guide to Java Bytecode Manipulation with ASM](https://www.baeldung.com/java-asm)
 - [ASM](https://asm.ow2.io/)
+- [ASM 6 Developer Guide](https://asm.ow2.io/developer-guide.html)

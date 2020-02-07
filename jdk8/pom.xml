@@ -66,7 +66,7 @@
 							<addClasspath>true</addClasspath>
 						</manifest>
 						<manifestEntries>
-							<Premain-Class>t5750.asm.instrument.Premain</Premain-Class>
+							<Premain-Class>t5750.instrument.Premain</Premain-Class>
 							<Can-Retransform-Classes>true</Can-Retransform-Classes>
 						</manifestEntries>
 					</archive>

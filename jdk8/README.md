@@ -21,6 +21,8 @@
 9. Boxing/Unboxing
 10. Debug
 
+[Javassist Audit Log](../doc/source/jdk8/javassistLog.md)
+
 ## Runtime Environment
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Javassist 3.26.x](https://github.com/jboss-javassist/javassist)

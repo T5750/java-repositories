@@ -11,3 +11,4 @@ Java™ Platform Standard Ed. 8
     javap
     asm
     javassistTutorial
+    javassistLog
