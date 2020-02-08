@@ -14,6 +14,7 @@
 		<java.version>1.8</java.version>
 		<javassist.version>3.26.0-GA</javassist.version>
 		<asm.version>6.0</asm.version>
+		<sun.tools.version>1.8.0</sun.tools.version>
 		<junit.version>4.11</junit.version>
 		<maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
 	</properties>
@@ -33,6 +34,13 @@
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm-util</artifactId>
 			<version>${asm.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun</groupId>
+			<artifactId>tools</artifactId>
+			<version>${sun.tools.version}</version>
+			<scope>system</scope>
+			<systemPath>${java.home}/../lib/tools.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -68,6 +76,8 @@
 						<manifestEntries>
 							<Premain-Class>t5750.instrument.Premain</Premain-Class>
 							<Can-Retransform-Classes>true</Can-Retransform-Classes>
+							<Agent-Class>t5750.instrument.Premain</Agent-Class>
+							<Can-Redefine-Classes>true</Can-Redefine-Classes>
 						</manifestEntries>
 					</archive>
 				</configuration>

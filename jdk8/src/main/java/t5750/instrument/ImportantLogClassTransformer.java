@@ -17,10 +17,9 @@ import javassist.bytecode.annotation.Annotation;
 import javassist.bytecode.annotation.ArrayMemberValue;
 import javassist.bytecode.annotation.MemberValue;
 import javassist.bytecode.annotation.StringMemberValue;
+import t5750.module.log.util.LogUtil;
 
 public class ImportantLogClassTransformer implements ClassFileTransformer {
-	private static final String METHOD_ANNOTATION = "t5750.module.log.annotation.ImportantLog";
-	private static final String ANNOTATION_ARRAY = "fields";
 	private ClassPool pool;
 
 	public ImportantLogClassTransformer() {
@@ -60,14 +59,14 @@ public class ImportantLogClassTransformer implements ClassFileTransformer {
 				.getAttribute(AnnotationsAttribute.invisibleTag);
 		if (attInfo != null) {
 			// this is the type name meaning use dots instead of slashes
-			return attInfo.getAnnotation(METHOD_ANNOTATION);
+			return attInfo.getAnnotation(LogUtil.METHOD_ANNOTATION);
 		}
 		return null;
 	}
 
 	private List getParamIndexes(Annotation annotation) {
 		ArrayMemberValue fields = (ArrayMemberValue) annotation
-				.getMemberValue(ANNOTATION_ARRAY);
+				.getMemberValue(LogUtil.ANNOTATION_ARRAY);
 		if (fields != null) {
 			MemberValue[] values = (MemberValue[]) fields.getValue();
 			List parameterIndexes = new ArrayList();

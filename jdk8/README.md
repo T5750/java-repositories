@@ -4,6 +4,7 @@
 - [Lambda](../doc/source/jdk8/Lambda.md)
 - [JDK, JRE, JVM, JSE, JEE, JME](../doc/source/jdk8/jdkJre.md)
 - [javap](../doc/source/jdk8/javap.md)
+- [Java Instrumentation](../doc/source/jdk8/instrumentation.md)
 
 ### ASM
 - [ASM](../doc/source/jdk8/asm.md)
@@ -21,7 +22,7 @@
 9. Boxing/Unboxing
 10. Debug
 
-[Javassist Audit Log](../doc/source/jdk8/javassistLog.md)
+[Javassist/ASM Audit Log](../doc/source/jdk8/javassistLog.md)
 
 ## Runtime Environment
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)

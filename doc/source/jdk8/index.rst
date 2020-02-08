@@ -9,6 +9,7 @@ Java™ Platform Standard Ed. 8
     jdkJre
     Lambda
     javap
+    instrumentation
     asm
     javassistTutorial
     javassistLog

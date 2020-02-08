@@ -1,4 +1,4 @@
-# Javassist Audit Log
+# Javassist/ASM Audit Log
 
 With Spring and Hibernate on your stack, your application’s bytecode is likely enhanced or manipulated at runtime. Bytecode is the instruction set of the Java Virtual Machine (JVM), and all languages that run on the JVM must eventually compile down to bytecode. Bytecode is manipulated for a variety of reasons:
 
@@ -100,10 +100,87 @@ As you write Java code using Javassist, be wary of the following gotchas:
 java -javaagent:jdk8.jar -cp .;C:\Users\hero\.m2\repository\org\javassist\javassist\3.26.0-GA\javassist-3.26.0-GA.jar t5750.module.log.BankTransactions
 ```
 
+Debug: IDE -> VM options: `-javaagent:jdk8.jar`
+
 ### Summary
 `ImportantLogClassTransformer`
 - On the positive side, the amount of code written is pretty minimal and we did not actually have to write bytecode to use Javassist.
 - The big drawback is that writing Java code in quotes can become tedious.
+
+## How do we modify the bytes using ASM?
+[ASM](http://asm.ow2.org/) is a bytecode manipulation framework that has a small memory footprint and is relatively fast. I consider ASM to be the industry standard for bytecode manipulation, as even Javassist uses ASM under the hood. ASM provides both object and event-based libraries, but here I’ll focus on the event-based model.
+
+In ASM’s event-based model, all of these class components can be considered events.
+
+![asm_Classes](https://s1.wailian.download/2020/02/07/asm_Classes-min.png)
+
+The class events for ASM can be found on a `ClassVisitor`. In order “see” these events, you must create a classVisitor that overrides the desired components you want to see.
+
+![asm_ClassVisitor](https://s1.wailian.download/2020/02/08/asm_ClassVisitor-min.png)
+
+![asm_diagram](https://s1.wailian.download/2020/02/08/asm_diagram-min.png)
+
+![asm_diagram_BankTrans](https://s1.wailian.download/2020/02/07/asm_diagram_BankTrans-min.png)
+
+In addition to a class visitor, we need something to parse the class and generate events.
+- ASM provides an object called a `ClassReader` for this purpose. The reader parses the class and produces events.
+- After the class has been parsed, we need a `ClassWriter` to consume the events, converting them back to a class byte array.
+
+```
+public byte[] transform(ClassLoader loader, String className,
+    Class<?> classBeingRedefined, ProtectionDomain protectionDomain,
+    byte[] classfileBuffer) throws IllegalClassFormatException {
+    ClassReader cr = new ClassReader(classfileBuffer);
+    ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_FRAMES);
+    ClassVisitor cv = new LogMethodClassVisitor(cw, className);
+    cr.accept(cv, 0);
+    return cw.toByteArray();
+}
+```
+The `accept` call to the `ClassReader` says parse the class.
+```
+public class LogMethodClassVisitor extends ClassVisitor {
+    private String className;
+           
+    public LogMethodClassVisitor(ClassVisitor cv, String pClassName) {
+        super(Opcodes.ASM6, cv);
+        className = pClassName;
+    }
+                                                         
+    @Override
+    public MethodVisitor visitMethod(int access, String name, String desc,
+        String signature, String[] exceptions) {
+        //put logic in here
+    }
+}
+```
+Note that `visitAnnotation` returns an `AnnotationVisitor`.
+```
+public class PrintMessageMethodVisitor extends MethodVisitor {
+    @Override
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        // 1. check method for annotation @ImportantLog
+        // 2. if annotation present, then get important method param indexes
+    }
+                                                 
+    @Override
+    public void visitCode() {
+        // 3. if annotation present, add logging to beginning of the method
+    } 
+}
+```
+
+### Tips
+As you write Java code using ASM, be wary of the following gotchas:
+- In the event-model, the events for a class or method will always occur in a particular order. For example, the annotations on a method will always be visited before the actual code.
+- When referencing method parameter values using `$1`, `$2`, etc., know that `$0` is reserved for `this`. This means the value of the first parameter to your method is `$1`.
+
+```
+java -javaagent:jdk8.jar -cp .;C:\Users\hero\.m2\repository\org\ow2\asm\asm\6.0\asm-6.0.jar;C:\Users\hero\.m2\repository\org\ow2\asm\asm\6.0\asm-util-6.0.jar t5750.module.log.BankTransactions
+```
+
+## Differences
+One of the major differences between Javassist and ASM can be seen above. With ASM, you have to write code at the bytecode level when modifying methods, meaning you need to have a good understanding of how the JVM works. You need to know exactly what is on your stack and the local variables at a given moment of time. While writing at the bytecode level opens up the door in terms of functionality and optimization, it does mean ASM has a long developer ramp up time.
 
 ## References
 - [Diving Into Bytecode Manipulation: Creating an Audit Log With ASM and Javassist](https://blog.newrelic.com/engineering/diving-bytecode-manipulation-creating-audit-log-asm-javassist/)
