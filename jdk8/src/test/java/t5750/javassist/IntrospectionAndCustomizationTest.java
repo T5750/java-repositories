@@ -9,6 +9,7 @@ import javassist.expr.MethodCall;
 import javassist.expr.NewArray;
 import t5750.javassist.annotation.Author;
 import t5750.javassist.util.JavassistUtil;
+import t5750.util.Global;
 
 /**
  * 4. Introspection and customization
@@ -23,12 +24,12 @@ public class IntrospectionAndCustomizationTest {
 
 	@Test
 	public void addMethod() throws Exception {
-		CtClass cc = pool.get(JavassistUtil.POINT);
+		CtClass cc = pool.get(Global.POINT);
 		CtMethod m = CtNewMethod.make(
 				"void move(int newX, int newY, int newZ) { move(newX, newY); }",
 				cc);
 		cc.addMethod(m);
-		cc.writeFile(JavassistUtil.T5750);
+		cc.writeFile(Global.T5750);
 	}
 
 	/**
@@ -37,10 +38,10 @@ public class IntrospectionAndCustomizationTest {
 	 */
 	@Test
 	public void actualParameters() throws Exception {
-		CtClass cc = pool.get(JavassistUtil.POINT);
+		CtClass cc = pool.get(Global.POINT);
 		CtMethod m = cc.getDeclaredMethod("move");
 		m.insertBefore("{ System.out.println($1); System.out.println($2); }");
-		cc.writeFile(JavassistUtil.T5750);
+		cc.writeFile(Global.T5750);
 	}
 
 	/**
@@ -112,7 +113,7 @@ public class IntrospectionAndCustomizationTest {
 	 */
 	@Test
 	public void addAMethod() throws Exception {
-		CtClass cc = pool.get(JavassistUtil.POINT);
+		CtClass cc = pool.get(Global.POINT);
 		CtMethod m = CtNewMethod.make("public void xmove(int dx) { x += dx; }",
 				cc);
 		cc.addMethod(m);
@@ -125,7 +126,7 @@ public class IntrospectionAndCustomizationTest {
 		cc.addMethod(mAbstract);
 		mAbstract.setBody("{ x += $1; }");
 		cc.setModifiers(cc.getModifiers() & ~Modifier.ABSTRACT);
-		cc.writeFile(JavassistUtil.T5750);
+		cc.writeFile(Global.T5750);
 	}
 
 	/**
@@ -149,13 +150,13 @@ public class IntrospectionAndCustomizationTest {
 	 */
 	@Test
 	public void addField() throws Exception {
-		CtClass cc = pool.get(JavassistUtil.POINT);
+		CtClass cc = pool.get(Global.POINT);
 		CtField f = new CtField(CtClass.intType, "z", cc);
 		// cc.addField(f);
 		cc.addField(f, "0"); // initial value is 0
 		CtField cf = CtField.make("public int w = 0;", cc);
 		cc.addField(cf);
-		cc.writeFile(JavassistUtil.T5750);
+		cc.writeFile(Global.T5750);
 	}
 
 	/**

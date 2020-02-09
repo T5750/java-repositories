@@ -8,6 +8,7 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.URLClassPath;
 import t5750.javassist.util.JavassistUtil;
+import t5750.util.Global;
 
 /**
  * 1. Reading and writing bytecode
@@ -25,7 +26,7 @@ public class ReadWriteBytecodeTest {
 	@Test
 	public void main() throws Exception {
 		CtClass cc = pool.get(JavassistUtil.DOMAIN + "Rectangle");
-		cc.setSuperclass(pool.get(JavassistUtil.POINT));
+		cc.setSuperclass(pool.get(Global.POINT));
 		cc.writeFile();
 		byte[] b = cc.toBytecode();
 		Class clazz = cc.toClass();

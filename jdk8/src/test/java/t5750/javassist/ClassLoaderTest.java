@@ -9,6 +9,7 @@ import t5750.javassist.loader.SampleLoader;
 import t5750.javassist.service.Hello;
 import t5750.javassist.service.impl.MyTranslator;
 import t5750.javassist.util.JavassistUtil;
+import t5750.util.Global;
 
 /**
  * 3. Class loader
@@ -52,7 +53,7 @@ public class ClassLoaderTest {
 	public void javassistLoader() throws Throwable {
 		Loader cl = new Loader(pool);
 		CtClass ct = pool.get(JavassistUtil.DOMAIN + "Rectangle");
-		ct.setSuperclass(pool.get(JavassistUtil.POINT));
+		ct.setSuperclass(pool.get(Global.POINT));
 		Class c = cl.loadClass(JavassistUtil.DOMAIN + "Rectangle");
 		Object rect = c.newInstance();
 		System.out.println(rect.toString());

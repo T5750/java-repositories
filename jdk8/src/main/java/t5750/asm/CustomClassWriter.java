@@ -8,9 +8,9 @@ import org.objectweb.asm.ClassWriter;
 import t5750.asm.visitor.AddFieldAdapter;
 import t5750.asm.visitor.AddInterfaceAdapter;
 import t5750.asm.visitor.PublicizeMethodAdapter;
+import t5750.util.Global;
 
 public class CustomClassWriter {
-	private final static String CLASS_NAME = "java.lang.Integer";
 	private ClassReader reader;
 	private ClassWriter writer;
 	private AddFieldAdapter addFieldAdapter;
@@ -19,7 +19,7 @@ public class CustomClassWriter {
 
 	public CustomClassWriter() {
 		try {
-			reader = new ClassReader(CLASS_NAME);
+			reader = new ClassReader(Global.INTEGER);
 			writer = new ClassWriter(reader, 0);
 		} catch (IOException e) {
 			e.printStackTrace();

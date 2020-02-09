@@ -3,6 +3,10 @@
 ## Introduction
 [Java Instrumentation API](https://docs.oracle.com/javase/7/docs/api/java/lang/instrument/Instrumentation.html) provides the ability to add byte-code to existing compiled Java classes.
 
+Java Instrumentation will give a demonstration of how powerful Java is. Most importantly, this power can be realized by a developer for innovative means.
+- For example using Java instrumentation, we can access a class that is loaded by the Java classloader from the JVM and modify its bytecode by inserting our custom code, all these done at runtime.
+- Don’t worry about security, these are governed by the same security context applicable for Java classes and respective classloaders.
+
 ## Key Components
 - Agent – is a jar file containing agent and transformer class files.
 - Agent Class – A java class file, containing a method named `premain`.

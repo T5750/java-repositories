@@ -1,7 +1,12 @@
 package t5750.asm;
 
+import java.io.File;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import t5750.util.FileUtil;
+import t5750.util.Global;
 
 /**
  * 4. Working With the Event-based ASM API
@@ -19,7 +24,9 @@ public class CustomClassWriterTest {
 	 */
 	@Test
 	public void addField() throws Exception {
-		customClassWriter.addField();
+		byte[] b = customClassWriter.addField();
+		String integerClass = Global.T5750 + File.separator + "Integer.class";
+		FileUtil.write(b, integerClass);
 	}
 
 	/**

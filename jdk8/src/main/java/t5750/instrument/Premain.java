@@ -23,7 +23,7 @@ public class Premain {
 		// CustomClassWriter cr = new CustomClassWriter(b);
 		// return cr.addField();
 		// }
-		// if (name.equals(AsmUtil.PATH_POINT)) {
+		// if (name.equals(Global.PATH_POINT)) {
 		// System.out.println("transform: " + name);
 		// }
 		// return b;
