@@ -25,3 +25,4 @@ Java Repositories
    patterns/index
    security/index
    threads/index
+   utils/index
