@@ -10,3 +10,4 @@ Security
     rsa
     https
     SSL
+    secureHash
