@@ -8,12 +8,18 @@
 		<version>1.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-
 	<artifactId>blockchain</artifactId>
 	<packaging>pom</packaging>
-	<modules>
-		<module>NoobChainTutorial</module>
-	</modules>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>

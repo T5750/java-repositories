@@ -13,4 +13,8 @@
 7. 钱包 (Wallet)：一个包含私钥集合的文件
 
 ## Examples
-- [NoobChainTutorial](NoobChainTutorial/README.md)
+- [NoobChain Tutorial](noobChainTutorial.md)
+
+## Runtime Environment
+- [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+- [Gson 2.8.5](https://github.com/google/gson)

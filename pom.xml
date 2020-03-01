@@ -3,7 +3,6 @@
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>com.evangel</groupId>
 	<artifactId>java-repositories</artifactId>
 	<packaging>pom</packaging>
@@ -11,25 +10,50 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.7</java.version>
+		<java.version>1.8</java.version>
+		<java7.version>1.7</java7.version>
+		<bcprov-jdk15on.version>1.59</bcprov-jdk15on.version>
+		<commons-codec.version>1.10</commons-codec.version>
+		<gson.version>2.8.5</gson.version>
+		<jackson.version>2.9.10.1</jackson.version>
 		<log4j.version>1.2.17</log4j.version>
 		<junit.version>4.11</junit.version>
 	</properties>
 
 	<modules>
-		<module>threads</module>
-		<module>patterns</module>
-		<module>jdk8</module>
-		<module>utils</module>
-		<module>security</module>
 		<module>blockchain</module>
-		<module>nio</module>
 		<module>jdk7</module>
+		<module>jdk8</module>
 		<module>jvm</module>
+		<module>nio</module>
+		<module>patterns</module>
+		<module>security</module>
+		<module>threads</module>
+		<module>utils</module>
 	</modules>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.bouncycastle</groupId>
+				<artifactId>bcprov-jdk15on</artifactId>
+				<version>${bcprov-jdk15on.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
