@@ -12,3 +12,4 @@ Security
     SSL
     keytoolCommands
     secureHash
+    restSecurity

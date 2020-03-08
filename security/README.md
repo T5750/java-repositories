@@ -9,6 +9,7 @@
     - [SSL/TLS](../doc/source/security/SSL.md)
     - [Java Keytool Keystore Commands](../doc/source/security/keytoolCommands.md)
 - [Secure Hash](../doc/source/security/secureHash.md)
+- [REST API Security Guide](../doc/source/security/restSecurity.md)
 
 ## Runtime Environment
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
