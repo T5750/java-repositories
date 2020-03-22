@@ -37,7 +37,7 @@ public String sayHello(@Context SecurityContext sc) {
 }
 ```
 
-### JAR-RS annotations for method level authorization
+### JAX-RS annotations for method level authorization
 JAX-RS provides below annotations for this purpose.
 - [@PermitAll](https://docs.oracle.com/javaee/6/api/javax/annotation/security/PermitAll.html)
 - [@DenyAll](https://docs.oracle.com/javaee/6/api/javax/annotation/security/DenyAll.html)
