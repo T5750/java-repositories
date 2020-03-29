@@ -1,4 +1,4 @@
-package com.ibm.zip.employee;
+package t5750.utils.zip.employee;
 
 import java.io.Serializable;
 

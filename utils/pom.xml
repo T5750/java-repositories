@@ -13,7 +13,6 @@
 
 	<modules>
 		<module>hyperic-sigar</module>
-		<module>zip</module>
 	</modules>
 
 	<dependencies>

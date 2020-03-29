@@ -12,7 +12,7 @@ It’s main advantages are that it is fast, and easy to implement. But it also m
 ## Making MD5 more secure using salt
 >Wikipedia defines salt as **random data that are used as an additional input to a one-way function that hashes a password or pass-phrase**. In more simple words, salt is some randomly generated text, which is appended to the password before obtaining hash.
 
-**Important**: We always need to use a `SecureRandom` to create good salts, and in Java, the `SecureRandom` class supports the `SHA1PRNG` pseudo random number generator algorithm, and we can take advantage of it.
+**Important**: We always need to use a [SecureRandom](https://docs.oracle.com/javase/6/docs/api/java/security/SecureRandom.html) to create good salts, and in Java, the `SecureRandom` class supports the `SHA1PRNG` pseudo random number generator algorithm, and we can take advantage of it.
 
 `SHA1PRNG` algorithm is used as cryptographically strong pseudo-random number generator based on the `SHA-1` message digest algorithm. Note that if a seed is not provided, it will generate a **seed** from a true random number generator (**TRNG**).
 
@@ -29,6 +29,14 @@ Java has 4 implementations of SHA algorithm. They generate the following length 
 - `SHA-384` (Stronger than `SHA-256` – 384 bits Hash)
 - `SHA-512` (Stronger than `SHA-384` – 512 bits Hash)
 
+A longer hash is more difficult to break. That’s the core idea.
+
+To get any implementation of algorithm, pass it as parameter to `MessageDigest`. e.g.
+```
+MessageDigest md = MessageDigest.getInstance("SHA-1");
+//OR
+MessageDigest md = MessageDigest.getInstance("SHA-256");
+```
 `SHATest`
 
 ## Advanced password security using PBKDF2WithHmacSHA1 algorithm

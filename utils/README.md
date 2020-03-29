@@ -2,7 +2,7 @@
 
 ## Contents
 - [hyperic-sigar](hyperic-sigar/README.md)
-- [zip](zip/README.md)
+- [Zip](../doc/source/utils/zip.md)
 
 ### Gson
 - [Gson](../doc/source/utils/gson/gson.md)

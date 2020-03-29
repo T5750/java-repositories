@@ -1,7 +1,4 @@
-# zip
-
-## Runtime Environment
-- [Java 7](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
+# Zip
 
 ## Short & Quick introduction
 ### 数据压缩概述
@@ -56,5 +53,5 @@ public void setTime(long time) | 设置条目的修改时间
 ### 如何对JAR文件进行操作呢？
 Java档案文件（JAR）格式是基于标准的ZIP文件格式，并附有可选择的文件清单列表。可以使用`java.util.jar`包。
 
-## Links
+## References
 - [利用JAVA API函数实现数据的压缩与解压缩](https://www.ibm.com/developerworks/cn/java/l-compress/index.html)

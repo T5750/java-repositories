@@ -1,13 +1,11 @@
-package com.ibm.zip.checksum;
+package t5750.utils.zip;
 
 import java.io.*;
-import java.util.zip.Adler32;
-import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * 清单 4. 源代码
+ * 清单 3. 源代码
  */
 public class Zip {
 	static final int BUFFER = 2048;
@@ -16,10 +14,8 @@ public class Zip {
 		try {
 			BufferedInputStream origin = null;
 			FileOutputStream dest = new FileOutputStream("d:\\myfigs.zip");
-			CheckedOutputStream checksum = new CheckedOutputStream(dest,
-					new Adler32());
 			ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(
-					checksum));
+					dest));
 			// out.setMethod(ZipOutputStream.DEFLATED);
 			byte data[] = new byte[BUFFER];
 			// get a list of files from current directory
@@ -40,8 +36,6 @@ public class Zip {
 				origin.close();
 			}
 			out.close();
-			System.out
-					.println("checksum: " + checksum.getChecksum().getValue());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
