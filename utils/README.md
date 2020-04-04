@@ -1,7 +1,7 @@
 # Utils
 
 ## Contents
-- [hyperic-sigar](hyperic-sigar/README.md)
+- [Hyperic SIGAR](../doc/source/utils/sigar.md)
 - [Zip](../doc/source/utils/zip.md)
 
 ### Gson
@@ -15,3 +15,4 @@
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Gson 2.8.5](https://github.com/google/gson)
 - [Jackson 2.x](https://github.com/FasterXML/jackson)
+- [sigar-1.6.4](https://sourceforge.net/projects/sigar/files/sigar/1.6/)
