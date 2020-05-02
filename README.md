@@ -7,10 +7,10 @@
 ## What's included
 A ~ C | D ~ G | H ~ L | M ~ P | Q ~ S | T ~ Z
 ----|----|----|----|----|----
-| [ASM](jdk8/README.md) | [Gson](utils/README.md) | [Javassist](jdk8/README.md) | [nio](nio/README.md) | [security](security/README.md) | [threads](threads/README.md)
-| [blockchain](blockchain/README.md) |  | [jdk7](jdk7/README.md) | [patterns](patterns/README.md) |  | [utils](utils/README.md)
-|  |  | [jdk8](jdk8/README.md) |  |  |
-|  |  | [jvm](jvm/README.md) |  |  |
+| [ASM](jdk8/README.md) | [Gson](utils/README.md) | [Javassist](jdk8/README.md) | [NIO](nio/README.md) | [Security](security/README.md) | [Threads](threads/README.md)
+| [Blockchain](blockchain/README.md) |  | [JDK7](jdk7/README.md) | [Patterns](patterns/README.md) |  | [Utils](utils/README.md)
+|  |  | [JDK8](jdk8/README.md) |  |  |
+|  |  | [JVM](jvm/README.md) |  |  |
 
 ## Docs
 - https://jse.readthedocs.io
