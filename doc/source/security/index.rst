@@ -10,6 +10,7 @@ Security
     rsa
     https
     SSL
+    SSLCommands
     keytoolCommands
     secureHash
     restSecurity
