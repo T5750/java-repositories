@@ -11,6 +11,9 @@
 - [Save Data to a JSON File](../doc/source/utils/gson/saveJsonFile.md)
 - [Gson vs Jackson](../doc/source/utils/gson/gsonJackson.md)
 
+### Jackson
+- [Jackson ObjectMapper](../doc/source/utils/jackson/jacksonObjectMapper.md)
+
 ## Runtime Environment
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 - [Gson 2.8.5](https://github.com/google/gson)
