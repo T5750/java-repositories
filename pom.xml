@@ -20,6 +20,9 @@
 		<logback.version>1.2.3</logback.version>
 		<slf4j.version>1.7.25</slf4j.version>
 		<junit.version>4.11</junit.version>
+		<UserAgentUtils.version>1.21</UserAgentUtils.version>
+		<commons-lang3.version>3.8.1</commons-lang3.version>
+		<tomcat.version>9.0.13</tomcat.version>
 	</properties>
 
 	<modules>
@@ -66,6 +69,16 @@
 				<artifactId>junit</artifactId>
 				<version>${junit.version}</version>
 				<!--<scope>test</scope>-->
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.tomcat.embed</groupId>
+				<artifactId>tomcat-embed-core</artifactId>
+				<version>${tomcat.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
