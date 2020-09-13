@@ -22,3 +22,5 @@
 - [Gson 2.8.5](https://github.com/google/gson)
 - [Jackson 2.x](https://github.com/FasterXML/jackson)
 - [sigar-1.6.4](https://sourceforge.net/projects/sigar/files/sigar/1.6/)
+- [UserAgentUtils 1.21](https://github.com/HaraldWalker/user-agent-utils)
+- [Tomcat 9.0.x](https://tomcat.apache.org/download-90.cgi)
