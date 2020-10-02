@@ -6,3 +6,4 @@ Jackson
     :numbered: 0
     
     jacksonObjectMapper
+    jacksonJsonFilter

@@ -13,6 +13,7 @@
 
 ### Jackson
 - [Jackson ObjectMapper](../doc/source/utils/jackson/jacksonObjectMapper.md)
+- [Jackson @JsonFilter](../doc/source/utils/jackson/jacksonJsonFilter.md)
 
 ### Properties
 - [Java Properties](../doc/source/utils/property/javaProperties.md)
