@@ -22,7 +22,7 @@
 		<junit.version>4.11</junit.version>
 		<UserAgentUtils.version>1.21</UserAgentUtils.version>
 		<commons-lang3.version>3.8.1</commons-lang3.version>
-		<tomcat.version>9.0.13</tomcat.version>
+		<tomcat.version>9.0.35</tomcat.version>
 	</properties>
 
 	<modules>
