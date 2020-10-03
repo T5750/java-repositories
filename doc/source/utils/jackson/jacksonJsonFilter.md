@@ -40,5 +40,8 @@ System.out.println(jsonData);
 ## @JsonFilter at Property Level
 We can use `@JsonFilter` annotation on fields, methods and constructor parameters since Jackson 2.3. Here we will create two filters using `@JsonFilter` at property level and filter the properties using `serializeAllExcept()` and `filterOutAllExcept()` methods.
 
+## Results
+- `JacksonJsonFilterTest`
+
 ## References
 - [Jackson @JsonFilter Example](https://www.concretepage.com/jackson-api/jackson-jsonfilter-example)

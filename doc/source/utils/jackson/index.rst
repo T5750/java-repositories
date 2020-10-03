@@ -7,3 +7,7 @@ Jackson
     
     jacksonObjectMapper
     jacksonJsonFilter
+    jacksonJsonFormat
+    jacksonIgnoreNull
+    jacksonJsonNodeForEach
+    jacksonJsonParserJsonGenerator

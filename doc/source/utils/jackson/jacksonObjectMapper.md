@@ -156,5 +156,9 @@ List<Car> listCar = objectMapper.readValue(jsonCarArray, new TypeReference<List<
 ## Conclusion
 Jackson is a solid and mature JSON serialization/deserialization library for Java.
 
+## Results
+- `SerializationDeserializationFeatureTest`
+- `JavaReadWriteJsonTest`
+
 ## References
 - [Intro to the Jackson ObjectMapper](https://www.baeldung.com/jackson-object-mapper-tutorial)
