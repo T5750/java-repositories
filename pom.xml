@@ -23,6 +23,12 @@
 		<UserAgentUtils.version>1.21</UserAgentUtils.version>
 		<commons-lang3.version>3.8.1</commons-lang3.version>
 		<tomcat.version>9.0.41</tomcat.version>
+		<protobuf.version>3.11.4</protobuf.version>
+		<!--<os.detected.name>linux</os.detected.name>
+		<os.detected.arch>x86_64</os.detected.arch>
+		<os.detected.classifier>linux-x86_64</os.detected.classifier>
+		-->
+		<os.detected.classifier>windows-x86_64</os.detected.classifier>
 	</properties>
 
 	<modules>
@@ -79,6 +85,11 @@
 				<groupId>org.apache.tomcat.embed</groupId>
 				<artifactId>tomcat-embed-core</artifactId>
 				<version>${tomcat.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${protobuf.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
