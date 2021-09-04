@@ -2,9 +2,20 @@
 
 >Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.
 
+## Defining Your Protocol Format
+- `employee.proto`
+- `addressbook.proto`
+
+## Compiling Your Protocol Buffers
+```
+protoc -I=$SRC_DIR --java_out=$DST_DIR $SRC_DIR/addressbook.proto
+```
+
 ## Results
 - `ProtobufJavaTest`
 - `AddressBookTest`
+- `AddPerson`
+- `ListPeople`
 
 ## References
 - [Protocol Buffers](https://developers.google.cn/protocol-buffers?hl=zh-cn)
