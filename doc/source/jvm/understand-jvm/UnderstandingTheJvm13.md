@@ -22,4 +22,4 @@ HotSpot虚拟机对象头Mark Word
 
 偏向锁、轻量级锁的状态转化及对象Mark Word的关系
 
-![jvm-lock-mark-word-min-min](https://www.wailian.work/images/2019/04/24/jvm-lock-mark-word-min-min.png)
+![jvm-lock-mark-word-min-min](https://s0.wailian.download/2019/04/24/jvm-lock-mark-word-min-min.png)

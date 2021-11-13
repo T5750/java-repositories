@@ -29,7 +29,7 @@ AbstractQueuedSynchronizer.compareAndSetState(int, int)
 
 节点成为sync队列和condition队列构建的基础，在同步器中就包含了sync队列。同步器拥有三个成员变量：sync队列的头结点`head`、sync队列的尾节点`tail`和状态`state`。对于锁的获取，请求形成节点，将其挂载在尾部，而锁资源的转移（释放再获取）是从头部开始向后进行。对于同步器维护的状态`state`，多个线程对其的获取将会产生一个链式的结构。
 
-![AQS-Node-min](https://www.wailian.work/images/2018/10/25/AQS-Node-min.png)
+![AQS-Node-min](https://s0.wailian.download/2018/10/25/AQS-Node-min.png)
 
 ### API说明
 
@@ -106,7 +106,7 @@ private Node enq(final Node node) {
 ```
 
 ### 独占模式获取
-![acquire-min](https://www.wailian.work/images/2018/10/25/acquire-min.png)
+![acquire-min](https://s0.wailian.download/2018/10/25/acquire-min.png)
 ```
 public final void acquire(int arg) {
     // tryAcquire 由子类实现本身不会阻塞线程，如果返回 true，则线程继续。如果返回 false 那么就加入阻塞队列阻塞线程，并等待前继节点释放锁。
@@ -321,7 +321,7 @@ private boolean doAcquireNanos(int arg, long nanosTimeout) throws InterruptedExc
 1. 计算再次休眠的时间；
 1. 休眠时间的判定。
 
-![doAcquireNanos-min](https://www.wailian.work/images/2018/10/25/doAcquireNanos-min.png)
+![doAcquireNanos-min](https://s0.wailian.download/2018/10/25/doAcquireNanos-min.png)
 
 ### `acquireInterruptibly(int arg)`
 该方法提供获取状态能力，当然在无法获取状态的情况下会进入sync队列进行排队，这类似`acquire`，但是和`acquire`不同的地方在于它能够在外界对当前线程进行中断的时候提前结束获取状态的操作，换句话说，就是在类似`synchronized`获取锁时，外界能够对当前线程进行中断，并且获取锁的这个操作能够响应中断并提前返回。

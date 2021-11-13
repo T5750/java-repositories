@@ -3,7 +3,7 @@
 ### Base 1.7
 - `HashMap`底层是基于`数组+链表`组成的。1.7`HashMap`结构图：
 
-![HashMap1.7-min](https://www.wailian.work/images/2018/10/16/HashMap1.7-min.jpg)
+![HashMap1.7-min](https://s0.wailian.download/2018/10/16/HashMap1.7-min.jpg)
 ```
     static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16 // Step 1
 
@@ -170,7 +170,7 @@ final Entry<K,V> getEntry(Object key) {
 
 - 因此1.8中重点优化了这个查询效率。1.8`HashMap`结构图：
 
-![HashMap1.8-min](https://www.wailian.work/images/2018/10/16/HashMap1.8-min.jpg)
+![HashMap1.8-min](https://s0.wailian.download/2018/10/16/HashMap1.8-min.jpg)
 
 核心成员变量和1.7大体上都差不多，还是有几个重要的区别：
 - `TREEIFY_THRESHOLD`用于判断是否需要将链表转换为红黑树的阈值。
@@ -273,7 +273,7 @@ for (int i = 0; i < 1000; i++) {
 ```
 `HashMap`扩容的时候会调用`resize()`方法，就是这里的并发操作容易在一个桶上形成环形链表；这样当获取一个不存在的`key`时，计算出的index正好是环形链表的下标就会出现死循环。如下图：
 
-![EndlessLoop-min](https://www.wailian.work/images/2018/10/16/EndlessLoop-min.jpg)
+![EndlessLoop-min](https://s0.wailian.download/2018/10/16/EndlessLoop-min.jpg)
 
 ### 遍历方式
 `HashMap`的遍历方式，通常有以下几种：
@@ -299,7 +299,7 @@ Iterator<String> iterator = map.keySet().iterator();
 ### Base 1.7
 1.7由`Segment`数组、`HashEntry`组成，和`HashMap`一样，仍然是`数组+链表`。1.7`ConcurrentHashMap`结构图：
 
-![ConcurrentHashMap1.7-min](https://www.wailian.work/images/2018/10/16/ConcurrentHashMap1.7-min.jpg)
+![ConcurrentHashMap1.7-min](https://s0.wailian.download/2018/10/16/ConcurrentHashMap1.7-min.jpg)
 
 核心成员变量：
 ```
@@ -512,7 +512,7 @@ public V get(Object key) {
 ### Base 1.8
 1.8`ConcurrentHashMap`结构图：
 
-![ConcurrentHashMap1.8-min](https://www.wailian.work/images/2018/10/17/ConcurrentHashMap1.8-min.jpg)
+![ConcurrentHashMap1.8-min](https://s0.wailian.download/2018/10/17/ConcurrentHashMap1.8-min.jpg)
 
 其中抛弃了原有的`Segment`分段锁，而采用了`CAS+synchronized`来保证并发安全性。
 ```

@@ -1,7 +1,7 @@
 ## 深入理解Java虚拟机 Chapter12
 
 ### 内存间交互操作
-![jvm-memory-min](https://www.wailian.work/images/2019/04/23/jvm-memory-min.png)
+![jvm-memory-min](https://s0.wailian.download/2019/04/23/jvm-memory-min.png)
 
 - lock（锁定），作用于主内存的变量，它把一个变量标识为一条线程独占的状态。
 - unlock（解锁），作用于主内存的变量，它把一个处于锁定状态的变量释放出来，释放后的变量才可以被其他线程锁定。
@@ -44,4 +44,4 @@ Java线程优先级 | Windows线程优先级
 ### 状态转换
 线程状态转换关系
 
-![jvm-thread-min-min](https://www.wailian.work/images/2019/04/23/jvm-thread-min-min.png)
+![jvm-thread-min-min](https://s0.wailian.download/2019/04/23/jvm-thread-min-min.png)

@@ -61,7 +61,7 @@ SortedMap<K, V>            tailMap(K fromInclusive)
 ```
 
 ### 2.数据结构
-![TreeMap-min](https://www.wailian.work/images/2018/10/29/TreeMap-min.jpg)
+![TreeMap-min](https://s0.wailian.download/2018/10/29/TreeMap-min.jpg)
 
 1. `TreeMap`实现继承于`AbstractMap`，并且实现了`NavigableMap`接口。
 1. `TreeMap`的本质是R-B Tree(红黑树)，它包含几个重要的成员变量：`root`,`size`,`comparator`。

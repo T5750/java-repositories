@@ -25,7 +25,7 @@ private static class Entry<K,V> extends HashMap.Entry<K,V> {
 ```
 其中`Entry`继承于`HashMap`的`Entry`，并新增了上下节点的指针，也就形成了双向链表。利用了头节点和其余的各个节点之间通过`Entry`中的`after`和`before`指针进行关联。
 
-![LinkedHashMap-min](https://www.wailian.work/images/2018/10/19/LinkedHashMap-min.jpg)
+![LinkedHashMap-min](https://s0.wailian.download/2018/10/19/LinkedHashMap-min.jpg)
 
 ![LinkedHashMap2](https://s1.wailian.download/2019/12/31/LinkedHashMap2-min.png)
 

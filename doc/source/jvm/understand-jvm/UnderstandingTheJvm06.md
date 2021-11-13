@@ -42,11 +42,11 @@ CONSTANT_InvokeDynamic_info | 18 | 表示一个方法的调用点
 
 使用javap命令输出常量表：`javap -verbose TestClass`
 
-![Jvm-WinHex-javap-min-min](https://www.wailian.work/images/2019/04/16/Jvm-WinHex-javap-min-min.png)
+![Jvm-WinHex-javap-min-min](https://s0.wailian.download/2019/04/16/Jvm-WinHex-javap-min-min.png)
 
 常量池中14种数据类型的结构总表
 
-![Jvm-CONSTANT-Structure-min-min](https://www.wailian.work/images/2019/04/16/Jvm-CONSTANT-Structure-min-min.png)
+![Jvm-CONSTANT-Structure-min-min](https://s0.wailian.download/2019/04/16/Jvm-CONSTANT-Structure-min-min.png)
 
 ### 访问标志
 

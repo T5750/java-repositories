@@ -30,8 +30,8 @@ org.eclipse.platform
 ```
 
 ### Eclipse Juno
-![JvmEclipseOriginal-min-min](https://www.wailian.work/images/2019/04/16/JvmEclipseOriginal-min-min.png)
+![JvmEclipseOriginal-min-min](https://s0.wailian.download/2019/04/16/JvmEclipseOriginal-min-min.png)
 
-![JvmEclipseOptimize-min-min](https://www.wailian.work/images/2019/04/16/JvmEclipseOptimize-min-min.png)
+![JvmEclipseOptimize-min-min](https://s0.wailian.download/2019/04/16/JvmEclipseOptimize-min-min.png)
 
-![JvmEclipseFinal-min-min](https://www.wailian.work/images/2019/04/16/JvmEclipseFinal-min-min.png)
+![JvmEclipseFinal-min-min](https://s0.wailian.download/2019/04/16/JvmEclipseFinal-min-min.png)

@@ -16,7 +16,7 @@
 1. 浏览器解密并计算握手消息的HASH，如果与服务端发来的HASH一致，此时握手过程结束，之后所有的通信数据将由之前浏览器生成的随机密码并利用对称加密算法进行加密。
 
 ## HTTPS 通信时序图
-![https](https://www.wailian.work/images/2018/03/15/https.png)
+![https](https://s0.wailian.download/2018/03/15/https.png)
 
 ## HTTPS协议和HTTP协议的区别
 - https协议需要到ca申请证书，一般免费证书很少，需要交费。

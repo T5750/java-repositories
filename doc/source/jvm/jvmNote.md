@@ -8,7 +8,7 @@
 - Java发展至今，出现过很多虚拟机，最初Sun使用的一款Classic的Java虚拟机，到现在最广泛的是HotSpot虚拟机。除Sun外，还有BEA的JRockit，目前JRockit和HotSpot都被Oracle收入旗下，大有整合的趋势。
 
 ## 1.2 认识Java虚拟机的基本结构
-![jvm-structure-min](https://www.wailian.work/images/2018/11/01/jvm-structure-min.png)
+![jvm-structure-min](https://s0.wailian.download/2018/11/01/jvm-structure-min.png)
 
 重点：Java堆、垃圾回收系统
 
@@ -28,7 +28,7 @@
 - 栈解决程序的运行问题，即程序如何执行，或者说如何处理数据。
 - 方法区则是辅助堆栈的一块永久区（Perm），解决堆栈信息的产生，是先决条件。
 
-![jvm-new-user-min](https://www.wailian.work/images/2018/11/01/jvm-new-user-min.png)
+![jvm-new-user-min](https://s0.wailian.download/2018/11/01/jvm-new-user-min.png)
 
 我们创建一个新的对象`User`，那么，`User`类的一些信息（类信息、静态信息都存放在方法区中）
 - 而`User`类被实例化出来之后，被存储到Java堆中，一块内存空间
@@ -37,7 +37,7 @@
 ## 2.2 辨清Java堆
 Java堆是和Java应用程序关系最密切的内存空间，几乎所有的对象都会存放在其中，并且Java堆完全是自动化管理的，通过垃圾回收机制，垃圾对象会自动清理，不需要显示地释放。
 
-![jvm-memory-model-min](https://www.wailian.work/images/2018/11/01/jvm-memory-model-min.png)
+![jvm-memory-model-min](https://s0.wailian.download/2018/11/01/jvm-memory-model-min.png)
 
 根据垃圾回收机制不同，Java堆可能拥有不同的结构。最为常见的就是将整个Java堆分为新生代和老年代。其中新生代存放新生的对象或者年龄不大的对象，老年代则存放年老对象。
 - 新生代分为eden区、s0区、s1区，s0和s1也被成为from和to区域，它们是两块大小相等，并且可以互换角色的空间。
@@ -153,7 +153,7 @@ TLAB全称是Thread Local Allocation Buffer即线程本地分配缓存，从名�
 ## 4.6 对象创建流程
 一个对象创建在什么位置，JVM会有一个比较细节的流程，根据数据的大小，参数的设置，决定如何创建分配，以及其位置。
 
-![jvm-create-obj-min](https://www.wailian.work/images/2018/11/04/jvm-create-obj-min.png)
+![jvm-create-obj-min](https://s0.wailian.download/2018/11/04/jvm-create-obj-min.png)
 
 ## 5.x 垃圾收集器
 

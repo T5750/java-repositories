@@ -1,7 +1,7 @@
 ## 深入理解Java虚拟机 Chapter03
 
 ### 垃圾收集器
-![jvm-gc-min](https://www.wailian.work/images/2018/11/01/jvm-gc-min.jpg)
+![jvm-gc-min](https://s0.wailian.download/2018/11/01/jvm-gc-min.jpg)
 
 ### 垃圾收集器参数总结
 

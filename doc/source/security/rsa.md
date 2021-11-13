@@ -25,9 +25,9 @@ RIPEMD128withRSA |   | 2048 | 同密钥 | BC
 RIPEMD160withRSA | 同上 | 2048 | 同密钥 | BC
 
 ## 序列图
-![rsa甲方发送数据](https://www.wailian.work/images/2018/02/08/rsa.jpg)
+![rsa甲方发送数据](https://s0.wailian.download/2018/02/08/rsa.jpg)
 
-![rsa乙方发送数据](https://www.wailian.work/images/2018/02/08/rsa25711.jpg)
+![rsa乙方发送数据](https://s0.wailian.download/2018/02/08/rsa25711.jpg)
 
 ## References
 - [java RSA使用](http://www.cnblogs.com/freeman-rain/archive/2012/03/29/2424423.html)

@@ -1,6 +1,6 @@
 ## ThreadLocal
 
-![ThreadLocal](https://www.wailian.work/images/2018/10/16/ThreadLocal.png)
+![ThreadLocal](https://s0.wailian.download/2018/10/16/ThreadLocal.png)
 
 - `ThreadLocal`类中维护`ThreadLocalMap`，用于存储每个线程的变量副本。`ThreadLocalMap`中`Entry`的键为线程对象，而值为对应线程的变量副本，`Entry(ThreadLocal k, Object v)`。采用空间换时间。
 - `ThreadLocal`不是用来解决对象共享访问问题的，而主要是提供了保持对象的方法和避免参数传递的方便的对象访问方式。归纳了两点： 

@@ -56,7 +56,7 @@ CPU流水线 | CPU pipeline | CPU流水线的工作方式就象工业生产上�
 锁机制保证了只有获得锁的线程能够操作锁定的内存区域。JVM内部实现了很多种锁机制，有偏向锁，轻量级锁和互斥锁，有意思的是除了偏向锁，JVM实现锁的方式都用到的循环`CAS`，当一个线程想进入同步块的时候使用循环`CAS`的方式来获取锁，当它退出同步块的时候使用循环`CAS`释放锁。
 
 ### `concurrent`包的实现示意图
-![concurrent-min](https://www.wailian.work/images/2018/10/23/concurrent-min.png)
+![concurrent-min](https://s0.wailian.download/2018/10/23/concurrent-min.png)
 
 ### `CAS`应用场景
 - 自旋锁

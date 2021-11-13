@@ -4,7 +4,7 @@
 
 `CountDownLatch`是通过一个计数器来实现的，计数器的初始值为线程的数量。每当一个线程完成了自己的任务后，计数器的值就会减1。当计数器值到达0时，它表示所有的线程已经完成了任务，然后在闭锁上等待的线程就可以恢复执行任务。
 
-![CountDownLatch-min](https://www.wailian.work/images/2018/10/17/CountDownLatch-min.png)
+![CountDownLatch-min](https://s0.wailian.download/2018/10/17/CountDownLatch-min.png)
 
 `CountDownLatch`类只提供了一个构造器：
 ```

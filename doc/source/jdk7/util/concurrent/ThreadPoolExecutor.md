@@ -8,7 +8,7 @@
 - 解耦作用；线程的创建与执行完全分开，方便维护。
 - 应当将其放入一个池子中，可以给其他任务进行复用。
 
-![structure-min](https://www.wailian.work/images/2018/10/18/structure-min.png)
+![structure-min](https://s0.wailian.download/2018/10/18/structure-min.png)
 
 `ThreadPoolExecutor`类提供了四个构造方法：
 ```
@@ -37,8 +37,8 @@ shutdownNow() // 也是停止接受新任务，但会中断所有的任务，将
 ```
 
 ### 实现原理
-![process-min](https://www.wailian.work/images/2018/10/18/process-min.png)
-![runState-min](https://www.wailian.work/images/2018/10/18/runState-min.jpg)
+![process-min](https://s0.wailian.download/2018/10/18/process-min.png)
+![runState-min](https://s0.wailian.download/2018/10/18/runState-min.jpg)
 
 1. 线程池状态
     ```

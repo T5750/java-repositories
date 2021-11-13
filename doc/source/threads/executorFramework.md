@@ -1,10 +1,10 @@
 # Working with Java Executor framework in multithreaded application
 
 ## Java Executor Service
-![Java Executor Service](https://www.wailian.work/images/2018/11/02/JavaExecutor01-min.png)
+![Java Executor Service](https://s0.wailian.download/2018/11/02/JavaExecutor01-min.png)
 
 ## Thread Pool Executor
-![Thread Pool Executor](https://www.wailian.work/images/2018/11/02/JavaExecutor02-min.png)
+![Thread Pool Executor](https://s0.wailian.download/2018/11/02/JavaExecutor02-min.png)
 
 ## Steps
 - Create an executor

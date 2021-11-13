@@ -3,7 +3,7 @@
 ## Java NIO
 Java NIO基本组件如下：
 
-![NIO-Components](https://www.wailian.work/images/2018/09/07/NIO-Components.png)
+![NIO-Components](https://s0.wailian.download/2018/09/07/NIO-Components.png)
 
 ## NIO Components
 

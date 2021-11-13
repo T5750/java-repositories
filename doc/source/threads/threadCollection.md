@@ -1,7 +1,7 @@
 # Java Multithreading
 
 ## Life Cycle of a Thread
-![Life Cycle of a Thread](https://www.wailian.work/images/2019/10/01/Thread_Life_Cycle-min.jpg)
+![Life Cycle of a Thread](https://s0.wailian.download/2019/10/01/Thread_Life_Cycle-min.jpg)
 
 - **New** − A new thread begins its life cycle in the new state. It remains in this state until the program starts the thread. It is also referred to as a born thread.
 - **Runnable** − After a newly born thread is started, the thread becomes runnable. A thread in this state is considered to be executing its task.

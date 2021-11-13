@@ -4,7 +4,7 @@
 >The JMX technology provides the tools for building distributed, Web-based, modular and dynamic solutions for managing and monitoring devices, applications, and service-driven networks. By design, this standard is suitable for adapting legacy systems, implementing new management and monitoring solutions, and plugging into those of the future. 
 
 ## JMX架构图
-![jmx-min](https://www.wailian.work/images/2019/08/19/jmx-min.png)
+![jmx-min](https://s0.wailian.download/2019/08/19/jmx-min.png)
 
 1. 基础层：主要是MBean，被管理的资源
 2. 适配层：MBeanServer，主要是提供对资源的注册和管理

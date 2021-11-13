@@ -8,10 +8,10 @@
 - Software implementable in C and Java
 
 ## Operation of AES
-![Operation of AES](https://www.wailian.work/images/2018/03/14/OperationofAES.jpg)
+![Operation of AES](https://s0.wailian.download/2018/03/14/OperationofAES.jpg)
 
 ## Encryption Process
-![Encryption Process](https://www.wailian.work/images/2018/03/14/EncryptionProcess.jpg)
+![Encryption Process](https://s0.wailian.download/2018/03/14/EncryptionProcess.jpg)
 
 1. Byte Substitution (SubBytes)
 1. Shift rows
