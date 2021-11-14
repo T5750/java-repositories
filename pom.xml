@@ -35,6 +35,7 @@
 		<module>blockchain</module>
 		<module>jdk7</module>
 		<module>jdk8</module>
+		<module>jdk11</module>
 		<module>jvm</module>
 		<module>nio</module>
 		<module>patterns</module>

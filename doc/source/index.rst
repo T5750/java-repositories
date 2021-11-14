@@ -20,6 +20,7 @@ Java Repositories
 
    jdk7/index
    jdk8/index
+   jdk11/index
    jvm/index
    nio/index
    patterns/index
