@@ -7,6 +7,7 @@ Java™ Platform Standard Ed. 8
     :numbered: 0
     
     jdkJre
+    jdk8
     Lambda
     javap
     instrumentation
