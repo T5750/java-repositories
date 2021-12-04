@@ -31,6 +31,20 @@ cat nginxssl.crt gs_intermediate_ca.crt >testnginx.crt
 openssl pkcs12 -nocerts -nodes -in nginxkeystore.p12 -out testnginx.key
 ```
 
+## p12 -> crt
+```
+openssl pkcs12 -in testserver.p12 -nokeys -clcerts -out testserver.crt
+```
+
+## openssl
+```
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -out server.csr
+openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt
+```
+Common Name: `*.xxx.com`
+
 ## References
 - [crt转为p12证书](https://www.jianshu.com/p/59e2bb2befa9)
 - [Nginx证书配置：tomcat证书jks文件转nginx证书.cet和key文件](https://blog.csdn.net/liuchuan_com/article/details/54376258)
+- [openssl生成证书server.key server.crt](https://www.cnblogs.com/fangpengchengbupter/p/7999704.html)

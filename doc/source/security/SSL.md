@@ -74,38 +74,22 @@ SSL/TLS 协议（RFC2246 RFC4346）处于 TCP/IP 协议与各种应用层协议�
 
 ## 安全钥匙与证书的管理工具 Keytool
 1. 进入本地的 java 安装位置的 bin 目录中 cd /java/bin
-
 2. 创建一个客户端 keystore 文件
-
-`keytool -genkey -alias sslclient -keystore sslclientkeys`
-
-![创建 keystore 文件](https://www.ibm.com/developerworks/cn/java/j-lo-ssltls/image002.png)
-
+    - `keytool -genkey -alias sslclient -keystore sslclientkeys`
 3. 将客户端 keystore 文件导出成证书格式
-
-`keytool -export -alias sslclient -keystore sslclientkeys -file sslclient.cer`
-
+    - `keytool -export -alias sslclient -keystore sslclientkeys -file sslclient.cer`
 4. 创建一个服务器端 keystore 文件
-
-`keytool -genkey -alias sslserver -keystore sslserverkeys`
-
+    - `keytool -genkey -alias sslserver -keystore sslserverkeys`
 5. 将服务器端 keystore 文件导出成证书格式
-
-`keytool -export -alias sslserver -keystore sslserverkeys -file sslserver.cer`
-
+    - `keytool -export -alias sslserver -keystore sslserverkeys -file sslserver.cer`
 6. 将客户端证书导入到服务器端受信任的 keystore 中
-
-`keytool -import -alias sslclient -keystore sslservertrust -file sslclient.cer`
-
+    - `keytool -import -alias sslclient -keystore sslservertrust -file sslclient.cer`
 7. 将服务器端证书导入到客户端受信任的 keystore 中
-
-`keytool -import -alias sslserver -keystore sslclienttrust -file sslserver.cer`
+    - `keytool -import -alias sslserver -keystore sslclienttrust -file sslserver.cer`
 
 以上所有步骤都完成后，还可以通过命令来查看 keystore 文件基本信息
 
 `keytool -list -keystore sslclienttrust`
-
-![查看 keystore 文件](https://www.ibm.com/developerworks/cn/java/j-lo-ssltls/image003.png)
 
 ## References
 - [Java SSL/TLS 安全通讯协议介绍](https://www.ibm.com/developerworks/cn/java/j-lo-ssltls/)
