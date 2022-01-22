@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = u'Java Repositories'
-copyright = u'2019, T5750'
+copyright = u'2022, T5750'
 author = u'T5750'
 
 # The short X.Y version
