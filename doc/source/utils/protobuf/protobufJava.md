@@ -12,6 +12,8 @@ protoc -I=$SRC_DIR --java_out=$DST_DIR $SRC_DIR/addressbook.proto
 ```
 
 ## Results
+- Maven -> Plugins -> protobuf -> protobuf:compile
+- Or `mvn protobuf:compile`
 - `ProtobufJavaTest`
 - `AddressBookTest`
 - `AddPerson`
