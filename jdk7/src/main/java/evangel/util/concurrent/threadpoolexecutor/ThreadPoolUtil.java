@@ -3,10 +3,12 @@ package evangel.util.concurrent.threadpoolexecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ThreadPoolUtil {
-	private static final Logger LOGGER = Logger.getRootLogger();
+	private static final Logger LOGGER = LogManager
+			.getLogger(ThreadPoolUtil.class);
 
 	/**
 	 * 关闭线程池

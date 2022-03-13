@@ -2,13 +2,15 @@ package evangel.lang.thread.communication;
 
 import java.util.concurrent.CountDownLatch;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * CountDownLatch 可以实现 join 相同的功能，但是更加的灵活。
  */
 public class CountDownLatchTest {
-	private static final Logger LOGGER = Logger.getRootLogger();
+	private static final Logger LOGGER = LogManager
+			.getLogger(CountDownLatchTest.class);
 
 	private static void countDownLatch() throws Exception {
 		int thread = 3;

@@ -1,12 +1,13 @@
 package t5750.patterns.singleton.javaworld.example2;
 
-import org.apache.log4j.Logger;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SingletonTest extends TestCase {
-	private static Logger logger = Logger.getRootLogger();
+	private static final Logger LOGGER = LogManager
+			.getLogger(SingletonTest.class);
 	private static Singleton singleton = null;
 
 	public SingletonTest(String name) {

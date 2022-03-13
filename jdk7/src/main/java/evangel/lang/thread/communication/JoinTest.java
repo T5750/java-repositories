@@ -1,12 +1,14 @@
 package evangel.lang.thread.communication;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 在 t1.join() 时会一直阻塞到 t1 执行完毕，所以最终主线程会等待 t1 和 t2 线程执行完毕。
  */
 public class JoinTest {
-	private static final Logger LOGGER = Logger.getRootLogger();
+	private static final Logger LOGGER = LogManager
+			.getLogger(JoinTest.class);
 
 	private static void join() throws InterruptedException {
 		Thread t1 = new Thread(new Runnable() {

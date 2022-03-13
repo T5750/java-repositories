@@ -5,14 +5,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 使用这个 awaitTermination() 方法的前提需要关闭线程池，如调用了 shutdown() 方法。<br/>
  * 调用了 shutdown() 之后线程池会停止接受新任务，并且会平滑的关闭线程池中现有的任务。
  */
 public class AwaitTerminationTest {
-	private static final Logger LOGGER = Logger.getRootLogger();
+	private static final Logger LOGGER = LogManager
+			.getLogger(AwaitTerminationTest.class);
 
 	private static void executorService() throws Exception {
 		BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>(10);

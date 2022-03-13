@@ -2,14 +2,16 @@ package evangel.lang.thread.communication;
 
 import java.util.concurrent.CyclicBarrier;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * CyclicBarrier 中文名叫做屏障或者是栅栏，也可以用于线程间通信。<br/>
  * 由于其中一个线程休眠了五秒，所有其余所有的线程都得等待这个线程调用 await()
  */
 public class CyclicBarrierTest {
-	private static final Logger LOGGER = Logger.getRootLogger();
+	private static final Logger LOGGER = LogManager
+			.getLogger(CyclicBarrierTest.class);
 
 	private static void cyclicBarrier() throws Exception {
 		final CyclicBarrier cyclicBarrier = new CyclicBarrier(3);

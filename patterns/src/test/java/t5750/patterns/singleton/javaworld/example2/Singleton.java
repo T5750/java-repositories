@@ -1,10 +1,12 @@
 package t5750.patterns.singleton.javaworld.example2;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Singleton {
 	private static Singleton singleton = null;
-	private static Logger logger = Logger.getRootLogger();
+	private static final Logger LOGGER = LogManager
+			.getLogger(Singleton.class);
 	private static boolean firstThread = true;
 
 	protected Singleton() {
@@ -16,7 +18,7 @@ public class Singleton {
 			simulateRandomActivity();
 			singleton = new Singleton();
 		}
-		logger.info("created singleton: " + singleton);
+		LOGGER.info("created singleton: " + singleton);
 		return singleton;
 	}
 
@@ -24,13 +26,13 @@ public class Singleton {
 		try {
 			if (firstThread) {
 				firstThread = false;
-				logger.info("sleeping...");
+				LOGGER.info("sleeping...");
 				// This nap should give the second thread enough time
 				// to get by the first thread.
 				Thread.currentThread().sleep(50);
 			}
 		} catch (InterruptedException ex) {
-			logger.warn("Sleep interrupted");
+			LOGGER.warn("Sleep interrupted");
 		}
 	}
 }

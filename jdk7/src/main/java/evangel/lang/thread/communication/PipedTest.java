@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.io.PipedReader;
 import java.io.PipedWriter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 管道通信
  */
 public class PipedTest {
-	private static final Logger LOGGER = Logger.getRootLogger();
+	private static final Logger LOGGER = LogManager
+			.getLogger(PipedTest.class);
 
 	public static void piped() throws IOException {
 		// 面向于字符 PipedInputStream 面向于字节
