@@ -10,5 +10,12 @@ out
 **/build
 .idea*.zip
 *.class
+### protobuf ###
+utils/src/main/java/t5750/utils/protobuf/AddressBook.java
+utils/src/main/java/t5750/utils/protobuf/AddressBookOrBuilder.java
+utils/src/main/java/t5750/utils/protobuf/AddressBookProtos.java
+utils/src/main/java/t5750/utils/protobuf/EmployeeProto.java
+utils/src/main/java/t5750/utils/protobuf/Person.java
+utils/src/main/java/t5750/utils/protobuf/PersonOrBuilder.java
 ### jvm ###
 EclipseStartTime_1.0.0.201011281102.jar

@@ -55,5 +55,13 @@ Java 11 introduced a concept of nested class where we can declare a class within
 - Local classes
 - Anonymous classes
 
+## Examples
+- `StandardHttpClient`
+- `StringAPI`
+- `Collections2Array`
+- `OptionalClass`
+- `NotPredicate`
+- `NestedBasedAccess`
+
 ## References
 - [Java 11 Tutorial](https://www.tutorialspoint.com/java11/)
