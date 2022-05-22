@@ -9,6 +9,7 @@ Java™ Platform Standard Ed. 8
     jdkJre
     jdk8
     Lambda
+    completableFuture
     javap
     instrumentation
     asm
