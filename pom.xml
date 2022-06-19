@@ -25,6 +25,7 @@
 		<tomcat.version>9.0.41</tomcat.version>
 		<protobuf.version>3.16.1</protobuf.version>
 		<guava.version>28.2-jre</guava.version>
+		<javassist.version>3.26.0-GA</javassist.version>
 		<!--<os.detected.name>linux</os.detected.name>
 		<os.detected.arch>x86_64</os.detected.arch>
 		<os.detected.classifier>linux-x86_64</os.detected.classifier>
@@ -97,6 +98,11 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
