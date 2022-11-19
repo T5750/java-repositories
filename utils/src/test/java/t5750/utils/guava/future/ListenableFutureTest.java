@@ -6,12 +6,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import javax.annotation.Nullable;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.util.concurrent.*;
-import com.sun.istack.internal.Nullable;
 
 /**
  * https://mp.weixin.qq.com/s?__biz=MzA5MTkxMDQ4MQ%3D%3D&chksm=88621b9bbf15928dd4c26f52b2abb0e130cde02100c432f33f0e90123b5e4b20d43017c1030e&idx=1&lang=zh_CN&mid=2648933285&scene=21&sn=f5507c251b84c3405f2fe0f7fb1da97d&token=1916804008#wechat_redirect
