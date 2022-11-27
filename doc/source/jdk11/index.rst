@@ -7,3 +7,4 @@ Java™ Platform Standard Ed. 11
     :numbered: 0
     
     jdk11
+    javafx
