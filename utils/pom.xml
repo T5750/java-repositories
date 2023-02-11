@@ -27,7 +27,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
+			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
 		<dependency>
@@ -36,12 +36,12 @@
 			<version>${slf4j.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
 			<version>${slf4j.version}</version>
 			<scope>compile</scope>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
