@@ -24,7 +24,7 @@
 		<junit.version>4.13.1</junit.version>
 		<UserAgentUtils.version>1.21</UserAgentUtils.version>
 		<commons-lang3.version>3.8.1</commons-lang3.version>
-		<tomcat.version>9.0.80</tomcat.version>
+		<tomcat.version>9.0.83</tomcat.version>
 		<protobuf.version>3.16.3</protobuf.version>
 		<guava.version>32.0.0-jre</guava.version>
 		<javassist.version>3.26.0-GA</javassist.version>
