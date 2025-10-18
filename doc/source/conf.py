@@ -20,7 +20,7 @@
 # -- Project information -----------------------------------------------------
 
 project = u'Java Repositories'
-copyright = u'2024, T5750'
+copyright = u'2025, T5750'
 author = u'T5750'
 
 # The short X.Y version
@@ -38,8 +38,14 @@ release = u'1.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx_markdown_tables','recommonmark'
+extensions = ['sphinx_markdown_tables','recommonmark','sphinx_comments'
 ]
+comments_config = {
+   "utterances": {
+      "repo": "T5750/java-repositories",
+      "optional": "config",
+   }
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -80,13 +86,22 @@ pygments_style = None
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
-html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_book_theme"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
 # html_theme_options = {}
+html_theme_options = {
+    "path_to_docs": "doc/source",
+    "repository_url": "https://github.com/T5750/java-repositories",
+    "repository_branch": "master",
+    "use_source_button": True,
+    "use_edit_page_button": True,
+    "use_issues_button": True,
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
